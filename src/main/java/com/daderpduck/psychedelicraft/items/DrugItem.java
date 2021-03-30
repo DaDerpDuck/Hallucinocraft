@@ -4,66 +4,106 @@ import com.daderpduck.psychedelicraft.Psychedelicraft;
 import com.daderpduck.psychedelicraft.drugs.Drug;
 import com.daderpduck.psychedelicraft.drugs.DrugInstance;
 import com.daderpduck.psychedelicraft.drugs.DrugRegistry;
+import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.Hand;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.RegistryObject;
 
-import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.ArrayList;
 import java.util.List;
 
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 public class DrugItem extends Item {
-    private final DrugEffectProperties[] effects = new DrugEffectProperties[]{};
+    private final DrugEffectProperties[] effects;
+    private final boolean edible;
+    private final int useDuration;
 
     public DrugItem(Item.Properties properties) {
         super(properties);
-        ((Properties)properties).attachedDrugs.toArray(effects);
+        Properties drugProperties = (Properties)properties;
+
+        effects = drugProperties.attachedDrugs.toArray(new DrugEffectProperties[]{});
+        edible = drugProperties.edible;
+        useDuration = drugProperties.useDuration;
     }
 
     @Override
-    @Nonnull
-    @ParametersAreNonnullByDefault
     public ItemStack finishUsingItem(ItemStack itemStack, World world, LivingEntity entity) {
         if (entity instanceof PlayerEntity) {
             itemStack.shrink(1);
 
             for (DrugEffectProperties properties : effects) {
-                Drug.addDrug((PlayerEntity) entity, new DrugInstance(properties.drug, properties.delayTick, properties.strength));
+                if (properties.drug.isPresent()) {
+                    Drug.addDrug((PlayerEntity) entity, new DrugInstance(properties.drug.get(), properties.delayTick, properties.strength));
+                } else {
+                    Psychedelicraft.LOGGER.error("{} is not in the drug registry!", DrugRegistry.DRUGS.toString());
+                }
             }
         }
 
         return itemStack;
     }
 
+    @Override
+    public boolean isEdible() {
+        return super.isEdible() || edible;
+    }
+
+    @Override
+    public ActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {
+        if (isEdible()) {
+            ItemStack itemstack = player.getItemInHand(hand);
+            player.startUsingItem(hand);
+            return ActionResult.consume(itemstack);
+        } else {
+            return ActionResult.pass(player.getItemInHand(hand));
+        }
+    }
+
+    @Override
+    public int getUseDuration(ItemStack itemStack) {
+        if (itemStack.getItem().isEdible()) {
+            return useDuration;
+        } else {
+            return 0;
+        }
+    }
+
     public static class Properties extends Item.Properties {
         private final List<DrugEffectProperties> attachedDrugs = new ArrayList<>();
+        private boolean edible = false;
+        private int useDuration = 32;
 
-        public Properties addDrug(Drug drug, int delayTicks, float strength) {
-            this.attachedDrugs.add(new DrugEffectProperties(drug, delayTicks, strength));
+        public Properties addDrug(RegistryObject<Drug> drugRegistryObject, int delayTicks, float strength) {
+            this.attachedDrugs.add(new DrugEffectProperties(drugRegistryObject, delayTicks, strength));
             return this;
         }
 
-        public Properties addDrug(ResourceLocation location, int delayTicks, float strength) {
-            Drug drug = DrugRegistry.DRUGS.getValue(location);
-            return addDrug(drug, delayTicks, strength);
+        public Properties edible() {
+            this.edible = true;
+            return this;
         }
 
-        public Properties addDrug(String location, int delayTicks, float strength) {
-            ResourceLocation rl = ResourceLocation.tryParse(Psychedelicraft.MOD_ID + ':' + location);
-            return addDrug(rl, delayTicks, strength);
+        public Properties edible(int useDuration) {
+            this.edible = true;
+            this.useDuration = useDuration;
+            return this;
         }
     }
 
     private static class DrugEffectProperties {
-        private final Drug drug;
+        private final RegistryObject<Drug> drug;
         private final int delayTick;
         private final float strength;
 
-        public DrugEffectProperties(Drug drug, int delayTick, float strength) {
+        public DrugEffectProperties(RegistryObject<Drug> drug, int delayTick, float strength) {
             this.drug = drug;
             this.delayTick = delayTick;
             this.strength = strength;
