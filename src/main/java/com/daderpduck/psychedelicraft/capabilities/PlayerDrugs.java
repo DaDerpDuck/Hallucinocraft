@@ -79,6 +79,7 @@ public class PlayerDrugs {
             CompoundNBT nbt = new CompoundNBT();
 
             for (DrugInstance drug : instance.getDrugs()) {
+                if (drug.getDesiredEffect() <= 0) continue;
                 CompoundNBT drugProperties = new CompoundNBT();
                 drugProperties.putInt("delay", drug.getDelayTime());
                 drugProperties.putFloat("desire", drug.getDesiredEffect());
