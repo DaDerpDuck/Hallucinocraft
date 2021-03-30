@@ -1,11 +1,14 @@
 package com.daderpduck.psychedelicraft.items;
 
+import com.daderpduck.psychedelicraft.Psychedelicraft;
 import com.daderpduck.psychedelicraft.drugs.Drug;
 import com.daderpduck.psychedelicraft.drugs.DrugInstance;
+import com.daderpduck.psychedelicraft.drugs.DrugRegistry;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 
 import javax.annotation.Nonnull;
@@ -42,6 +45,16 @@ public class DrugItem extends Item {
         public Properties addDrug(Drug drug, int delayTicks, float strength) {
             this.attachedDrugs.add(new DrugEffectProperties(drug, delayTicks, strength));
             return this;
+        }
+
+        public Properties addDrug(ResourceLocation location, int delayTicks, float strength) {
+            Drug drug = DrugRegistry.DRUGS.getValue(location);
+            return addDrug(drug, delayTicks, strength);
+        }
+
+        public Properties addDrug(String location, int delayTicks, float strength) {
+            ResourceLocation rl = ResourceLocation.tryParse(Psychedelicraft.MOD_ID + ':' + location);
+            return addDrug(rl, delayTicks, strength);
         }
     }
 
