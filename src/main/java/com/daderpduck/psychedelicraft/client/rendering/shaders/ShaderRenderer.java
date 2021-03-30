@@ -8,10 +8,8 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.util.math.vector.Matrix4f;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import org.lwjgl.opengl.GL11;
@@ -21,14 +19,11 @@ import java.io.IOException;
 @OnlyIn(Dist.CLIENT)
 @Mod.EventBusSubscriber(value = Dist.CLIENT, modid = Psychedelicraft.MOD_ID)
 public class ShaderRenderer {
-    private static final Matrix4f modelView = new Matrix4f();
-    private static final Matrix4f modelViewInverse = new Matrix4f();
     private static final float[] entityColor = new float[4];
     private static WorldShader shaderWorld;
     private static boolean activeShader = false;
     private static boolean lightEnabled = false;
     private static boolean lightmapEnabled = false;
-    private static float timePassed = 0;
     public static boolean useShader = true;
 
     public static void setup() {
@@ -39,9 +34,6 @@ public class ShaderRenderer {
 
         Minecraft mc = Minecraft.getInstance();
         clear();
-
-        modelView.setIdentity();
-        modelViewInverse.setIdentity();
 
         try {
             shaderWorld = new WorldShader(mc.getResourceManager(), "psychedelicraft:world");
@@ -70,9 +62,9 @@ public class ShaderRenderer {
 
         shader.clear();
 
-        shader.safeGetUniform("modelViewMat").setMatrix(modelView);
-        shader.safeGetUniform("modelViewInverseMat").setMatrix(modelViewInverse);
-        shader.safeGetUniform("timePassed").setFloat(timePassed);
+        shader.safeGetUniform("modelViewMat").setMatrix(GlobalUniforms.modelView);
+        shader.safeGetUniform("modelViewInverseMat").setMatrix(GlobalUniforms.modelViewInverse);
+        shader.safeGetUniform("timePassed").setFloat(GlobalUniforms.timePassed);
 
         shader.apply();
     }
@@ -154,21 +146,6 @@ public class ShaderRenderer {
     }
 
     // Uniform setters
-
-    @SubscribeEvent
-    public static void onRenderStart(TickEvent.RenderTickEvent event) {
-        if (event.phase == TickEvent.Phase.START) {
-            timePassed = event.renderTickTime + Minecraft.getInstance().gui.getGuiTicks();
-        }
-    }
-
-    @SubscribeEvent
-    public static void onCameraPostSetup(SetCameraEvent event) {
-        Matrix4f matrix4f = event.matrixStack.last().pose().copy();
-        modelView.set(matrix4f);
-        matrix4f.invert();
-        modelViewInverse.set(matrix4f);
-    }
 
     @SubscribeEvent
     public static void onEntityColor(EntityColorEvent event) {
