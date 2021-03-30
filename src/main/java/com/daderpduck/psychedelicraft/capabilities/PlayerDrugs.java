@@ -21,6 +21,7 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
+//TODO: Sync capabilities
 public class PlayerDrugs {
     static class Implementation implements IPlayerDrugs {
         private final List<DrugInstance> drugs = new ArrayList<>();
@@ -105,7 +106,7 @@ public class PlayerDrugs {
     static void register() {
         CapabilityManager.INSTANCE.register(IPlayerDrugs.class, new PlayerDrugs.Storage(), PlayerDrugs.Implementation::new);
 
-        MinecraftForge.EVENT_BUS.addListener(PlayerDrugs::attachCapabilitiesEntity);
+        MinecraftForge.EVENT_BUS.addGenericListener(Entity.class, PlayerDrugs::attachCapabilitiesEntity);
     }
 
     static void attachCapabilitiesEntity(AttachCapabilitiesEvent<Entity> event) {

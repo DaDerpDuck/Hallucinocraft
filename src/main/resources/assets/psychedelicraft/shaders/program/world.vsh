@@ -27,12 +27,12 @@ void main(){
 
     position = gl_ModelViewMatrix * position;
 
-    position = ModelViewInverseMat * position;
+    position = modelViewInverseMat * position;
 
     /*float distance2D = position.x * position.x + position.z * position.z;
     position.y += min(distance2D/20, 2)*sin(distance2D/20);*/
 
-    position = ModelViewMat * position;
+    position = modelViewMat * position;
 
     gl_Position = gl_ProjectionMatrix * position;
     gl_FrontColor = gl_Color;

@@ -17,13 +17,13 @@ varying vec3 normalVector;
 void main() {
     gl_FragColor = texture2D(texture, texCoord.st) * gl_Color;
 
-    gl_FragColor.rgb = mix(gl_FragColor.rgb, EntityColor.rgb, EntityColor.a);
+    gl_FragColor.rgb = mix(gl_FragColor.rgb, entityColor.rgb, entityColor.a);
 
-    if (LightmapEnabled == 1) {
+    if (lightmapEnabled == 1) {
         gl_FragColor *= texture2D(lightMap, lmCoord.st);
     }
 
-    if (LightEnabled == 1) {
+    if (lightEnabled == 1) {
         vec3 finalLightColor = vec3(AMBIENT_LIGHT);
 
         for (int i = 0; i < MAX_LIGHTS; i++)
