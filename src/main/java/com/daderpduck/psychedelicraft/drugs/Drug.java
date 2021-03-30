@@ -43,6 +43,11 @@ public class Drug extends ForgeRegistryEntry<Drug> {
         }
     }
 
+    public static void clearDrugs(PlayerEntity player) {
+        IPlayerDrugs playerDrugs = PlayerProperties.getPlayerDrugs(player);
+        playerDrugs.clearDrugs();
+    }
+
     public static void tick(PlayerEntity player) {
         IPlayerDrugs playerDrugs = PlayerProperties.getPlayerDrugs(player);
 

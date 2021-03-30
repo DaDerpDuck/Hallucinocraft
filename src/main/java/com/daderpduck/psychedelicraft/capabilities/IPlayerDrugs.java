@@ -9,5 +9,7 @@ public interface IPlayerDrugs {
 
     void removeDrug(DrugInstance drug);
 
+    void clearDrugs();
+
     List<DrugInstance> getDrugs();
 }

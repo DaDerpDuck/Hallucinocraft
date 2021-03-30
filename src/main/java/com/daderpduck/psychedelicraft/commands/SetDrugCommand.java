@@ -35,7 +35,7 @@ public class SetDrugCommand {
 
     private static int clearDrug(CommandSource source, Collection<ServerPlayerEntity> players) {
         for (ServerPlayerEntity player : players) {
-
+            Drug.clearDrugs(player);
         }
         return 1;
     }

@@ -36,6 +36,11 @@ public class PlayerDrugs {
         }
 
         @Override
+        public void clearDrugs() {
+            drugs.clear();
+        }
+
+        @Override
         public List<DrugInstance> getDrugs() {
             return drugs;
         }
