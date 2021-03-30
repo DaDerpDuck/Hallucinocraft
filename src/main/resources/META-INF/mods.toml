@@ -1,0 +1,26 @@
+modLoader="javafml"
+loaderVersion="${loader_range}"
+license="All rights reserved"
+
+[[mods]]
+modId = "psychedelicraft"
+version = "${file.jarVersion}"
+displayName = "Psychedelicraft"
+authors = "Ivorius, TripleHeadedSheep, DaDerpDuck"
+description = '''
+Adds drugs into Minecraft. Psychedelicraft specializes on realism and effects. Shaders are being utilized, so keep that in mind.
+'''
+
+[[dependencies.psychedelicraft]]
+    modId = "forge"
+    mandatory = true
+    versionRange = "${forge_range}"
+    ordering = "NONE"
+    side = "BOTH"
+
+[[dependencies.psychedelicraft]]
+    modId = "minecraft"
+    mandatory = true
+    versionRange = "${mc_range}"
+    ordering = "NONE"
+    side = "BOTH"

@@ -1,0 +1,26 @@
+{
+  "minVersion": "0.8",
+  "required": true,
+  "compatibilityLevel": "JAVA_8",
+  "refmap": "psychedelicraft.refmap.json",
+  "package": "com.daderpduck.psychedelicraft.mixin",
+  "mixins": [
+
+  ],
+  "client": [
+    "client.MixinGameRenderer",
+    "client.MixinLivingRenderer",
+    "client.MixinOverlayTexture",
+    "client.MixinWorldRenderer",
+    "client.MixinRenderHelper",
+    "client.MixinModelRenderer",
+    "client.MixinLightTexture",
+    "client.MixinShaderUniform",
+    "client.MixinAbstractEyesLayer",
+    "client.RenderTypeBufferAccessor",
+    "client.ShaderInstanceAccessor"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
