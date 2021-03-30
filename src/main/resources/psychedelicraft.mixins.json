@@ -17,6 +17,7 @@
     "client.MixinLightTexture",
     "client.MixinShaderUniform",
     "client.MixinAbstractEyesLayer",
+    "client.MixinTextureManager",
     "client.RenderTypeBufferAccessor",
     "client.ShaderInstanceAccessor"
   ],
