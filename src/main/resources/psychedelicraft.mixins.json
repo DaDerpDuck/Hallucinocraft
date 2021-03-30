@@ -18,8 +18,9 @@
     "client.MixinShaderUniform",
     "client.MixinAbstractEyesLayer",
     "client.MixinTextureManager",
-    "client.RenderTypeBufferAccessor",
-    "client.ShaderInstanceAccessor"
+    "client.AccessorRenderTypeBuffer",
+    "client.AccessorShaderInstance",
+    "client.AccessorSheetData"
   ],
   "injectors": {
     "defaultRequire": 1

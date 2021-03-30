@@ -12,7 +12,7 @@ import java.util.Map;
 import java.util.function.IntSupplier;
 
 @Mixin(ShaderInstance.class)
-public interface ShaderInstanceAccessor {
+public interface AccessorShaderInstance {
     @Accessor
     Map<String, IntSupplier> getSamplerMap();
 

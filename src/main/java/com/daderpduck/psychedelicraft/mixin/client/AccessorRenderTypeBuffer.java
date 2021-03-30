@@ -8,7 +8,7 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 import java.util.Optional;
 
 @Mixin(IRenderTypeBuffer.Impl.class)
-public interface RenderTypeBufferAccessor {
+public interface AccessorRenderTypeBuffer {
     @Accessor
     Optional<RenderType> getLastState();
 }
