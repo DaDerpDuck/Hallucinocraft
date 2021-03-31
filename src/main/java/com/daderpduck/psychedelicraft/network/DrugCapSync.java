@@ -1,5 +1,6 @@
 package com.daderpduck.psychedelicraft.network;
 
+import com.daderpduck.psychedelicraft.capabilities.IPlayerDrugs;
 import com.daderpduck.psychedelicraft.capabilities.PlayerProperties;
 import com.daderpduck.psychedelicraft.drugs.Drug;
 import com.daderpduck.psychedelicraft.drugs.DrugInstance;
@@ -46,8 +47,12 @@ public class DrugCapSync implements IMessage {
             ClientPlayerEntity player = Minecraft.getInstance().player;
             if (player == null) return;
             Drug drug = DrugRegistry.DRUGS.getValue(drugType);
-            //TODO: Let client handle the current by itself
-            PlayerProperties.getPlayerDrugs(player).overrideDrug(new DrugInstance(drug, delay, desired, current));
+            IPlayerDrugs playerDrugs = PlayerProperties.getPlayerDrugs(player);
+            if (delay <= 0 && playerDrugs.hasDrug(drug)) {
+                playerDrugs.setDrugDesiredEffect(drug, desired);
+            } else {
+                playerDrugs.overrideDrug(new DrugInstance(drug, delay, desired, current));
+            }
         });
         ctx.get().setPacketHandled(true);
     }

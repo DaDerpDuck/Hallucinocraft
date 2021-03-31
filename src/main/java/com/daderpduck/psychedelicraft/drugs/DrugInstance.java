@@ -61,6 +61,10 @@ public class DrugInstance {
         desiredEffect += modifier;
     }
 
+    public void setDesiredEffect(float effect) {
+        desiredEffect = effect;
+    }
+
     public void setDelayTime(int delayTime) {
         this.delayTime = delayTime;
     }

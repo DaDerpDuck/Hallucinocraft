@@ -47,6 +47,13 @@ public class PlayerDrugs {
         }
 
         @Override
+        public void setDrugDesiredEffect(Drug drug, float desiredEffect) {
+            drugs.stream().filter(drugInstance -> drugInstance.getDrug() == drug).forEach(drugInstance -> {
+                drugInstance.setDesiredEffect(desiredEffect);
+            });
+        }
+
+        @Override
         public void removeDrug(DrugInstance drug) {
             drugs.remove(drug);
         }
@@ -54,6 +61,11 @@ public class PlayerDrugs {
         @Override
         public void clearDrugs() {
             drugs.clear();
+        }
+
+        @Override
+        public boolean hasDrug(Drug drug) {
+            return drugs.stream().anyMatch(drugInstance -> drugInstance.getDrug() == drug);
         }
 
         @Override
