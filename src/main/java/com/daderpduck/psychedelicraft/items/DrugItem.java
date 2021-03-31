@@ -37,11 +37,13 @@ public class DrugItem extends Item {
     @Override
     public ItemStack finishUsingItem(ItemStack itemStack, World world, LivingEntity entity) {
         if (entity instanceof PlayerEntity) {
-            itemStack.shrink(1);
+            PlayerEntity playerEntity = (PlayerEntity) entity;
+            if (!playerEntity.isCreative())
+                itemStack.shrink(1);
 
             for (DrugEffectProperties properties : effects) {
                 if (properties.drug.isPresent()) {
-                    Drug.addDrug((PlayerEntity) entity, new DrugInstance(properties.drug.get(), properties.delayTick, properties.strength));
+                    Drug.addDrug(playerEntity, new DrugInstance(properties.drug.get(), properties.delayTick, properties.strength));
                 } else {
                     Psychedelicraft.LOGGER.error("{} is not in the drug registry!", DrugRegistry.DRUGS.toString());
                 }
