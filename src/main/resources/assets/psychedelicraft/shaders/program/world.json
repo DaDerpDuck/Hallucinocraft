@@ -18,7 +18,7 @@
     { "name": "lightmapEnabled",      "type": "int",       "count": 1,  "values": [ 1.0 ]},
     { "name": "lightEnabled",         "type": "int",       "count": 1,  "values": [ 1.0 ]},
     { "name": "timePassed",           "type": "float",     "count": 1,  "values": [ 0.0 ]},
-    { "name": "atlasWidth",           "type": "int",       "count": 1,  "values": [ 0.0 ]},
-    { "name": "atlasHeight",          "type": "int",       "count": 1,  "values": [ 0.0 ]}
+    { "name": "smallWaves",           "type": "float",     "count": 1,  "values": [ 0.0 ]},
+    { "name": "bigWaves",             "type": "float",     "count": 1,  "values": [ 0.5 ]}
   ]
 }
