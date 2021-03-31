@@ -39,11 +39,11 @@ public class DrugInstance {
         if (delayTime > 0) {
             delayTime--;
         } else {
-            this.currentEffect += (desiredEffect - currentEffect)/5F;
-            this.currentEffect = MathHelper.clamp(this.currentEffect, 0, drug.getMaxEffect());
+            this.currentEffect += (desiredEffect - currentEffect)/500F;
+            this.currentEffect = MathHelper.clamp(this.currentEffect, 0, 1);
             this.desiredEffect -= desiredEffect/3000F;
             if (this.desiredEffect < 0.1F) this.desiredEffect = 0;
-            this.desiredEffect = Math.max(desiredEffect, 0);
+            this.desiredEffect = MathHelper.clamp(desiredEffect, 0, drug.getMaxEffect());
         }
     }
 
