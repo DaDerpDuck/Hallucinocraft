@@ -9,12 +9,18 @@ uniform sampler2D lightMap;
 uniform vec4 entityColor;
 uniform int lightEnabled;
 uniform int lightmapEnabled;
+uniform float timePassed;
 
 varying vec4 texCoord;
 varying vec4 lmCoord;
 varying vec3 normalVector;
 
 void main() {
+    /*vec4 modCoord = texCoord;
+    float lower = texCoord.s - mod(texCoord.s, 0.015625);
+    modCoord.s = fract(timePassed*0.1 + texCoord.s/0.015625)*0.015625 + lower;
+    gl_FragColor = texture2D(texture, modCoord.st) * gl_Color;*/
+
     gl_FragColor = texture2D(texture, texCoord.st) * gl_Color;
 
     gl_FragColor.rgb = mix(gl_FragColor.rgb, entityColor.rgb, entityColor.a);
