@@ -2,7 +2,7 @@ package com.daderpduck.psychedelicraft.client.rendering.shaders;
 
 import com.daderpduck.psychedelicraft.Psychedelicraft;
 import com.daderpduck.psychedelicraft.events.hooks.*;
-import com.daderpduck.psychedelicraft.mixin.client.RenderTypeBufferAccessor;
+import com.daderpduck.psychedelicraft.mixin.client.AccessorRenderTypeBuffer;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
@@ -211,7 +211,7 @@ public class ShaderRenderer {
     }
 
     private static void flushRenderBuffer(IRenderTypeBuffer.Impl buffer) {
-        RenderTypeBufferAccessor accessor = (RenderTypeBufferAccessor) buffer;
+        AccessorRenderTypeBuffer accessor = (AccessorRenderTypeBuffer) buffer;
         RenderType renderType = null;
         if (accessor.getLastState().isPresent()) {
             renderType = accessor.getLastState().get();
