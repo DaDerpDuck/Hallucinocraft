@@ -10,6 +10,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
@@ -21,6 +22,7 @@ import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.fml.LogicalSide;
+import net.minecraftforge.fml.LogicalSidedProvider;
 import net.minecraftforge.fml.network.PacketDistributor;
 
 import javax.annotation.Nonnull;
@@ -48,9 +50,7 @@ public class PlayerDrugs {
 
         @Override
         public void setDrugDesiredEffect(Drug drug, float desiredEffect) {
-            drugs.stream().filter(drugInstance -> drugInstance.getDrug() == drug).forEach(drugInstance -> {
-                drugInstance.setDesiredEffect(desiredEffect);
-            });
+            drugs.stream().filter(drugInstance -> drugInstance.getDrug() == drug).forEach(drugInstance -> drugInstance.setDesiredEffect(desiredEffect));
         }
 
         @Override
@@ -137,7 +137,7 @@ public class PlayerDrugs {
         MinecraftForge.EVENT_BUS.addGenericListener(Entity.class, PlayerDrugs::attachCapabilitiesEntity);
         MinecraftForge.EVENT_BUS.addListener(PlayerDrugs::onPlayerLoggedIn);
         MinecraftForge.EVENT_BUS.addListener(PlayerDrugs::onPlayerChangedDimension);
-        MinecraftForge.EVENT_BUS.addListener(PlayerDrugs::onPlayerTick);
+        MinecraftForge.EVENT_BUS.addListener(PlayerDrugs::onServerTick);
     }
 
     static void attachCapabilitiesEntity(AttachCapabilitiesEvent<Entity> event) {
@@ -157,10 +157,13 @@ public class PlayerDrugs {
     }
 
     private static int totalTicks = 1;
-    static void onPlayerTick(TickEvent.PlayerTickEvent event) {
-        if (event.phase == TickEvent.Phase.START && event.side == LogicalSide.SERVER) {
+    static void onServerTick(TickEvent.ServerTickEvent event) {
+        if (event.phase == TickEvent.Phase.START) {
             if (totalTicks++ % (5*20) == 0) {
-                sync((ServerPlayerEntity) event.player);
+                MinecraftServer server = LogicalSidedProvider.INSTANCE.get(LogicalSide.SERVER);
+                for (ServerPlayerEntity player : server.getPlayerList().getPlayers()) {
+                    sync(player);
+                }
             }
         }
     }
