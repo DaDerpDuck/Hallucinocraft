@@ -3,8 +3,11 @@ package com.daderpduck.psychedelicraft.capabilities;
 import com.daderpduck.psychedelicraft.Psychedelicraft;
 import com.daderpduck.psychedelicraft.drugs.Drug;
 import com.daderpduck.psychedelicraft.drugs.DrugInstance;
+import com.daderpduck.psychedelicraft.network.DrugCapSync;
+import com.daderpduck.psychedelicraft.network.PacketHandler;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
 import net.minecraft.util.Direction;
@@ -15,13 +18,16 @@ import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
+import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.fml.LogicalSide;
+import net.minecraftforge.fml.network.PacketDistributor;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-//TODO: Sync capabilities
 public class PlayerDrugs {
     static class Implementation implements IPlayerDrugs {
         private final List<DrugInstance> drugs = new ArrayList<>();
@@ -29,6 +35,15 @@ public class PlayerDrugs {
         @Override
         public void addDrug(DrugInstance drug) {
             drugs.add(drug);
+        }
+
+        @Override
+        public void overrideDrug(DrugInstance drug) {
+            if (drugs.contains(drug)) {
+                drugs.set(drugs.indexOf(drug), drug);
+            } else {
+                addDrug(drug);
+            }
         }
 
         @Override
@@ -108,6 +123,9 @@ public class PlayerDrugs {
         CapabilityManager.INSTANCE.register(IPlayerDrugs.class, new PlayerDrugs.Storage(), PlayerDrugs.Implementation::new);
 
         MinecraftForge.EVENT_BUS.addGenericListener(Entity.class, PlayerDrugs::attachCapabilitiesEntity);
+        MinecraftForge.EVENT_BUS.addListener(PlayerDrugs::onPlayerLoggedIn);
+        MinecraftForge.EVENT_BUS.addListener(PlayerDrugs::onPlayerChangedDimension);
+        MinecraftForge.EVENT_BUS.addListener(PlayerDrugs::onPlayerTick);
     }
 
     static void attachCapabilitiesEntity(AttachCapabilitiesEvent<Entity> event) {
@@ -115,6 +133,31 @@ public class PlayerDrugs {
             PlayerDrugs.Provider provider = new PlayerDrugs.Provider();
             event.addCapability(new ResourceLocation(Psychedelicraft.MOD_ID, "drugs"), provider);
             event.addListener(provider::invalidate);
+        }
+    }
+
+    static void onPlayerLoggedIn(PlayerEvent.PlayerLoggedInEvent event) {
+        sync((ServerPlayerEntity) event.getPlayer());
+    }
+
+    static void onPlayerChangedDimension(PlayerEvent.PlayerChangedDimensionEvent event) {
+        sync((ServerPlayerEntity) event.getPlayer());
+    }
+
+    private static int totalTicks = 1;
+    static void onPlayerTick(TickEvent.PlayerTickEvent event) {
+        if (event.phase == TickEvent.Phase.START && event.side == LogicalSide.SERVER) {
+            if (totalTicks++ % (5*20) == 0) {
+                sync((ServerPlayerEntity) event.player);
+            }
+        }
+    }
+
+    static void sync(ServerPlayerEntity player) {
+        List<DrugInstance> drugInstances = Drug.getDrugs(player);
+
+        for (DrugInstance drugInstance : drugInstances) {
+            PacketHandler.INSTANCE.send(PacketDistributor.PLAYER.with(() -> player), new DrugCapSync(drugInstance));
         }
     }
 }

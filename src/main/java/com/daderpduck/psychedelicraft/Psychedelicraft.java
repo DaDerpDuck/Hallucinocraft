@@ -5,6 +5,7 @@ import com.daderpduck.psychedelicraft.client.rendering.shaders.ShaderRenderer;
 import com.daderpduck.psychedelicraft.commands.SetDrugCommand;
 import com.daderpduck.psychedelicraft.drugs.Drug;
 import com.daderpduck.psychedelicraft.items.ModItems;
+import com.daderpduck.psychedelicraft.network.PacketHandler;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraftforge.common.MinecraftForge;
@@ -39,6 +40,8 @@ public class Psychedelicraft {
         BLOCKS.register(modEventBus);
 
         ModItems.register();
+
+        PacketHandler.init();
 
         modEventBus.addListener(this::setup);
         modEventBus.addListener(this::enqueueIMC);

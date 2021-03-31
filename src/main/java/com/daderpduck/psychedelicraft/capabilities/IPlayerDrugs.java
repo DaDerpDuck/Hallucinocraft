@@ -7,6 +7,8 @@ import java.util.List;
 public interface IPlayerDrugs {
     void addDrug(DrugInstance drug);
 
+    void overrideDrug(DrugInstance drug);
+
     void removeDrug(DrugInstance drug);
 
     void clearDrugs();
