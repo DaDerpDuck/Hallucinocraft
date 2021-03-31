@@ -6,6 +6,8 @@ import com.daderpduck.psychedelicraft.capabilities.PlayerProperties;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 
 import java.util.List;
@@ -48,6 +50,10 @@ public class Drug extends ForgeRegistryEntry<Drug> {
         playerDrugs.clearDrugs();
     }
 
+    public static List<DrugInstance> getDrugs(PlayerEntity player) {
+        return PlayerProperties.getPlayerDrugs(player).getDrugs();
+    }
+
     public static void tick(PlayerEntity player) {
         IPlayerDrugs playerDrugs = PlayerProperties.getPlayerDrugs(player);
 
@@ -62,23 +68,16 @@ public class Drug extends ForgeRegistryEntry<Drug> {
         }
     }
 
+    @OnlyIn(Dist.CLIENT)
+    public void renderTick(DrugInstance drugInstance, float partialTicks) {
+
+    }
+
     public float getMaxEffect() {
         return maxEffect;
     }
 
     public float getDamage(DrugInstance drugInstance) {
-        return 0;
-    }
-
-    public float cameraTrembleStrength(DrugInstance drugInstance) {
-        return 0;
-    }
-
-    public float handTrembleStrength(DrugInstance drugInstance) {
-        return 0;
-    }
-
-    public float cameraInertiaStrength(DrugInstance drugInstance) {
         return 0;
     }
 

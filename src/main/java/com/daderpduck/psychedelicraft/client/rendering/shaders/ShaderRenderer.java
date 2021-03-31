@@ -1,6 +1,7 @@
 package com.daderpduck.psychedelicraft.client.rendering.shaders;
 
 import com.daderpduck.psychedelicraft.Psychedelicraft;
+import com.daderpduck.psychedelicraft.client.rendering.DrugEffects;
 import com.daderpduck.psychedelicraft.events.hooks.*;
 import com.daderpduck.psychedelicraft.mixin.client.AccessorRenderTypeBuffer;
 import com.mojang.blaze3d.platform.GlStateManager;
@@ -65,6 +66,9 @@ public class ShaderRenderer {
         shader.safeGetUniform("modelViewMat").setMatrix(GlobalUniforms.modelView);
         shader.safeGetUniform("modelViewInverseMat").setMatrix(GlobalUniforms.modelViewInverse);
         shader.safeGetUniform("timePassed").setFloat(GlobalUniforms.timePassed);
+
+        shader.safeGetUniform("smallWaves").setFloat(DrugEffects.SMALL_WAVES.getValue());
+        shader.safeGetUniform("bigWaves").setFloat(DrugEffects.BIG_WAVES.getValue());
 
         shader.apply();
     }

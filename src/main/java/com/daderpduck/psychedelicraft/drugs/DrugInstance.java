@@ -1,8 +1,6 @@
 package com.daderpduck.psychedelicraft.drugs;
 
 import net.minecraft.util.math.MathHelper;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class DrugInstance {
     private final Drug drug;
@@ -45,11 +43,6 @@ public class DrugInstance {
             if (this.desiredEffect < 0.1F) this.desiredEffect = 0;
             this.desiredEffect = MathHelper.clamp(desiredEffect, 0, drug.getMaxEffect());
         }
-    }
-
-    @OnlyIn(Dist.CLIENT)
-    public void renderTick(float partialTicks) {
-
     }
 
     public int getDelayTime() {
