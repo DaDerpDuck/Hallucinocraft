@@ -17,6 +17,7 @@ import org.lwjgl.opengl.GL11;
 
 import java.io.IOException;
 
+//TODO: Underwater fog not there
 @OnlyIn(Dist.CLIENT)
 @Mod.EventBusSubscriber(value = Dist.CLIENT, modid = Psychedelicraft.MOD_ID)
 public class ShaderRenderer {
@@ -115,9 +116,20 @@ public class ShaderRenderer {
     }
 
     @SubscribeEvent
+    public static void onRenderBlockOutline(RenderBlockOutlineEvent event) {
+        if (event.phase == RenderBlockOutlineEvent.Phase.START) {
+            flushRenderBuffer();
+            startRenderPass(shaderWorld);
+        } else {
+            endRenderPass();
+        }
+
+        checkGlErrors();
+    }
+
+    @SubscribeEvent
     public static void onRenderTerrain(RenderTerrainEvent event) {
         if (event.phase == RenderTerrainEvent.Phase.START) {
-
             shaderWorld.safeGetUniform("lightmapEnabled").setInt(1);
             startRenderPass(shaderWorld);
         } else {
@@ -138,7 +150,7 @@ public class ShaderRenderer {
         checkGlErrors();
     }
 
-    @SubscribeEvent
+    /*@SubscribeEvent
     public static void onRenderBlockEntity(RenderBlockEntityEvent event) {
         if (event.phase == RenderBlockEntityEvent.Phase.START) {
             startRenderPass(shaderWorld);
@@ -147,7 +159,7 @@ public class ShaderRenderer {
         }
 
         checkGlErrors();
-    }
+    }*/
 
     // Uniform setters
 
