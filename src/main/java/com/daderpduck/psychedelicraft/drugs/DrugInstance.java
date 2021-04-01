@@ -33,11 +33,12 @@ public class DrugInstance {
         return drug;
     }
 
+    //TODO: Another growth/decay function
     public void tick() {
         if (delayTime > 0) {
             delayTime--;
         } else {
-            this.currentEffect += (desiredEffect - currentEffect)/500F;
+            this.currentEffect += (desiredEffect - currentEffect)/100F;
             this.currentEffect = MathHelper.clamp(this.currentEffect, 0, 1);
             this.desiredEffect -= desiredEffect/3000F;
             if (this.desiredEffect < 0.1F) this.desiredEffect = 0;
