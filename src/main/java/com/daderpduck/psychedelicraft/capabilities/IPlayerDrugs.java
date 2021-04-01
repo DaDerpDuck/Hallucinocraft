@@ -8,11 +8,9 @@ import java.util.List;
 public interface IPlayerDrugs {
     void addDrug(DrugInstance drug);
 
-    void overrideDrug(DrugInstance drug);
+    void sync(DrugInstance drugInstance);
 
-    void setDrugDesiredEffect(Drug drug, float desiredEffect);
-
-    void removeDrug(DrugInstance drug);
+    void removeDrug(Drug drug);
 
     void clearDrugs();
 

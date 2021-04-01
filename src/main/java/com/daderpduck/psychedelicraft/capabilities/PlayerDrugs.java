@@ -28,49 +28,47 @@ import net.minecraftforge.fml.network.PacketDistributor;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class PlayerDrugs {
     static class Implementation implements IPlayerDrugs {
-        private final List<DrugInstance> drugs = new ArrayList<>();
+        private final HashMap<Drug, DrugInstance> map = new HashMap<>();
 
         @Override
         public void addDrug(DrugInstance drug) {
-            drugs.add(drug);
+            map.put(drug.getDrug(), drug);
         }
 
         @Override
-        public void overrideDrug(DrugInstance drug) {
-            if (drugs.contains(drug)) {
-                drugs.set(drugs.indexOf(drug), drug);
+        public void sync(DrugInstance drugInstance) {
+            if (!hasDrug(drugInstance.getDrug())) {
+                addDrug(drugInstance);
             } else {
-                addDrug(drug);
+                map.get(drugInstance.getDrug()).setDesiredEffect(drugInstance.getDesiredEffect());
             }
         }
 
         @Override
-        public void setDrugDesiredEffect(Drug drug, float desiredEffect) {
-            drugs.stream().filter(drugInstance -> drugInstance.getDrug() == drug).forEach(drugInstance -> drugInstance.setDesiredEffect(desiredEffect));
-        }
-
-        @Override
-        public void removeDrug(DrugInstance drug) {
-            drugs.remove(drug);
+        public void removeDrug(Drug drug) {
+            map.get(drug).setDesiredEffect(0);
         }
 
         @Override
         public void clearDrugs() {
-            drugs.clear();
+            for (DrugInstance drugInstance : map.values()) {
+                drugInstance.setDesiredEffect(0);
+            }
         }
 
         @Override
         public boolean hasDrug(Drug drug) {
-            return drugs.stream().anyMatch(drugInstance -> drugInstance.getDrug() == drug);
+            return map.containsKey(drug);
         }
 
         @Override
         public List<DrugInstance> getDrugs() {
-            return drugs;
+            return new ArrayList<>(map.values());
         }
     }
 
@@ -168,7 +166,7 @@ public class PlayerDrugs {
         }
     }
 
-    static void sync(ServerPlayerEntity player) {
+    public static void sync(ServerPlayerEntity player) {
         List<DrugInstance> drugInstances = Drug.getDrugs(player);
 
         for (DrugInstance drugInstance : drugInstances) {

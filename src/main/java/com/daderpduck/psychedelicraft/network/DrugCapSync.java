@@ -16,29 +16,29 @@ import java.util.function.Supplier;
 public class DrugCapSync implements IMessage {
     private final ResourceLocation drugType;
     private final int delay;
-    private final float current;
     private final float desired;
+    private final float current;
 
     public DrugCapSync(DrugInstance drugInstance) {
         this.drugType = DrugRegistry.DRUGS.getKey(drugInstance.getDrug());
         this.delay = drugInstance.getDelayTime();
-        this.current = drugInstance.getCurrentEffect();
         this.desired = drugInstance.getDesiredEffect();
+        this.current = drugInstance.getCurrentEffect();
     }
 
     public DrugCapSync(PacketBuffer buffer) {
         this.drugType = buffer.readResourceLocation();
         this.delay = buffer.readInt();
-        this.current = buffer.readFloat();
         this.desired = buffer.readFloat();
+        this.current = buffer.readFloat();
     }
 
     @Override
     public void encode(PacketBuffer packetBuffer) {
         packetBuffer.writeResourceLocation(drugType);
         packetBuffer.writeInt(delay);
-        packetBuffer.writeFloat(current);
         packetBuffer.writeFloat(desired);
+        packetBuffer.writeFloat(current);
     }
 
     @Override
@@ -48,11 +48,7 @@ public class DrugCapSync implements IMessage {
             if (player == null) return;
             Drug drug = DrugRegistry.DRUGS.getValue(drugType);
             IPlayerDrugs playerDrugs = PlayerProperties.getPlayerDrugs(player);
-            if (delay <= 0 && playerDrugs.hasDrug(drug)) {
-                playerDrugs.setDrugDesiredEffect(drug, desired);
-            } else {
-                playerDrugs.overrideDrug(new DrugInstance(drug, delay, desired, current));
-            }
+            playerDrugs.sync(new DrugInstance(drug, delay, desired, current));
         });
         ctx.get().setPacketHandled(true);
     }

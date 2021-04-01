@@ -1,5 +1,6 @@
 package com.daderpduck.psychedelicraft.commands;
 
+import com.daderpduck.psychedelicraft.capabilities.PlayerDrugs;
 import com.daderpduck.psychedelicraft.drugs.Drug;
 import com.daderpduck.psychedelicraft.drugs.DrugInstance;
 import com.mojang.brigadier.CommandDispatcher;
@@ -29,6 +30,7 @@ public class SetDrugCommand {
     private static int setDrugValue(CommandSource source, Collection<ServerPlayerEntity> players, Drug drug) {
         for (ServerPlayerEntity player : players) {
             Drug.addDrug(player, new DrugInstance(drug, 0, 10F));
+            PlayerDrugs.sync(player);
         }
         return 1;
     }
@@ -36,6 +38,7 @@ public class SetDrugCommand {
     private static int clearDrug(CommandSource source, Collection<ServerPlayerEntity> players) {
         for (ServerPlayerEntity player : players) {
             Drug.clearDrugs(player);
+            PlayerDrugs.sync(player);
         }
         return 1;
     }
