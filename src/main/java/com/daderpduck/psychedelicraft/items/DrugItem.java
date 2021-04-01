@@ -3,7 +3,6 @@ package com.daderpduck.psychedelicraft.items;
 import com.daderpduck.psychedelicraft.Psychedelicraft;
 import com.daderpduck.psychedelicraft.drugs.Drug;
 import com.daderpduck.psychedelicraft.drugs.DrugInstance;
-import com.daderpduck.psychedelicraft.drugs.DrugRegistry;
 import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -45,7 +44,7 @@ public class DrugItem extends Item {
                 if (properties.drug.isPresent()) {
                     Drug.addDrug(playerEntity, new DrugInstance(properties.drug.get(), properties.delayTick, properties.strength));
                 } else {
-                    Psychedelicraft.LOGGER.error("{} is not in the drug registry!", DrugRegistry.DRUGS.toString());
+                    Psychedelicraft.LOGGER.error("{} is not in the drug registry!", properties.drug.toString());
                 }
             }
         }
