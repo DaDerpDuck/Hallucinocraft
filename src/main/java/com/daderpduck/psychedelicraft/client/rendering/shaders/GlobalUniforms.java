@@ -1,6 +1,9 @@
 package com.daderpduck.psychedelicraft.client.rendering.shaders;
 
 import com.daderpduck.psychedelicraft.Psychedelicraft;
+import com.daderpduck.psychedelicraft.events.hooks.EnableLightEvent;
+import com.daderpduck.psychedelicraft.events.hooks.EnableLightMapEvent;
+import com.daderpduck.psychedelicraft.events.hooks.EntityColorEvent;
 import com.daderpduck.psychedelicraft.events.hooks.SetCameraEvent;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.math.vector.Matrix4f;
@@ -16,6 +19,9 @@ public class GlobalUniforms {
     public static final Matrix4f modelView = new Matrix4f();
     public static final Matrix4f modelViewInverse = new Matrix4f();
     public static float timePassed = 0;
+    public static boolean lightMapEnabled = false;
+    public static boolean lightEnabled = false;
+    public static final float[] entityColor = new float[4];
 
     static {
         modelView.setIdentity();
@@ -36,4 +42,62 @@ public class GlobalUniforms {
         matrix4f.invert();
         modelViewInverse.set(matrix4f);
     }
+
+    @SubscribeEvent
+    public static void onEntityColor(EntityColorEvent event) {
+        if (entityColor[0] != event.r || entityColor[1] != event.g || entityColor[2] != event.b || entityColor[3] != event.a) {
+            entityColor[0] = event.r;
+            entityColor[1] = event.g;
+            entityColor[2] = event.b;
+            entityColor[3] = event.a;
+
+            WorldShaderUniform uniform = ShaderRenderer.getWorldShader().getUniform("entityColor");
+            if (uniform != null && ShaderRenderer.isActive() && ShaderRenderer.useShader) {
+                RenderUtil.flushRenderBuffer();
+                uniform.setFloat(entityColor);
+                uniform.upload();
+            }
+        }
+    }
+
+    // TODO: Fix invisible mob's eyes not glowing
+    @SubscribeEvent
+    public static void onLightmapEnable(EnableLightMapEvent event) {
+        if (lightMapEnabled != event.enabled) {
+            lightMapEnabled = event.enabled;
+
+            WorldShaderUniform uniform = ShaderRenderer.getWorldShader().getUniform("lightmapEnabled");
+            if (uniform != null && ShaderRenderer.isActive() && ShaderRenderer.useShader) {
+                uniform.setInt(lightMapEnabled ? 1 : 0);
+                uniform.upload();
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public static void onLightEnable(EnableLightEvent event) {
+        if (lightEnabled != event.enabled) {
+            lightEnabled = event.enabled;
+
+            WorldShaderUniform uniform = ShaderRenderer.getWorldShader().getUniform("lightEnabled");
+            if (uniform != null && ShaderRenderer.isActive() && ShaderRenderer.useShader) {
+                uniform.setInt(lightEnabled ? 1 : 0);
+                uniform.upload();
+            }
+        }
+    }
+
+    /*@SubscribeEvent
+    public static void onRenderEyes(RenderEyesEvent event) {
+        if (lightmapEnabled != event.enabled) {
+            lightmapEnabled = event.enabled;
+
+            WorldShaderUniform uniform = shaderWorld.getUniform("LightEnabled");
+            if (uniform != null && activeShader && useShader) {
+                uniform.setInt(lightmapEnabled ? 1 : 0);
+                uniform.upload();
+            }
+        }
+    }*/
+
 }

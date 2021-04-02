@@ -1,6 +1,6 @@
 package com.daderpduck.psychedelicraft.mixin.client;
 
-import com.daderpduck.psychedelicraft.client.rendering.shaders.ShaderRenderer;
+import com.daderpduck.psychedelicraft.client.rendering.shaders.RenderUtil;
 import com.daderpduck.psychedelicraft.events.hooks.RenderBlockEntityEvent;
 import com.daderpduck.psychedelicraft.events.hooks.RenderEntityEvent;
 import com.daderpduck.psychedelicraft.events.hooks.RenderTerrainEvent;
@@ -36,7 +36,7 @@ public class MixinWorldRenderer {
 
     @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/world/DimensionRenderInfo;constantAmbientLight()Z"), method = "renderLevel")
     private void renderPostTerrain(MatrixStack matrixStack, float partialTicks, long finishTimeNano, boolean drawBlockOutline, ActiveRenderInfo activeRenderInfoIn, GameRenderer gameRendererIn, LightTexture lightmapIn, Matrix4f projectionIn, CallbackInfo ci) {
-        ShaderRenderer.flushRenderBuffer();
+        RenderUtil.flushRenderBuffer();
     }
 
     @Inject(at = @At(value = "INVOKE_STRING", target = "Lnet/minecraft/profiler/IProfiler;popPush(Ljava/lang/String;)V", args = {"ldc=entities"}), method = "renderLevel")
