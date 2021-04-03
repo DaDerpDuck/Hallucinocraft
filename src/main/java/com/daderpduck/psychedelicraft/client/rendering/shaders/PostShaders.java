@@ -10,6 +10,7 @@ import org.lwjgl.opengl.GL11;
 
 import java.io.IOException;
 
+@SuppressWarnings("deprecation")
 public class PostShaders {
     private static final float EPSILON = 1E-6F;
     public static PostShader KALEIDOSCOPE;
