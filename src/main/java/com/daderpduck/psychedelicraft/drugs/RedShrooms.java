@@ -9,7 +9,10 @@ public class RedShrooms extends Drug {
 
     @Override
     public void renderTick(DrugInstance drugInstance, float partialTicks) {
-        DrugEffects.BIG_WAVES.addValue(drugInstance.getCurrentEffect()*0.3F);
-        DrugEffects.SMALL_WAVES.addValue(drugInstance.getCurrentEffect()*0.4F);
+        //TODO: Do kaleidoscope, then waves at higher values?
+        float effect = drugInstance.getCurrentEffect();
+        DrugEffects.BIG_WAVES.addValue(effect*0.3F);
+        DrugEffects.SMALL_WAVES.addValue(effect*0.4F);
+        DrugEffects.KALEIDOSCOPE_INTENSITY.addValue(effect*0.15F);
     }
 }
