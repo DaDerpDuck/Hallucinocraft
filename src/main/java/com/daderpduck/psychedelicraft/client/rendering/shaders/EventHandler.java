@@ -1,8 +1,11 @@
 package com.daderpduck.psychedelicraft.client.rendering.shaders;
 
 import com.daderpduck.psychedelicraft.Psychedelicraft;
-import com.daderpduck.psychedelicraft.events.hooks.*;
+import com.daderpduck.psychedelicraft.events.hooks.RenderBlockEntityEvent;
+import com.daderpduck.psychedelicraft.events.hooks.RenderEntityEvent;
+import com.daderpduck.psychedelicraft.events.hooks.RenderTerrainEvent;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
@@ -54,27 +57,8 @@ public class EventHandler {
         RenderUtil.checkGlErrors();
     }*/
 
-    /*@SubscribeEvent
+    @SubscribeEvent
     public static void renderPostWorld(RenderWorldLastEvent event) {
-        if (shaderInstance == null) return;
-        shaderInstance.clear();
-
-        Minecraft mc = Minecraft.getInstance();
-        Framebuffer framebuffer = mc.getMainRenderTarget();
-
-        if (shaderGroup == null) {
-            shaderGroup = new ShaderGroup(mc.getTextureManager(), mc.getResourceManager(), framebuffer, new ResourceLocation("psychedelicraft", "shaders/post/world.json"));
-            shaderGroup.resize(width = framebuffer.viewWidth, height = framebuffer.viewHeight);
-        } else if (width != framebuffer.viewWidth || height != framebuffer.viewHeight) {
-            shaderGroup.resize(width = framebuffer.viewWidth, height = framebuffer.viewHeight);
-        }
-
-        RenderSystem.enableTexture();
-        RenderSystem.pushMatrix();
-        shaderGroup.process(event.getPartialTicks());
-        RenderSystem.popMatrix();
-        RenderSystem.enableTexture();
-
-        framebuffer.bindWrite(false);
-    }*/
+        PostShaders.render(event.getPartialTicks());
+    }
 }

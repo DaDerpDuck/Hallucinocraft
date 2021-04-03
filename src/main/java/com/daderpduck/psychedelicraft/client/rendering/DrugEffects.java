@@ -9,7 +9,8 @@ public enum DrugEffects {
     MOVEMENT_SPEED,
     DIG_SPEED,
     BIG_WAVES(true),
-    SMALL_WAVES(true);
+    SMALL_WAVES(true),
+    KALEIDOSCOPE_INTENSITY(true);
 
 
     private float value;
