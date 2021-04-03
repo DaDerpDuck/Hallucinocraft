@@ -39,6 +39,7 @@ public class DrugInstance {
             delayTime--;
         } else {
             this.currentEffect += (desiredEffect - currentEffect)/100F;
+            if (this.currentEffect < 1e-8F) this.currentEffect = 0;
             this.currentEffect = MathHelper.clamp(this.currentEffect, 0, 1);
             this.desiredEffect -= desiredEffect/3000F;
             if (this.desiredEffect < 0.1F) this.desiredEffect = 0;
