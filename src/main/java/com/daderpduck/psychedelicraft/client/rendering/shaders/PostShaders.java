@@ -29,16 +29,18 @@ public class PostShaders {
         RenderSystem.matrixMode(GL11.GL_TEXTURE);
         RenderSystem.pushMatrix();
         RenderSystem.loadIdentity();
+        processShaders(partialTicks);
+        RenderSystem.popMatrix();
+        RenderSystem.enableTexture();
 
+        framebuffer.bindWrite(false);
+    }
+
+    private static void processShaders(float partialTicks) {
         if (DrugEffects.KALEIDOSCOPE_INTENSITY.getValue() > EPSILON) {
             KALEIDOSCOPE.setUniform("Extend", DrugEffects.KALEIDOSCOPE_INTENSITY.getValue());
             KALEIDOSCOPE.setUniform("Intensity",   DrugEffects.KALEIDOSCOPE_INTENSITY.getValue() + 1F);
             KALEIDOSCOPE.process(partialTicks);
         }
-
-        RenderSystem.popMatrix();
-        RenderSystem.enableTexture();
-
-        framebuffer.bindWrite(false);
     }
 }
