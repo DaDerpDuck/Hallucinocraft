@@ -11,6 +11,7 @@ import org.lwjgl.opengl.GL11;
 import java.io.IOException;
 
 public class PostShaders {
+    private static final float EPSILON = 1E-6F;
     public static PostShader KALEIDOSCOPE;
 
     public static void init() throws IOException {
@@ -29,7 +30,7 @@ public class PostShaders {
         RenderSystem.pushMatrix();
         RenderSystem.loadIdentity();
 
-        if (DrugEffects.KALEIDOSCOPE_INTENSITY.getValue() > 0) {
+        if (DrugEffects.KALEIDOSCOPE_INTENSITY.getValue() > EPSILON) {
             KALEIDOSCOPE.setUniform("Extend", DrugEffects.KALEIDOSCOPE_INTENSITY.getValue());
             KALEIDOSCOPE.setUniform("Intensity",   DrugEffects.KALEIDOSCOPE_INTENSITY.getValue() + 1F);
             KALEIDOSCOPE.process(partialTicks);
