@@ -69,7 +69,7 @@ public class Drug extends ForgeRegistryEntry<Drug> {
     }
 
     @OnlyIn(Dist.CLIENT)
-    public void renderTick(DrugInstance drugInstance, float partialTicks) {
+    public void renderTick(DrugInstance drugInstance, float effect, float partialTicks) {
 
     }
 

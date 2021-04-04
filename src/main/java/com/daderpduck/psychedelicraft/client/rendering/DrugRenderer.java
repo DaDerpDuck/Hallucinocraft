@@ -20,7 +20,7 @@ public class DrugRenderer {
 
         if (event.phase == TickEvent.Phase.START) {
             for (DrugInstance drugInstance : Drug.getDrugs(mc.player)) {
-                drugInstance.getDrug().renderTick(drugInstance, event.renderTickTime);
+                drugInstance.getDrug().renderTick(drugInstance, drugInstance.getCurrentEffect(), event.renderTickTime);
             }
 
             for (DrugEffects effect : DrugEffects.values()) {
