@@ -19,6 +19,7 @@ public class GlobalUniforms {
     public static final Matrix4f modelView = new Matrix4f();
     public static final Matrix4f modelViewInverse = new Matrix4f();
     public static float timePassed = 0;
+    public static float timePassedSin = 0;
     public static boolean lightMapEnabled = false;
     public static boolean lightEnabled = false;
     public static final float[] entityColor = new float[4];
@@ -31,7 +32,8 @@ public class GlobalUniforms {
     @SubscribeEvent
     public static void onRenderStart(TickEvent.RenderTickEvent event) {
         if (event.phase == TickEvent.Phase.START) {
-            timePassed = event.renderTickTime + Minecraft.getInstance().gui.getGuiTicks();
+            timePassed = (event.renderTickTime + Minecraft.getInstance().gui.getGuiTicks())*0.05F;
+            timePassedSin = (float) Math.sin(timePassed);
         }
     }
 
