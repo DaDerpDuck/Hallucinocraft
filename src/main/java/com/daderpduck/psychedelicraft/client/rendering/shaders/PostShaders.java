@@ -14,9 +14,11 @@ import java.io.IOException;
 public class PostShaders {
     private static final float EPSILON = 1E-6F;
     public static PostShader KALEIDOSCOPE;
+    public static PostShader KALEIDOSCOPE2;
 
     public static void init() throws IOException {
         KALEIDOSCOPE = new PostShader(new ResourceLocation(Psychedelicraft.MOD_ID, "shaders/post/kaleidoscope.json"));
+        KALEIDOSCOPE2 = new PostShader(new ResourceLocation(Psychedelicraft.MOD_ID, "shaders/post/kaleidoscope2.json"));
     }
 
     public static void render(float partialTicks) {
@@ -39,8 +41,15 @@ public class PostShaders {
 
     private static void processShaders(float partialTicks) {
         if (DrugEffects.KALEIDOSCOPE_INTENSITY.getValue() > EPSILON) {
-            KALEIDOSCOPE.setUniform("Extend", DrugEffects.KALEIDOSCOPE_INTENSITY.getValue());
-            KALEIDOSCOPE.setUniform("Intensity",   DrugEffects.KALEIDOSCOPE_INTENSITY.getValue() + 1F);
+            float value = DrugEffects.KALEIDOSCOPE_INTENSITY.getValue();
+            KALEIDOSCOPE2.setUniform("Extend", value);
+            KALEIDOSCOPE2.setUniform("Intensity", value + 1F);
+            KALEIDOSCOPE2.setUniform("TimePassed", GlobalUniforms.timePassed);
+            KALEIDOSCOPE2.setUniform("TimePassedSin", GlobalUniforms.timePassedSin);
+            KALEIDOSCOPE2.process(partialTicks);
+
+            KALEIDOSCOPE.setUniform("Extend", value);
+            KALEIDOSCOPE.setUniform("Intensity",   value + 1F);
             KALEIDOSCOPE.process(partialTicks);
         }
     }
