@@ -12,5 +12,6 @@ public class RedShrooms extends Drug {
         DrugEffects.BIG_WAVES.addValue(effect*0.3F);
         DrugEffects.SMALL_WAVES.addValue(effect*0.4F);
         DrugEffects.KALEIDOSCOPE_INTENSITY.addValue(effect*effect*0.5F);
+        DrugEffects.SATURATION.addValue(Math.min(effect, 0.5F)*0.5F);
     }
 }
