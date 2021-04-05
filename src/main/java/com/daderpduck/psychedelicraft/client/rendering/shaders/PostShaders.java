@@ -15,10 +15,12 @@ public class PostShaders {
     private static final float EPSILON = 1E-6F;
     public static PostShader KALEIDOSCOPE;
     public static PostShader KALEIDOSCOPE2;
+    public static PostShader COLOR;
 
     public static void init() throws IOException {
         KALEIDOSCOPE = new PostShader(new ResourceLocation(Psychedelicraft.MOD_ID, "shaders/post/kaleidoscope.json"));
         KALEIDOSCOPE2 = new PostShader(new ResourceLocation(Psychedelicraft.MOD_ID, "shaders/post/kaleidoscope2.json"));
+        COLOR = new PostShader(new ResourceLocation(Psychedelicraft.MOD_ID, "shaders/post/color.json"));
     }
 
     public static void render(float partialTicks) {
@@ -40,6 +42,13 @@ public class PostShaders {
     }
 
     private static void processShaders(float partialTicks) {
+        if (DrugEffects.HUE.getValue() > EPSILON || DrugEffects.SATURATION.getValue() > EPSILON || DrugEffects.BRIGHTNESS.getValue() > EPSILON) {
+            COLOR.setUniform("Hue", DrugEffects.HUE.getValue());
+            COLOR.setUniform("Saturation", DrugEffects.SATURATION.getValue() + 1F);
+            COLOR.setUniform("Brightness", DrugEffects.SATURATION.getValue());
+            COLOR.process(partialTicks);
+        }
+
         if (DrugEffects.KALEIDOSCOPE_INTENSITY.getValue() > EPSILON) {
             float value = DrugEffects.KALEIDOSCOPE_INTENSITY.getValue();
             KALEIDOSCOPE2.setUniform("Extend", value);
@@ -49,7 +58,7 @@ public class PostShaders {
             KALEIDOSCOPE2.process(partialTicks);
 
             KALEIDOSCOPE.setUniform("Extend", value);
-            KALEIDOSCOPE.setUniform("Intensity",   value + 1F);
+            KALEIDOSCOPE.setUniform("Intensity", value + 1F);
             KALEIDOSCOPE.process(partialTicks);
         }
     }
