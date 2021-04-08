@@ -140,7 +140,7 @@ public class PlayerDrugs {
 
             ListNBT activeDrugs = new ListNBT();
             instance.getActiveDrugs().forEach((drug, effect) -> {
-                if (effect <= 1E-6F) return;
+                if (effect < 1E-6F) return;
                 CompoundNBT activeDrug = new CompoundNBT();
                 activeDrug.putString("id", Objects.requireNonNull(DrugRegistry.DRUGS.getKey(drug)).getPath());
                 activeDrug.putFloat("effect", effect);
