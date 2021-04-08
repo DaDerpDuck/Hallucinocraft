@@ -1,13 +1,17 @@
 package com.daderpduck.psychedelicraft.commands;
 
 import com.daderpduck.psychedelicraft.capabilities.PlayerDrugs;
+import com.daderpduck.psychedelicraft.client.rendering.shaders.ShaderRenderer;
 import com.daderpduck.psychedelicraft.drugs.Drug;
 import com.daderpduck.psychedelicraft.drugs.DrugInstance;
 import com.mojang.brigadier.CommandDispatcher;
+import com.mojang.brigadier.arguments.BoolArgumentType;
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;
 import net.minecraft.command.arguments.EntityArgument;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.fml.loading.FMLEnvironment;
 
 import java.util.Collection;
 
@@ -24,6 +28,9 @@ public class SetDrugCommand {
                     .then(Commands.literal("clear")
                         .then(Commands.argument("players", EntityArgument.players())
                             .executes(context -> clearDrug(context.getSource(), EntityArgument.getPlayers(context, "players")))))
+                    .then(Commands.literal("shaders")
+                         .then(Commands.argument("enabled", BoolArgumentType.bool())
+                            .executes(context -> toggleShaders(context.getSource(), BoolArgumentType.getBool(context, "enabled")))))
         );
     }
 
@@ -40,6 +47,12 @@ public class SetDrugCommand {
             Drug.clearDrugs(player);
             PlayerDrugs.sync(player);
         }
+        return 1;
+    }
+
+    private static int toggleShaders(CommandSource source, boolean enabled) {
+        if (FMLEnvironment.dist == Dist.CLIENT)
+            ShaderRenderer.useShader = enabled;
         return 1;
     }
 }
