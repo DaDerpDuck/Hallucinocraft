@@ -42,7 +42,7 @@ public class DrugItem extends Item {
 
             for (DrugEffectProperties properties : effects) {
                 if (properties.drug.isPresent()) {
-                    Drug.addDrug(playerEntity, new DrugInstance(properties.drug.get(), properties.delayTick, properties.strength));
+                    Drug.addDrug(playerEntity, new DrugInstance(properties.drug.get(), properties.delayTick, properties.strength, properties.duration));
                 } else {
                     Psychedelicraft.LOGGER.error("{} is not in the drug registry!", properties.drug.toString());
                 }
@@ -82,8 +82,8 @@ public class DrugItem extends Item {
         private boolean edible = false;
         private int useDuration = 32;
 
-        public Properties addDrug(RegistryObject<Drug> drugRegistryObject, int delayTicks, float strength) {
-            this.attachedDrugs.add(new DrugEffectProperties(drugRegistryObject, delayTicks, strength));
+        public Properties addDrug(RegistryObject<Drug> drugRegistryObject, int delayTicks, float strength, int duration) {
+            this.attachedDrugs.add(new DrugEffectProperties(drugRegistryObject, delayTicks, strength, duration));
             return this;
         }
 
@@ -103,11 +103,13 @@ public class DrugItem extends Item {
         private final RegistryObject<Drug> drug;
         private final int delayTick;
         private final float strength;
+        private final int duration;
 
-        public DrugEffectProperties(RegistryObject<Drug> drug, int delayTick, float strength) {
+        public DrugEffectProperties(RegistryObject<Drug> drug, int delayTick, float strength, int duration) {
             this.drug = drug;
             this.delayTick = delayTick;
             this.strength = strength;
+            this.duration = duration;
         }
     }
 }

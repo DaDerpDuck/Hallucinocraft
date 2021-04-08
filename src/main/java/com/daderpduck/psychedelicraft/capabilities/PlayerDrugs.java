@@ -3,6 +3,8 @@ package com.daderpduck.psychedelicraft.capabilities;
 import com.daderpduck.psychedelicraft.Psychedelicraft;
 import com.daderpduck.psychedelicraft.drugs.Drug;
 import com.daderpduck.psychedelicraft.drugs.DrugInstance;
+import com.daderpduck.psychedelicraft.drugs.DrugRegistry;
+import com.daderpduck.psychedelicraft.network.ActiveDrugCapSync;
 import com.daderpduck.psychedelicraft.network.DrugCapSync;
 import com.daderpduck.psychedelicraft.network.PacketHandler;
 import net.minecraft.entity.Entity;
@@ -10,6 +12,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
+import net.minecraft.nbt.ListNBT;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
@@ -27,48 +30,68 @@ import net.minecraftforge.fml.network.PacketDistributor;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 public class PlayerDrugs {
     static class Implementation implements IPlayerDrugs {
-        private final HashMap<Drug, DrugInstance> map = new HashMap<>();
+        private final Map<Drug, Float> active = new HashMap<>();
+        private final List<DrugInstance> sources = new ArrayList<>();
 
         @Override
-        public void addDrug(DrugInstance drug) {
-            map.put(drug.getDrug(), drug);
+        public void addDrugSource(DrugInstance drug) {
+            sources.add(drug);
         }
 
         @Override
-        public void sync(DrugInstance drugInstance) {
-            if (!hasDrug(drugInstance.getDrug())) {
-                addDrug(drugInstance);
+        public void setSources(List<DrugInstance> drugInstances) {
+            sources.clear();
+            sources.addAll(drugInstances);
+        }
+
+        @Override
+        public void removeDrugSource(DrugInstance drug) {
+            sources.remove(drug);
+        }
+
+        @Override
+        public void clearDrugSources() {
+            sources.clear();
+        }
+
+        @Override
+        public List<DrugInstance> getDrugSources() {
+            return sources;
+        }
+
+        @Override
+        public void putActive(Drug drug, float effect) {
+            if (effect > 0) {
+                active.put(drug, effect);
             } else {
-                map.get(drugInstance.getDrug()).setDesiredEffect(drugInstance.getDesiredEffect());
+                active.remove(drug);
             }
         }
 
+        @Nullable
         @Override
-        public void removeDrug(Drug drug) {
-            map.get(drug).setDesiredEffect(0);
+        public Float getActive(Drug drug) {
+            return active.get(drug);
         }
 
         @Override
-        public void clearDrugs() {
-            for (DrugInstance drugInstance : map.values()) {
-                drugInstance.setDesiredEffect(0);
-            }
+        public void clearActives() {
+            active.clear();
         }
 
         @Override
-        public boolean hasDrug(Drug drug) {
-            return map.containsKey(drug);
+        public void setActives(Map<Drug, Float> activeDrugs) {
+            active.clear();
+            active.putAll(activeDrugs);
         }
 
         @Override
-        public List<DrugInstance> getDrugs() {
-            return new ArrayList<>(map.values());
+        public Map<Drug, Float> getActiveDrugs() {
+            return active;
         }
     }
 
@@ -103,14 +126,27 @@ public class PlayerDrugs {
         public INBT writeNBT(Capability<IPlayerDrugs> capability, IPlayerDrugs instance, Direction side) {
             CompoundNBT nbt = new CompoundNBT();
 
-            for (DrugInstance drug : instance.getDrugs()) {
-                if (drug.getDesiredEffect() <= 0) continue;
+            ListNBT drugSources = new ListNBT();
+            for (DrugInstance drugInstance : instance.getDrugSources()) {
                 CompoundNBT drugProperties = new CompoundNBT();
-                drugProperties.putInt("delay", drug.getDelayTime());
-                drugProperties.putFloat("desire", drug.getDesiredEffect());
-                drugProperties.putFloat("current", drug.getCurrentEffect());
-                nbt.put(drug.toName(), drugProperties);
+                drugProperties.putString("id", drugInstance.toName());
+                drugProperties.putInt("delay", drugInstance.getDelayTime());
+                drugProperties.putFloat("potency", drugInstance.getPotency());
+                drugProperties.putInt("duration", drugInstance.getDuration());
+                drugProperties.putInt("timeActive", drugInstance.getTimeActive());
+                drugSources.add(drugProperties);
             }
+            nbt.put("sources", drugSources);
+
+            ListNBT activeDrugs = new ListNBT();
+            instance.getActiveDrugs().forEach((drug, effect) -> {
+                if (effect <= 1E-6F) return;
+                CompoundNBT activeDrug = new CompoundNBT();
+                activeDrug.putString("id", Objects.requireNonNull(DrugRegistry.DRUGS.getKey(drug)).getPath());
+                activeDrug.putFloat("effect", effect);
+                activeDrugs.add(activeDrug);
+            });
+            nbt.put("active", activeDrugs);
 
             return nbt;
         }
@@ -120,10 +156,17 @@ public class PlayerDrugs {
             if (nbtIn != null) {
                 CompoundNBT nbt = (CompoundNBT) nbtIn;
 
-                for (String key : nbt.getAllKeys()) {
-                    CompoundNBT drugProperties = nbt.getCompound(key);
-                    DrugInstance drugInstance = new DrugInstance(Drug.byName(key), drugProperties.getInt("delay"), drugProperties.getFloat("desire"), drugProperties.getFloat("current"));
-                    instance.addDrug(drugInstance);
+                ListNBT drugSources = nbt.getList("sources", 10);
+                for (INBT drugSource : drugSources) {
+                    CompoundNBT drugProperties = (CompoundNBT) drugSource;
+                    DrugInstance drugInstance = new DrugInstance(Drug.byName(drugProperties.getString("id")), drugProperties.getInt("delay"), drugProperties.getFloat("potency"), drugProperties.getInt("duration"), drugProperties.getInt("timeActive"));
+                    instance.addDrugSource(drugInstance);
+                }
+
+                ListNBT activeDrugs = nbt.getList("active", 10);
+                for (INBT _activeDrug : activeDrugs) {
+                    CompoundNBT activeDrug = (CompoundNBT) _activeDrug;
+                    instance.putActive(Drug.byName(activeDrug.getString("id")), activeDrug.getFloat("effect"));
                 }
             }
         }
@@ -148,10 +191,12 @@ public class PlayerDrugs {
 
     static void onPlayerLoggedIn(PlayerEvent.PlayerLoggedInEvent event) {
         sync((ServerPlayerEntity) event.getPlayer());
+        syncActives((ServerPlayerEntity) event.getPlayer());
     }
 
     static void onPlayerChangedDimension(PlayerEvent.PlayerChangedDimensionEvent event) {
         sync((ServerPlayerEntity) event.getPlayer());
+        syncActives((ServerPlayerEntity) event.getPlayer());
     }
 
     private static int totalTicks = 1;
@@ -167,10 +212,12 @@ public class PlayerDrugs {
     }
 
     public static void sync(ServerPlayerEntity player) {
-        List<DrugInstance> drugInstances = Drug.getDrugs(player);
+        List<DrugInstance> drugInstances = Drug.getDrugSources(player);
+        PacketHandler.INSTANCE.send(PacketDistributor.PLAYER.with(() -> player), new DrugCapSync(drugInstances));
+    }
 
-        for (DrugInstance drugInstance : drugInstances) {
-            PacketHandler.INSTANCE.send(PacketDistributor.PLAYER.with(() -> player), new DrugCapSync(drugInstance));
-        }
+    private static void syncActives(ServerPlayerEntity player) {
+        Map<Drug, Float> actives = Drug.getActiveDrugs(player);
+        PacketHandler.INSTANCE.send(PacketDistributor.PLAYER.with(() -> player), new ActiveDrugCapSync(actives));
     }
 }

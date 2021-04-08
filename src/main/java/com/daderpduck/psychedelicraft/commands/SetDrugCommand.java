@@ -29,7 +29,7 @@ public class SetDrugCommand {
 
     private static int setDrugValue(CommandSource source, Collection<ServerPlayerEntity> players, Drug drug) {
         for (ServerPlayerEntity player : players) {
-            Drug.addDrug(player, new DrugInstance(drug, 0, 10F));
+            Drug.addDrug(player, new DrugInstance(drug, 0, 10F, 1200));
             PlayerDrugs.sync(player);
         }
         return 1;

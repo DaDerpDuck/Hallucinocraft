@@ -1,28 +1,26 @@
 package com.daderpduck.psychedelicraft.drugs;
 
-import net.minecraft.util.math.MathHelper;
-
 public class DrugInstance {
     private final Drug drug;
-    private int delayTime = 0;
-    private float currentEffect = 0;
-    private float desiredEffect = 0;
+    private final int duration;
+    private final float potency;
+    private int delayTime;
+    private int timeActive;
 
-    public DrugInstance(Drug drug) {
-        this.drug = drug;
-    }
-
-    public DrugInstance(Drug drug, int delayTime, float desiredEffect) {
+    public DrugInstance(Drug drug, int delayTime, float potency, int duration) {
         this.drug = drug;
         this.delayTime = delayTime;
-        this.desiredEffect = desiredEffect;
+        this.potency = potency;
+        this.duration = duration;
+        this.timeActive = 0;
     }
 
-    public DrugInstance(Drug drug, int delayTime, float desiredEffect, float currentEffect) {
+    public DrugInstance(Drug drug, int delayTime, float potency, int duration, int timeActive) {
         this.drug = drug;
         this.delayTime = delayTime;
-        this.currentEffect = currentEffect;
-        this.desiredEffect = desiredEffect;
+        this.potency = potency;
+        this.duration = duration;
+        this.timeActive = timeActive;
     }
 
     public String toName() {
@@ -33,56 +31,35 @@ public class DrugInstance {
         return drug;
     }
 
-    //TODO: Another growth/decay function
-    public void tick() {
+    public boolean isActive() {
         if (delayTime > 0) {
             delayTime--;
-        } else {
-            this.currentEffect += (desiredEffect - currentEffect)/100F;
-            if (this.currentEffect < 1e-8F) this.currentEffect = 0;
-            this.currentEffect = MathHelper.clamp(this.currentEffect, 0, 1);
-            this.desiredEffect -= desiredEffect/3000F;
-            if (this.desiredEffect < 0.1F) this.desiredEffect = 0;
-            this.desiredEffect = MathHelper.clamp(desiredEffect, 0, drug.getMaxEffect());
+            return false;
         }
+        return true;
+    }
+
+    public float getEffect(Drug.Envelope envelope) {
+        if (timeActive++ < duration) {
+            return potency*envelope.getRisingLevel(timeActive);
+        } else {
+            return potency*envelope.getDecayingLevel(timeActive - duration);
+        }
+    }
+
+    public float getPotency() {
+        return potency;
+    }
+
+    public int getTimeActive() {
+        return timeActive;
+    }
+
+    public int getDuration() {
+        return duration;
     }
 
     public int getDelayTime() {
         return delayTime;
-    }
-
-    public float getDesiredEffect() {
-        return desiredEffect;
-    }
-
-    public float getCurrentEffect() {
-        return currentEffect;
-    }
-
-    public void addDesiredEffect(float modifier) {
-        desiredEffect += modifier;
-    }
-
-    public void setDesiredEffect(float effect) {
-        desiredEffect = effect;
-    }
-
-    public void setDelayTime(int delayTime) {
-        this.delayTime = delayTime;
-    }
-
-    @Override
-    public boolean equals(Object other) {
-        if (other instanceof DrugInstance) {
-            DrugInstance otherDrug = (DrugInstance) other;
-            return otherDrug.drug == this.drug;
-        } else {
-            return false;
-        }
-    }
-
-    @Override
-    public int hashCode() {
-        return drug.hashCode();
     }
 }

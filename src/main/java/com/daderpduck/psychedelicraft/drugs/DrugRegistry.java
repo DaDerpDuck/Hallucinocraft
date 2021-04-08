@@ -15,7 +15,7 @@ import java.util.function.Supplier;
 public class DrugRegistry {
     public static IForgeRegistry<Drug> DRUGS;
 
-    public static final RegistryObject<Drug> RED_SHROOMS = register("red_shrooms", () -> new RedShrooms(new Drug.DrugProperties()));
+    public static final RegistryObject<Drug> RED_SHROOMS = register("red_shrooms", () -> new RedShrooms(new Drug.DrugProperties().adsr(2400F, 200F, 0.8F, 1200F)));
 
     public static RegistryObject<Drug> register(String name, Supplier<? extends Drug> supplier) {
         return Psychedelicraft.DRUGS.register(name, supplier);

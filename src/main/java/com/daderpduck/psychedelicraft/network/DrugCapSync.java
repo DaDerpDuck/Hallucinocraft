@@ -2,43 +2,45 @@ package com.daderpduck.psychedelicraft.network;
 
 import com.daderpduck.psychedelicraft.capabilities.IPlayerDrugs;
 import com.daderpduck.psychedelicraft.capabilities.PlayerProperties;
-import com.daderpduck.psychedelicraft.drugs.Drug;
 import com.daderpduck.psychedelicraft.drugs.DrugInstance;
 import com.daderpduck.psychedelicraft.drugs.DrugRegistry;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.network.NetworkEvent;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 import java.util.function.Supplier;
 
 public class DrugCapSync implements IMessage {
-    private final ResourceLocation drugType;
-    private final int delay;
-    private final float desired;
-    private final float current;
+    private final List<DrugInstance> list;
 
-    public DrugCapSync(DrugInstance drugInstance) {
-        this.drugType = DrugRegistry.DRUGS.getKey(drugInstance.getDrug());
-        this.delay = drugInstance.getDelayTime();
-        this.desired = drugInstance.getDesiredEffect();
-        this.current = drugInstance.getCurrentEffect();
+    public DrugCapSync(List<DrugInstance> drugInstances) {
+        list = drugInstances;
     }
 
     public DrugCapSync(PacketBuffer buffer) {
-        this.drugType = buffer.readResourceLocation();
-        this.delay = buffer.readInt();
-        this.desired = buffer.readFloat();
-        this.current = buffer.readFloat();
+        int listSize = buffer.readInt();
+        list = new ArrayList<>(listSize);
+
+        for (int i = 0; i < listSize; i++) {
+            list.add(new DrugInstance(DrugRegistry.DRUGS.getValue(buffer.readResourceLocation()), buffer.readInt(), buffer.readFloat(), buffer.readInt(), buffer.readInt()));
+        }
     }
 
     @Override
     public void encode(PacketBuffer packetBuffer) {
-        packetBuffer.writeResourceLocation(drugType);
-        packetBuffer.writeInt(delay);
-        packetBuffer.writeFloat(desired);
-        packetBuffer.writeFloat(current);
+        packetBuffer.writeInt(list.size());
+
+        for (DrugInstance drugInstance : list) {
+            packetBuffer.writeResourceLocation(Objects.requireNonNull(DrugRegistry.DRUGS.getKey(drugInstance.getDrug())));
+            packetBuffer.writeInt(drugInstance.getDelayTime());
+            packetBuffer.writeFloat(drugInstance.getPotency());
+            packetBuffer.writeInt(drugInstance.getDuration());
+            packetBuffer.writeInt(drugInstance.getTimeActive());
+        }
     }
 
     @Override
@@ -46,9 +48,8 @@ public class DrugCapSync implements IMessage {
         ctx.get().enqueueWork(() -> {
             ClientPlayerEntity player = Minecraft.getInstance().player;
             if (player == null) return;
-            Drug drug = DrugRegistry.DRUGS.getValue(drugType);
             IPlayerDrugs playerDrugs = PlayerProperties.getPlayerDrugs(player);
-            playerDrugs.sync(new DrugInstance(drug, delay, desired, current));
+            playerDrugs.setSources(list);
         });
         ctx.get().setPacketHandled(true);
     }

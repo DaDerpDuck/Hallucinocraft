@@ -19,6 +19,7 @@ public class PacketHandler {
 
     public static void init() {
         register(DrugCapSync.class, DrugCapSync::new);
+        register(ActiveDrugCapSync.class, ActiveDrugCapSync::new);
     }
 
     private static int id = 0;
