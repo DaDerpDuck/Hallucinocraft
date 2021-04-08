@@ -61,6 +61,8 @@ public class ShaderRenderer {
 
         shaderWorld.safeGetUniform("smallWaves").setFloat(DrugEffects.SMALL_WAVES.getValue());
         shaderWorld.safeGetUniform("bigWaves").setFloat(DrugEffects.BIG_WAVES.getValue());
+        shaderWorld.safeGetUniform("wiggleWaves").setFloat(DrugEffects.WIGGLE_WAVES.getValue());
+        shaderWorld.safeGetUniform("distantWorldDeformation").setFloat(DrugEffects.WORLD_DEFORMATION.getValue());
 
         shaderWorld.apply();
     }

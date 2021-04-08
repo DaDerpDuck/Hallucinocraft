@@ -10,6 +10,8 @@ public enum DrugEffects {
     DIG_SPEED,
     BIG_WAVES(true),
     SMALL_WAVES(true),
+    WIGGLE_WAVES(true),
+    WORLD_DEFORMATION,
     KALEIDOSCOPE_INTENSITY(true),
     HUE,
     SATURATION,
