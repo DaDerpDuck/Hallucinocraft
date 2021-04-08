@@ -32,7 +32,7 @@ public abstract class MixinLivingRenderer<T extends LivingEntity, M extends Enti
         float swellingColor = getWhiteOverlayProgress(entity, partialTicks);
 
         if (entity.hurtTime > 0 || entity.deathTime > 0) {
-            MinecraftForge.EVENT_BUS.post(new EntityColorEvent(entity, 0.69803921568F, 0F, 0F, 0.3F));
+            MinecraftForge.EVENT_BUS.post(new EntityColorEvent(entity, 1F, 0F, 0F, 0.3F));
         }
 
         if (swellingColor > 0) {
