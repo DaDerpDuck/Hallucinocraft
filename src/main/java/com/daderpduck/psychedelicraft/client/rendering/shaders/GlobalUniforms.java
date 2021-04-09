@@ -1,10 +1,7 @@
 package com.daderpduck.psychedelicraft.client.rendering.shaders;
 
 import com.daderpduck.psychedelicraft.Psychedelicraft;
-import com.daderpduck.psychedelicraft.events.hooks.EnableLightEvent;
-import com.daderpduck.psychedelicraft.events.hooks.EnableLightMapEvent;
-import com.daderpduck.psychedelicraft.events.hooks.EntityColorEvent;
-import com.daderpduck.psychedelicraft.events.hooks.SetCameraEvent;
+import com.daderpduck.psychedelicraft.events.hooks.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.math.vector.Matrix4f;
 import net.minecraftforge.api.distmarker.Dist;
@@ -23,6 +20,7 @@ public class GlobalUniforms {
     public static boolean lightMapEnabled = false;
     public static boolean lightEnabled = false;
     public static final float[] entityColor = new float[4];
+    public static int fogMode = 9729;
 
     static {
         modelView.setIdentity();
@@ -87,6 +85,11 @@ public class GlobalUniforms {
                 uniform.upload();
             }
         }
+    }
+
+    @SubscribeEvent
+    public static void onFogMode(FogModeEvent event) {
+        fogMode = event.mode;
     }
 
     /*@SubscribeEvent

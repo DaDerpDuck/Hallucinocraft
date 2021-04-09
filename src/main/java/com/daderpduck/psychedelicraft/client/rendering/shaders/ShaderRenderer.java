@@ -58,6 +58,7 @@ public class ShaderRenderer {
         shaderWorld.safeGetUniform("modelViewMat").setMatrix(GlobalUniforms.modelView);
         shaderWorld.safeGetUniform("modelViewInverseMat").setMatrix(GlobalUniforms.modelViewInverse);
         shaderWorld.safeGetUniform("timePassed").setFloat(GlobalUniforms.timePassed);
+        shaderWorld.safeGetUniform("fogMode").setInt(GlobalUniforms.fogMode);
 
         shaderWorld.safeGetUniform("smallWaves").setFloat(DrugEffects.SMALL_WAVES.getValue());
         shaderWorld.safeGetUniform("bigWaves").setFloat(DrugEffects.BIG_WAVES.getValue());

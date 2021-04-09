@@ -9,11 +9,17 @@ uniform sampler2D lightMap;
 uniform vec4 entityColor;
 uniform int lightEnabled;
 uniform int lightmapEnabled;
+uniform int fogMode;
+uniform int fogEnabled;
 uniform float timePassed;
 
 varying vec4 texCoord;
 varying vec4 lmCoord;
 varying vec3 normalVector;
+
+const int GL_LINEAR = 9729;
+const int GL_EXP = 2048;
+const int GL_EXP2 = 2049;
 
 void main() {
     /*vec4 modCoord = texCoord;
@@ -45,5 +51,12 @@ void main() {
     }
 
     gl_FragColor = clamp(gl_FragColor, 0.0, 1.0);
-    gl_FragColor.rgb = mix(gl_FragColor.rgb, gl_Fog.color.rgb, clamp((gl_FogFragCoord - gl_Fog.start)*gl_Fog.scale, 0.0, 1.0));
+
+    if (fogMode == GL_LINEAR) {
+        gl_FragColor.rgb = mix(gl_FragColor.rgb, gl_Fog.color.rgb, clamp((gl_FogFragCoord - gl_Fog.start)*gl_Fog.scale, 0.0, 1.0));
+    } else if (fogMode == GL_EXP) {
+        gl_FragColor.rgb = mix(gl_Fog.color.rgb, gl_FragColor.rgb, clamp(exp(-gl_Fog.density * gl_FogFragCoord), 0.0, 1.0));
+    } else if (fogMode == GL_EXP2) {
+        gl_FragColor.rgb = mix(gl_Fog.color.rgb, gl_FragColor.rgb, clamp(exp(-pow(gl_Fog.density * gl_FogFragCoord, 2.0)), 0.0, 1.0));
+    }
 }
