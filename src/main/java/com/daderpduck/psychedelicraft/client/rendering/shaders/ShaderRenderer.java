@@ -10,7 +10,6 @@ import net.minecraftforge.fml.common.Mod;
 
 import java.io.IOException;
 
-//TODO: Underwater fog not there
 @OnlyIn(Dist.CLIENT)
 @Mod.EventBusSubscriber(value = Dist.CLIENT, modid = Psychedelicraft.MOD_ID)
 public class ShaderRenderer {
