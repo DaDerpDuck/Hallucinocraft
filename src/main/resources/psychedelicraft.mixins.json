@@ -20,6 +20,7 @@
     "client.MixinModelRenderer",
     "client.MixinOverlayTexture",
     "client.MixinRenderHelper",
+    "client.MixinGlStateManager",
     "client.MixinShaderUniform",
     "client.MixinTextureManager",
     "client.MixinWorldRenderer"
