@@ -151,16 +151,16 @@ public class Drug extends ForgeRegistryEntry<Drug> {
 
         public float getRisingLevel(float timeRising) {
             if (timeRising < attack) {
-                return lerp(0F, 1F, timeRising/attack);
+                return lerp(0F, 1F, (float) MathHelper.smoothstep(timeRising/attack));
             } else if (timeRising < attack + decay) {
-                return lerp(1F, sustain, (timeRising - attack)/decay);
+                return lerp(1F, sustain, (float) MathHelper.smoothstep((timeRising - attack)/decay));
             } else {
                 return sustain;
             }
         }
 
         public float getDecayingLevel(float timeDecaying) {
-            return lerp(sustain, 0F, timeDecaying/release);
+            return lerp(sustain, 0F, (float) MathHelper.smoothstep(timeDecaying/release));
         }
 
         private float lerp(float a, float b, float t) {
