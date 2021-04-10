@@ -45,6 +45,7 @@ public class EventHandler {
         RenderUtil.checkGlErrors();
     }
 
+    //TODO: Hook into block outline
     /*@SubscribeEvent
     public static void onRenderBlockOutline(RenderBlockOutlineEvent event) {
         if (event.phase == RenderBlockOutlineEvent.Phase.START) {
@@ -59,6 +60,6 @@ public class EventHandler {
 
     @SubscribeEvent
     public static void renderPostWorld(RenderWorldLastEvent event) {
-        PostShaders.render(event.getPartialTicks());
+        ShaderRenderer.processPostShaders(event.getPartialTicks());
     }
 }
