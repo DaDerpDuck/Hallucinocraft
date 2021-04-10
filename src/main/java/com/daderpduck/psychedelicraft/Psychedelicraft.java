@@ -39,7 +39,7 @@ public class Psychedelicraft {
         ITEMS.register(modEventBus);
         BLOCKS.register(modEventBus);
 
-        ModItems.register();
+        ModItems.init();
 
         PacketHandler.init();
 
