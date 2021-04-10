@@ -15,7 +15,9 @@ public enum DrugEffects {
     KALEIDOSCOPE_INTENSITY(true),
     HUE,
     SATURATION,
-    BRIGHTNESS;
+    BRIGHTNESS,
+    HUE_AMPLITUDE(true),
+    HUE_STRETCH;
 
 
     private float value;

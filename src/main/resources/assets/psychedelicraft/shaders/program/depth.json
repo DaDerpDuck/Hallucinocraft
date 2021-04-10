@@ -5,7 +5,7 @@
     "dstrgb": "zero"
   },
   "vertex": "blit",
-  "fragment": "psychedelicraft:fog",
+  "fragment": "psychedelicraft:depth",
   "attributes": [ "Position" ],
   "samplers": [
     { "name": "DiffuseSampler" },
@@ -16,6 +16,8 @@
     { "name": "InSize",     "type": "float",     "count": 2,  "values": [ 1.0, 1.0 ] },
     { "name": "OutSize",    "type": "float",     "count": 2,  "values": [ 1.0, 1.0 ] },
     { "name": "ScreenSize", "type": "float",     "count": 2,  "values": [ 1.0, 1.0 ] },
-    { "name": "_FOV",       "type": "float",     "count": 1,  "values": [ 70.0 ] }
+    { "name": "Amplitude",  "type": "float",     "count": 1,  "values": [ 0.0 ] },
+    { "name": "Stretch",    "type": "float",     "count": 1,  "values": [ 0.0 ] },
+    { "name": "TimePassed", "type": "float",     "count": 1,  "values": [ 0.0 ] }
   ]
 }
