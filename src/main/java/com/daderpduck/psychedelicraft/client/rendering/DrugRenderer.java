@@ -51,6 +51,11 @@ public class DrugRenderer {
         matrixStack.translate(shiftX, shiftY, 0);
     }
 
+    @SubscribeEvent
+    public static void onPlayerTurn(PlayerTurnEvent event) {
+        MouseSmootherEffect.tick(DrugEffects.CAMERA_INERTIA.getValue(), event.accumulatedDX, event.accumulatedDY);
+    }
+
     // Shader stuff
 
     @SubscribeEvent
