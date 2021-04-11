@@ -18,6 +18,7 @@
     "client.MixinLightTexture",
     "client.MixinLivingRenderer",
     "client.MixinModelRenderer",
+    "client.MixinMouseHelper",
     "client.MixinOverlayTexture",
     "client.MixinRenderHelper",
     "client.MixinGlStateManager",
