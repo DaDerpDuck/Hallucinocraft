@@ -2,9 +2,12 @@ package com.daderpduck.psychedelicraft.client.rendering.shaders;
 
 import com.daderpduck.psychedelicraft.Psychedelicraft;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 import java.io.IOException;
 
+@OnlyIn(Dist.CLIENT)
 public class PostShaders {
     public static PostShader KALEIDOSCOPE;
     public static PostShader KALEIDOSCOPE2;
