@@ -16,8 +16,7 @@ public enum DrugEffects {
     HUE,
     SATURATION,
     BRIGHTNESS,
-    HUE_AMPLITUDE(true),
-    HUE_STRETCH;
+    HUE_AMPLITUDE(true);
 
 
     private float value;

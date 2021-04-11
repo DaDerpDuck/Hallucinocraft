@@ -107,7 +107,6 @@ public class ShaderRenderer {
     private static void renderPost(float partialTicks) {
         if (DrugEffects.HUE_AMPLITUDE.getValue() > EPSILON) {
             DEPTH.setUniform("Amplitude", (float) (DrugEffects.HUE_AMPLITUDE.getValue()*Math.PI*2F));
-            DEPTH.setUniform("Stretch", DrugEffects.HUE_STRETCH.getValue());
             DEPTH.setUniform("TimePassed", GlobalUniforms.timePassed*2.5F);
             DEPTH.process(partialTicks);
         }

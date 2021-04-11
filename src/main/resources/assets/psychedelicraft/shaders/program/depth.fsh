@@ -4,7 +4,6 @@ uniform sampler2D DiffuseSampler;
 uniform sampler2D DiffuseDepthSampler;
 
 uniform vec2 ScreenSize;
-uniform float Stretch;
 uniform float Amplitude;
 uniform float TimePassed;
 
@@ -26,7 +25,7 @@ float linearize(float depth) {
 }
 
 void main() {
-    float depth = Stretch*linearize(texture2D(DiffuseDepthSampler, texCoord).x);
-    float distance = length(vec3(1.0, (2.0*texCoord - 1.0)*vec2(ScreenSize.x/ScreenSize.y, 1.0)*depth));
-    gl_FragColor = vec4(hueShift(texture2D(DiffuseSampler, texCoord).rgb, Amplitude*sin(TimePassed + distance)), 1.0);
+    float depth = linearize(texture2D(DiffuseDepthSampler, texCoord).x);
+    //float distance = length(vec3(1.0, (2.0*texCoord - 1.0)*vec2(ScreenSize.x/ScreenSize.y, 1.0)*depth));
+    gl_FragColor = vec4(hueShift(texture2D(DiffuseSampler, texCoord).rgb, Amplitude*sin(TimePassed + depth)), 1.0);
 }
