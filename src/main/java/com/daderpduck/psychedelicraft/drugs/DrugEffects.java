@@ -1,4 +1,4 @@
-package com.daderpduck.psychedelicraft.client.rendering;
+package com.daderpduck.psychedelicraft.drugs;
 
 import net.minecraft.util.math.MathHelper;
 
@@ -39,7 +39,7 @@ public enum DrugEffects {
         return value;
     }
 
-    void resetValue() {
+    public void resetValue() {
         this.value = 0;
     }
 }

@@ -1,7 +1,7 @@
 package com.daderpduck.psychedelicraft.client.rendering.shaders;
 
 import com.daderpduck.psychedelicraft.Psychedelicraft;
-import com.daderpduck.psychedelicraft.client.rendering.DrugEffects;
+import com.daderpduck.psychedelicraft.drugs.DrugEffects;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.shader.Framebuffer;

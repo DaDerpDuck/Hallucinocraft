@@ -1,7 +1,5 @@
 package com.daderpduck.psychedelicraft.drugs;
 
-import com.daderpduck.psychedelicraft.client.rendering.DrugEffects;
-
 public class BrownShrooms extends Drug {
     public BrownShrooms(DrugProperties properties) {
         super(properties);
