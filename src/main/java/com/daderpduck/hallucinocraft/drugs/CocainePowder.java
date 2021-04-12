@@ -10,13 +10,13 @@ public class CocainePowder extends Drug {
     @Override
     public void renderTick(float effect) {
         DrugEffects.BRIGHTNESS.addValue(effect*0.3F);
-        DrugEffects.SATURATION.addValue(effect*-0.2F);
+        DrugEffects.SATURATION.addValue(effect*-0.1F);
         DrugEffects.CAMERA_TREMBLE.addValue(effect);
     }
 
     @Override
     public void effectTick(PlayerEntity player, float effect) {
-        DrugEffects.MOVEMENT_SPEED.addValue(effect*0.5F);
-        DrugEffects.DIG_SPEED.addValue(effect*0.5F);
+        DrugEffects.MOVEMENT_SPEED.addValue(effect*0.3F);
+        DrugEffects.DIG_SPEED.addValue(effect*0.3F);
     }
 }
