@@ -14,5 +14,6 @@ public class BrownShrooms extends Drug {
         DrugEffects.KALEIDOSCOPE_INTENSITY.addValue(effect);
         DrugEffects.SATURATION.addValue(effect);
         DrugEffects.HUE_AMPLITUDE.addValue(effect*0.8F);
+        DrugEffects.CAMERA_TREMBLE.addValue(effect*0.5F);
     }
 }
