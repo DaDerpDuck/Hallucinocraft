@@ -6,7 +6,7 @@ public class RedShrooms extends Drug {
     }
 
     @Override
-    public void renderTick(float effect, float partialTicks) {
+    public void renderTick(float effect) {
         DrugEffects.BIG_WAVES.addValue(effect*0.3F);
         DrugEffects.SMALL_WAVES.addValue(effect*0.4F);
         DrugEffects.WIGGLE_WAVES.addValue(effect*0.4F);
@@ -15,5 +15,6 @@ public class RedShrooms extends Drug {
         DrugEffects.SATURATION.addValue(Math.min(effect, 0.5F)*0.5F);
         DrugEffects.HUE_AMPLITUDE.addValue(effect*0.8F);
         DrugEffects.CAMERA_TREMBLE.addValue(effect*0.5F);
+        super.renderTick(effect);
     }
 }

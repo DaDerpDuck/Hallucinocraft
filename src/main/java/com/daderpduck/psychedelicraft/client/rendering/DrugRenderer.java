@@ -28,7 +28,7 @@ public class DrugRenderer {
             Map<Drug, Float> activeDrugs = Drug.getActiveDrugs(mc.player);
 
             activeDrugs.forEach((drug, effect) -> {
-                if (effect > 0) drug.renderTick(effect, event.renderTickTime);
+                if (effect > 0) drug.renderTick(effect);
             });
         } else {
             for (DrugEffects effect : DrugEffects.values()) {

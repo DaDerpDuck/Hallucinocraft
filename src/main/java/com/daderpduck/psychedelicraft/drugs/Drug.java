@@ -57,9 +57,7 @@ public class Drug extends ForgeRegistryEntry<Drug> {
         Map<Drug, Float> map = playerDrugs.getActiveDrugs();
         List<DrugInstance> toRemove = new ArrayList<>();
 
-        for (Map.Entry<Drug, Float> entry : map.entrySet()) {
-            entry.setValue(entry.getValue()/20F);
-        }
+        map.clear();
 
         for (DrugInstance drugInstance : playerDrugs.getDrugSources()) {
             Drug drug = drugInstance.getDrug();
@@ -85,7 +83,7 @@ public class Drug extends ForgeRegistryEntry<Drug> {
 
         for (Map.Entry<Drug, Float> entry : map.entrySet()) {
             float clamped = MathHelper.clamp(entry.getValue(), 0, entry.getKey().getMaxEffect());
-            if (clamped < 1E-6F) entry.setValue(0F);
+            if (clamped < 1E-6F) continue;
             entry.setValue(clamped);
             entry.getKey().effectTick(player, clamped);
         }
@@ -98,7 +96,7 @@ public class Drug extends ForgeRegistryEntry<Drug> {
     }
 
     @OnlyIn(Dist.CLIENT)
-    public void renderTick(float effect, float partialTicks) {
+    public void renderTick(float effect) {
     }
 
     public float getMaxEffect() {
