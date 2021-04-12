@@ -32,7 +32,7 @@ public class DrugRenderer {
             });
         } else {
             for (DrugEffects effect : DrugEffects.values()) {
-                effect.resetValue();
+                if (effect.isClientOnly()) effect.resetValue();
             }
         }
     }
