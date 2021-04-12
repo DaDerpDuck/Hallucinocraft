@@ -3,23 +3,32 @@ package com.daderpduck.psychedelicraft.drugs;
 import net.minecraft.util.math.MathHelper;
 
 public enum DrugEffects {
-    CAMERA_TREMBLE,
-    CAMERA_INERTIA,
-    HAND_TREMBLE,
-    MOVEMENT_SPEED,
-    DIG_SPEED,
-    BIG_WAVES,
-    SMALL_WAVES,
-    WIGGLE_WAVES,
-    WORLD_DEFORMATION,
-    KALEIDOSCOPE_INTENSITY,
-    HUE,
-    SATURATION,
-    BRIGHTNESS,
-    HUE_AMPLITUDE;
+    CAMERA_TREMBLE(true),
+    CAMERA_INERTIA(true),
+    HAND_TREMBLE(true),
+    MOVEMENT_SPEED(false),
+    DIG_SPEED(false),
+    BIG_WAVES(true),
+    SMALL_WAVES(true),
+    WIGGLE_WAVES(true),
+    WORLD_DEFORMATION(true),
+    KALEIDOSCOPE_INTENSITY(true),
+    HUE(true),
+    SATURATION(true),
+    BRIGHTNESS(true),
+    HUE_AMPLITUDE(true);
 
 
     private float value;
+    private final boolean clientOnly;
+
+    DrugEffects(boolean clientOnly) {
+        this.clientOnly = clientOnly;
+    }
+
+    public boolean isClientOnly() {
+        return clientOnly;
+    }
 
     public void addValue(float valueIn) {
         value += valueIn;
