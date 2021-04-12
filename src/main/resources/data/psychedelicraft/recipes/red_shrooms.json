@@ -1,9 +1,16 @@
 {
-  "type": "minecraft:campfire_cooking",
-  "ingredient": {
-    "item": "minecraft:red_mushroom"
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "###",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "psychedelicraft:dried_red_mushroom"
+    }
   },
-  "result": "psychedelicraft:red_shrooms",
-  "experience": 0.35,
-  "cookingtime": 600
+  "result": {
+    "item": "psychedelicraft:red_shrooms"
+  }
 }
