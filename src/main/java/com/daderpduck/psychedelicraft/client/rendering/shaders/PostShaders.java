@@ -20,4 +20,18 @@ public class PostShaders {
         COLOR = new PostShader(new ResourceLocation(Psychedelicraft.MOD_ID, "shaders/post/color.json"));
         DEPTH = new PostShader(new ResourceLocation(Psychedelicraft.MOD_ID, "shaders/post/depth.json"));
     }
+
+    public static void cleanup() {
+        if (KALEIDOSCOPE != null) KALEIDOSCOPE.close();
+        KALEIDOSCOPE = null;
+
+        if (KALEIDOSCOPE2 != null) KALEIDOSCOPE2.close();
+        KALEIDOSCOPE2 = null;
+
+        if (COLOR != null) COLOR.close();
+        COLOR = null;
+
+        if (DEPTH != null) DEPTH.close();
+        DEPTH = null;
+    }
 }

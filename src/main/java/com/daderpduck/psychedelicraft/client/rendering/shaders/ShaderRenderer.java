@@ -22,7 +22,7 @@ public class ShaderRenderer {
     private static final float EPSILON = 1E-6F;
     private static WorldShader shaderWorld;
     private static boolean activeShader = false;
-    public static boolean useShader = true;
+    public static boolean useShader = false;
 
     public static void setup() {
         if (!RenderSystem.isOnRenderThread()) {
@@ -38,6 +38,7 @@ public class ShaderRenderer {
             shaderWorld = new WorldShader(mc.getResourceManager(), "psychedelicraft:world");
             shaderWorld.setSampler("texture", () -> 0);
             shaderWorld.setSampler("lightMap", () -> 2);
+            useShader = true;
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -49,9 +50,10 @@ public class ShaderRenderer {
             return;
         }
 
+        useShader = false;
+        PostShaders.cleanup();
         if (shaderWorld != null) shaderWorld.close();
         shaderWorld = null;
-
     }
 
     public static void startRenderPass() {
