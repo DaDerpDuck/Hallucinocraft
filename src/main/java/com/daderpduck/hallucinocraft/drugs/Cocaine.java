@@ -2,8 +2,8 @@ package com.daderpduck.hallucinocraft.drugs;
 
 import net.minecraft.entity.player.PlayerEntity;
 
-public class CocainePowder extends Drug {
-    public CocainePowder(DrugProperties properties) {
+public class Cocaine extends Drug {
+    public Cocaine(DrugProperties properties) {
         super(properties);
     }
 
