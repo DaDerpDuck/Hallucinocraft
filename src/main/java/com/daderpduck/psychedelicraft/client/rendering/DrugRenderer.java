@@ -17,7 +17,6 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
 import java.util.Map;
-import java.util.Random;
 
 @OnlyIn(Dist.CLIENT)
 @Mod.EventBusSubscriber(value = Dist.CLIENT, modid = Psychedelicraft.MOD_ID)
@@ -45,15 +44,16 @@ public class DrugRenderer {
         MatrixStack matrixStack = event.matrixStack;
 
         float tremble = DrugEffects.CAMERA_TREMBLE.getValue();
-        float shiftX = (new Random().nextFloat() - 0.5F)*tremble*0.05F;
-        float shiftY = (float) (Math.sin(tremble*GlobalUniforms.timePassed)*tremble);
+        //float shiftX = (new Random().nextFloat() - 0.5F)*tremble*0.05F;
+        float shiftY = (float) (Math.sin(tremble*GlobalUniforms.timePassed*30F)*tremble);
 
-        matrixStack.translate(shiftX, shiftY, 0);
+        matrixStack.translate(0, shiftY, 0);
     }
 
+    private static final MouseSmootherEffect smoothEffect = new MouseSmootherEffect();
     @SubscribeEvent
     public static void onPlayerTurn(PlayerTurnEvent event) {
-        MouseSmootherEffect.tick(DrugEffects.CAMERA_INERTIA.getValue(), event.accumulatedDX, event.accumulatedDY);
+        smoothEffect.tick(DrugEffects.CAMERA_INERTIA.getValue(), event.accumulatedDX, event.accumulatedDY);
     }
 
     // Shader stuff

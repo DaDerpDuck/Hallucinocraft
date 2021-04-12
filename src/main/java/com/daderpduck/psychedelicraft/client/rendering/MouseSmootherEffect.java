@@ -9,11 +9,11 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 @OnlyIn(Dist.CLIENT)
 public class MouseSmootherEffect {
     private static final float EPSILON = 1E-6F;
-    private static final MouseSmoother smoothTurnX = new MouseSmoother();
-    private static final MouseSmoother smoothTurnY = new MouseSmoother();
-    private static double lastMouseEventTime = Double.MIN_VALUE;
+    private final MouseSmoother smoothTurnX = new MouseSmoother();
+    private final MouseSmoother smoothTurnY = new MouseSmoother();
+    private double lastMouseEventTime = Double.MIN_VALUE;
 
-    public static void tick(float amplifier, double deltaX, double deltaY) {
+    public void tick(float amplifier, double deltaX, double deltaY) {
         Minecraft minecraft = Minecraft.getInstance();
         double time = NativeUtil.getTime();
         double deltaTime = time - lastMouseEventTime;
