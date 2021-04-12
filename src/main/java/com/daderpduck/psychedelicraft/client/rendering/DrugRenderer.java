@@ -1,6 +1,7 @@
 package com.daderpduck.psychedelicraft.client.rendering;
 
 import com.daderpduck.psychedelicraft.Psychedelicraft;
+import com.daderpduck.psychedelicraft.client.rendering.shaders.PostShaders;
 import com.daderpduck.psychedelicraft.client.rendering.shaders.RenderUtil;
 import com.daderpduck.psychedelicraft.client.rendering.shaders.ShaderRenderer;
 import com.daderpduck.psychedelicraft.drugs.Drug;
@@ -54,6 +55,8 @@ public class DrugRenderer {
 
     @SubscribeEvent
     public static void onRenderTerrain(RenderTerrainEvent event) {
+        if (!ShaderRenderer.useShader) return;
+
         if (event.phase == RenderTerrainEvent.Phase.START) {
             ShaderRenderer.getWorldShader().safeGetUniform("lightmapEnabled").setInt(1);
             ShaderRenderer.startRenderPass();
@@ -66,6 +69,8 @@ public class DrugRenderer {
 
     @SubscribeEvent
     public static void onRenderEntity(RenderEntityEvent event) {
+        if (!ShaderRenderer.useShader) return;
+
         if (event.phase == RenderEntityEvent.Phase.START) {
             ShaderRenderer.startRenderPass();
         } else {
@@ -77,6 +82,8 @@ public class DrugRenderer {
 
     @SubscribeEvent
     public static void onRenderBlockEntity(RenderBlockEntityEvent event) {
+        if (!ShaderRenderer.useShader) return;
+
         if (event.phase == RenderBlockEntityEvent.Phase.START) {
             ShaderRenderer.startRenderPass();
         } else {
@@ -101,6 +108,7 @@ public class DrugRenderer {
 
     @SubscribeEvent
     public static void renderPostWorld(RenderWorldLastEvent event) {
+        if (!PostShaders.useShaders) return;
         ShaderRenderer.processPostShaders(event.getPartialTicks());
     }
 }

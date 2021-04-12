@@ -17,8 +17,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class MixinModelRenderer {
     @Inject(at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/matrix/MatrixStack;popPose()V", shift = At.Shift.AFTER), method = "render(Lcom/mojang/blaze3d/matrix/MatrixStack;Lcom/mojang/blaze3d/vertex/IVertexBuilder;IIFFFF)V")
     private void onRender(MatrixStack p_228309_1_, IVertexBuilder p_228309_2_, int p_228309_3_, int p_228309_4_, float p_228309_5_, float p_228309_6_, float p_228309_7_, float p_228309_8_, CallbackInfo ci) {
-        if (ShaderRenderer.useShader) {
-            RenderUtil.flushRenderBuffer();
-        }
+        if (ShaderRenderer.useShader) RenderUtil.flushRenderBuffer();
     }
 }

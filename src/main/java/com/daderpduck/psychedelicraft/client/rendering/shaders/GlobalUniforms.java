@@ -51,8 +51,10 @@ public class GlobalUniforms {
             entityColor[2] = event.b;
             entityColor[3] = event.a;
 
+            if (!ShaderRenderer.useShader || !ShaderRenderer.isActive()) return;
+
             WorldShaderUniform uniform = ShaderRenderer.getWorldShader().getUniform("entityColor");
-            if (uniform != null && ShaderRenderer.isActive() && ShaderRenderer.useShader) {
+            if (uniform != null) {
                 RenderUtil.flushRenderBuffer();
                 uniform.setFloat(entityColor);
                 uniform.upload();
@@ -66,8 +68,10 @@ public class GlobalUniforms {
         if (lightMapEnabled != event.enabled) {
             lightMapEnabled = event.enabled;
 
+            if (!ShaderRenderer.useShader || !ShaderRenderer.isActive()) return;
+
             WorldShaderUniform uniform = ShaderRenderer.getWorldShader().getUniform("lightmapEnabled");
-            if (uniform != null && ShaderRenderer.isActive() && ShaderRenderer.useShader) {
+            if (uniform != null) {
                 uniform.setInt(lightMapEnabled ? 1 : 0);
                 uniform.upload();
             }
@@ -79,8 +83,10 @@ public class GlobalUniforms {
         if (lightEnabled != event.enabled) {
             lightEnabled = event.enabled;
 
+            if (!ShaderRenderer.useShader || !ShaderRenderer.isActive()) return;
+
             WorldShaderUniform uniform = ShaderRenderer.getWorldShader().getUniform("lightEnabled");
-            if (uniform != null && ShaderRenderer.isActive() && ShaderRenderer.useShader) {
+            if (uniform != null) {
                 uniform.setInt(lightEnabled ? 1 : 0);
                 uniform.upload();
             }

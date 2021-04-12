@@ -31,7 +31,7 @@ public class ShaderRenderer {
         }
 
         Minecraft mc = Minecraft.getInstance();
-        clear();
+        clear(true);
 
         try {
             PostShaders.init();
@@ -44,14 +44,14 @@ public class ShaderRenderer {
         }
     }
 
-    public static void clear() {
+    public static void clear(boolean clearPostShaders) {
         if (!RenderSystem.isOnRenderThread()) {
-            RenderSystem.recordRenderCall(ShaderRenderer::clear);
+            RenderSystem.recordRenderCall(() -> ShaderRenderer.clear(clearPostShaders));
             return;
         }
 
         useShader = false;
-        PostShaders.cleanup();
+        if (clearPostShaders) PostShaders.cleanup();
         if (shaderWorld != null) shaderWorld.close();
         shaderWorld = null;
     }

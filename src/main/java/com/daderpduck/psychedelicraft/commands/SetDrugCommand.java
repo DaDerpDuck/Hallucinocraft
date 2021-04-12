@@ -56,7 +56,7 @@ public class SetDrugCommand {
                 if (enable) {
                     ShaderRenderer.setup();
                 } else {
-                    ShaderRenderer.clear();
+                    ShaderRenderer.clear(false);
                 }
             }
         return 1;

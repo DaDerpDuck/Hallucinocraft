@@ -9,6 +9,7 @@ import java.io.IOException;
 
 @OnlyIn(Dist.CLIENT)
 public class PostShaders {
+    public static boolean useShaders = false;
     public static PostShader KALEIDOSCOPE;
     public static PostShader KALEIDOSCOPE2;
     public static PostShader COLOR;
@@ -19,9 +20,12 @@ public class PostShaders {
         KALEIDOSCOPE2 = new PostShader(new ResourceLocation(Psychedelicraft.MOD_ID, "shaders/post/kaleidoscope2.json"));
         COLOR = new PostShader(new ResourceLocation(Psychedelicraft.MOD_ID, "shaders/post/color.json"));
         DEPTH = new PostShader(new ResourceLocation(Psychedelicraft.MOD_ID, "shaders/post/depth.json"));
+        useShaders = true;
     }
 
     public static void cleanup() {
+        useShaders = false;
+
         if (KALEIDOSCOPE != null) KALEIDOSCOPE.close();
         KALEIDOSCOPE = null;
 
