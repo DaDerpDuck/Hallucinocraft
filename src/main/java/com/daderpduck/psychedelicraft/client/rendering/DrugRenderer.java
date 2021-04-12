@@ -1,13 +1,11 @@
 package com.daderpduck.psychedelicraft.client.rendering;
 
 import com.daderpduck.psychedelicraft.Psychedelicraft;
-import com.daderpduck.psychedelicraft.client.rendering.shaders.GlobalUniforms;
 import com.daderpduck.psychedelicraft.client.rendering.shaders.RenderUtil;
 import com.daderpduck.psychedelicraft.client.rendering.shaders.ShaderRenderer;
 import com.daderpduck.psychedelicraft.drugs.Drug;
 import com.daderpduck.psychedelicraft.drugs.DrugEffects;
 import com.daderpduck.psychedelicraft.events.hooks.*;
-import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -39,15 +37,11 @@ public class DrugRenderer {
         }
     }
 
+    private static final CameraTrembleEffect trembleEffect = new CameraTrembleEffect();
     @SubscribeEvent
     public static void onBobHurt(BobHurtEvent event) {
-        MatrixStack matrixStack = event.matrixStack;
-
-        float tremble = DrugEffects.CAMERA_TREMBLE.getValue();
-        //float shiftX = (new Random().nextFloat() - 0.5F)*tremble*0.05F;
-        float shiftY = (float) (Math.sin(tremble*GlobalUniforms.timePassed*30F)*tremble);
-
-        matrixStack.translate(0, shiftY, 0);
+        trembleEffect.setAmplitude(DrugEffects.CAMERA_TREMBLE.getValue());
+        trembleEffect.tick(event.matrixStack);
     }
 
     private static final MouseSmootherEffect smoothEffect = new MouseSmootherEffect();
