@@ -50,9 +50,15 @@ public class SetDrugCommand {
         return 1;
     }
 
-    private static int toggleShaders(CommandSource source, boolean enabled) {
+    private static int toggleShaders(CommandSource source, boolean enable) {
         if (FMLEnvironment.dist == Dist.CLIENT)
-            ShaderRenderer.useShader = enabled;
+            if (ShaderRenderer.useShader != enable) {
+                if (enable) {
+                    ShaderRenderer.setup();
+                } else {
+                    ShaderRenderer.clear();
+                }
+            }
         return 1;
     }
 }
