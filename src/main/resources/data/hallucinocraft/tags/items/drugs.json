@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
-    "#hallucinocraft:drugs/shrooms"
+    "#hallucinocraft:drugs/shrooms",
+    "#hallucinocraft:drugs/cocaine"
   ]
 }
