@@ -5,6 +5,7 @@ import com.daderpduck.psychedelicraft.drugs.DrugEffects;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.shader.Framebuffer;
+import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.common.Mod;
@@ -113,13 +114,13 @@ public class ShaderRenderer {
 
         if (DrugEffects.HUE.getValue() > EPSILON || DrugEffects.SATURATION.getValue() > EPSILON || DrugEffects.BRIGHTNESS.getValue() > EPSILON) {
             COLOR.setUniform("Hue", DrugEffects.HUE.getValue());
-            COLOR.setUniform("Saturation", DrugEffects.SATURATION.getValue() + 1F);
+            COLOR.setUniform("Saturation", MathHelper.clamp (DrugEffects.SATURATION.getValue() + 1F, 1F, 1.5F));
             COLOR.setUniform("Brightness", DrugEffects.SATURATION.getValue());
             COLOR.process(partialTicks);
         }
 
         if (DrugEffects.KALEIDOSCOPE_INTENSITY.getValue() > EPSILON) {
-            float value = DrugEffects.KALEIDOSCOPE_INTENSITY.getClamped();
+            float value = MathHelper.clamp(DrugEffects.KALEIDOSCOPE_INTENSITY.getValue(), 0F, 0.8F);
             KALEIDOSCOPE2.setUniform("Extend", value);
             KALEIDOSCOPE2.setUniform("Intensity", value + 1F);
             KALEIDOSCOPE2.setUniform("TimePassed", GlobalUniforms.timePassed);
