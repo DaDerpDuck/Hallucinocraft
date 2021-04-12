@@ -3,22 +3,22 @@ loaderVersion="${loader_range}"
 license="All rights reserved"
 
 [[mods]]
-modId = "psychedelicraft"
+modId = "hallucinocraft"
 version = "${file.jarVersion}"
-displayName = "Psychedelicraft"
-authors = "Ivorius, TripleHeadedSheep, DaDerpDuck"
+displayName = "Hallucinocraft"
+authors = "DaDerpDuck"
 description = '''
-Adds drugs into Minecraft. Psychedelicraft specializes on realism and effects. Shaders are being utilized, so keep that in mind.
+Adds drugs into Minecraft.
 '''
 
-[[dependencies.psychedelicraft]]
+[[dependencies.hallucinocraft]]
     modId = "forge"
     mandatory = true
     versionRange = "${forge_range}"
     ordering = "NONE"
     side = "BOTH"
 
-[[dependencies.psychedelicraft]]
+[[dependencies.hallucinocraft]]
     modId = "minecraft"
     mandatory = true
     versionRange = "${mc_range}"

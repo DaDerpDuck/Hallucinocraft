@@ -1,0 +1,32 @@
+{
+  "minVersion": "0.8",
+  "required": true,
+  "compatibilityLevel": "JAVA_8",
+  "refmap": "hallucinocraft.refmap.json",
+  "package": "com.daderpduck.hallucinocraft.mixin",
+  "mixins": [
+
+  ],
+  "client": [
+    "client.AccessorRenderTypeBuffer",
+    "client.AccessorShaderInstance",
+    "client.AccessorShaderGroup",
+    "client.AccessorSheetData",
+    "client.MixinAbstractEyesLayer",
+    "client.MixinAtlasTexture",
+    "client.MixinGameRenderer",
+    "client.MixinLightTexture",
+    "client.MixinLivingRenderer",
+    "client.MixinModelRenderer",
+    "client.MixinMouseHelper",
+    "client.MixinOverlayTexture",
+    "client.MixinRenderHelper",
+    "client.MixinGlStateManager",
+    "client.MixinShaderUniform",
+    "client.MixinTextureManager",
+    "client.MixinWorldRenderer"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
