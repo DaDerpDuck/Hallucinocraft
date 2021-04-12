@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
+    "psychedelicraft:red_shrooms",
     "psychedelicraft:brown_shrooms"
   ]
 }
