@@ -1,7 +1,5 @@
 package com.daderpduck.hallucinocraft.drugs;
 
-import net.minecraft.entity.player.PlayerEntity;
-
 public class RedShrooms extends Drug {
     public RedShrooms(DrugProperties properties) {
         super(properties);
@@ -18,11 +16,5 @@ public class RedShrooms extends Drug {
         DrugEffects.HUE_AMPLITUDE.addValue(effect*0.8F);
         DrugEffects.CAMERA_TREMBLE.addValue(effect*0.5F);
         super.renderTick(effect);
-    }
-
-    @Override
-    public void effectTick(PlayerEntity player, float effect) {
-        DrugEffects.MOVEMENT_SPEED.addValue(-effect*5F);
-        super.effectTick(player, effect);
     }
 }
