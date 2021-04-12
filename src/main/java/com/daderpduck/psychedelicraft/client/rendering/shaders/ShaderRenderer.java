@@ -65,9 +65,9 @@ public class ShaderRenderer {
         shaderWorld.safeGetUniform("timePassed").setFloat(GlobalUniforms.timePassed);
         shaderWorld.safeGetUniform("fogMode").setInt(GlobalUniforms.fogMode);
 
-        shaderWorld.safeGetUniform("smallWaves").setFloat(DrugEffects.SMALL_WAVES.getValue());
-        shaderWorld.safeGetUniform("bigWaves").setFloat(DrugEffects.BIG_WAVES.getValue());
-        shaderWorld.safeGetUniform("wiggleWaves").setFloat(DrugEffects.WIGGLE_WAVES.getValue());
+        shaderWorld.safeGetUniform("smallWaves").setFloat(DrugEffects.SMALL_WAVES.getClamped());
+        shaderWorld.safeGetUniform("bigWaves").setFloat(DrugEffects.BIG_WAVES.getClamped());
+        shaderWorld.safeGetUniform("wiggleWaves").setFloat(DrugEffects.WIGGLE_WAVES.getClamped());
         shaderWorld.safeGetUniform("distantWorldDeformation").setFloat(DrugEffects.WORLD_DEFORMATION.getValue());
 
         shaderWorld.apply();
@@ -106,7 +106,7 @@ public class ShaderRenderer {
 
     private static void renderPost(float partialTicks) {
         if (DrugEffects.HUE_AMPLITUDE.getValue() > EPSILON) {
-            DEPTH.setUniform("Amplitude", (float) (DrugEffects.HUE_AMPLITUDE.getValue()*Math.PI*2F));
+            DEPTH.setUniform("Amplitude", (float) (DrugEffects.HUE_AMPLITUDE.getClamped()*Math.PI*2F));
             DEPTH.setUniform("TimePassed", GlobalUniforms.timePassed*2.5F);
             DEPTH.process(partialTicks);
         }
@@ -119,7 +119,7 @@ public class ShaderRenderer {
         }
 
         if (DrugEffects.KALEIDOSCOPE_INTENSITY.getValue() > EPSILON) {
-            float value = DrugEffects.KALEIDOSCOPE_INTENSITY.getValue();
+            float value = DrugEffects.KALEIDOSCOPE_INTENSITY.getClamped();
             KALEIDOSCOPE2.setUniform("Extend", value);
             KALEIDOSCOPE2.setUniform("Intensity", value + 1F);
             KALEIDOSCOPE2.setUniform("TimePassed", GlobalUniforms.timePassed);

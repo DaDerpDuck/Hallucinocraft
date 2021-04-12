@@ -8,38 +8,32 @@ public enum DrugEffects {
     HAND_TREMBLE,
     MOVEMENT_SPEED,
     DIG_SPEED,
-    BIG_WAVES(true),
-    SMALL_WAVES(true),
-    WIGGLE_WAVES(true),
+    BIG_WAVES,
+    SMALL_WAVES,
+    WIGGLE_WAVES,
     WORLD_DEFORMATION,
-    KALEIDOSCOPE_INTENSITY(true),
+    KALEIDOSCOPE_INTENSITY,
     HUE,
     SATURATION,
     BRIGHTNESS,
-    HUE_AMPLITUDE(true);
+    HUE_AMPLITUDE;
 
 
     private float value;
-    private final boolean normalized;
 
-    DrugEffects() {
-        this(false);
-    }
-
-    DrugEffects(boolean normalized) {
-        this.normalized = normalized;
-    }
-
-    public void addValue(float value) {
-        this.value += value;
-        if (this.normalized) this.value = MathHelper.clamp(this.value, 0, 1);
+    public void addValue(float valueIn) {
+        value += valueIn;
     }
 
     public float getValue() {
         return value;
     }
 
+    public float getClamped() {
+        return MathHelper.clamp(value, 0, 1);
+    }
+
     public void resetValue() {
-        this.value = 0;
+        value = 0;
     }
 }
