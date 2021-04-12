@@ -3,7 +3,6 @@ package com.daderpduck.hallucinocraft.capabilities;
 import com.daderpduck.hallucinocraft.Hallucinocraft;
 import com.daderpduck.hallucinocraft.drugs.Drug;
 import com.daderpduck.hallucinocraft.drugs.DrugInstance;
-import com.daderpduck.hallucinocraft.drugs.DrugRegistry;
 import com.daderpduck.hallucinocraft.network.ActiveDrugCapSync;
 import com.daderpduck.hallucinocraft.network.DrugCapSync;
 import com.daderpduck.hallucinocraft.network.PacketHandler;
@@ -30,7 +29,10 @@ import net.minecraftforge.fml.network.PacketDistributor;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class PlayerDrugs {
     static class Implementation implements IPlayerDrugs {
@@ -138,16 +140,6 @@ public class PlayerDrugs {
             }
             nbt.put("sources", drugSources);
 
-            ListNBT activeDrugs = new ListNBT();
-            instance.getActiveDrugs().forEach((drug, effect) -> {
-                if (effect < 1E-6F) return;
-                CompoundNBT activeDrug = new CompoundNBT();
-                activeDrug.putString("id", Objects.requireNonNull(DrugRegistry.DRUGS.getKey(drug)).getPath());
-                activeDrug.putFloat("effect", effect);
-                activeDrugs.add(activeDrug);
-            });
-            nbt.put("active", activeDrugs);
-
             return nbt;
         }
 
@@ -159,14 +151,13 @@ public class PlayerDrugs {
                 ListNBT drugSources = nbt.getList("sources", 10);
                 for (INBT drugSource : drugSources) {
                     CompoundNBT drugProperties = (CompoundNBT) drugSource;
-                    DrugInstance drugInstance = new DrugInstance(Drug.byName(drugProperties.getString("id")), drugProperties.getInt("delay"), drugProperties.getFloat("potency"), drugProperties.getInt("duration"), drugProperties.getInt("timeActive"));
+                    Drug drug = Drug.byName(drugProperties.getString("id"));
+                    if (drug == null) {
+                        Hallucinocraft.LOGGER.warn("Tried to read non-existent registry {}, ignoring", drugProperties.getString("id"));
+                        continue;
+                    }
+                    DrugInstance drugInstance = new DrugInstance(drug, drugProperties.getInt("delay"), drugProperties.getFloat("potency"), drugProperties.getInt("duration"), drugProperties.getInt("timeActive"));
                     instance.addDrugSource(drugInstance);
-                }
-
-                ListNBT activeDrugs = nbt.getList("active", 10);
-                for (INBT _activeDrug : activeDrugs) {
-                    CompoundNBT activeDrug = (CompoundNBT) _activeDrug;
-                    instance.putActive(Drug.byName(activeDrug.getString("id")), activeDrug.getFloat("effect"));
                 }
             }
         }

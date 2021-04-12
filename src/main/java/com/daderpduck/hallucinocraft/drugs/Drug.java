@@ -11,6 +11,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 
+import javax.annotation.Nullable;
 import java.util.*;
 
 public class Drug extends ForgeRegistryEntry<Drug> {
@@ -26,6 +27,7 @@ public class Drug extends ForgeRegistryEntry<Drug> {
         this.envelope = Objects.requireNonNull(properties.envelope);
     }
 
+    @Nullable
     public static Drug byName(String name) {
         return DrugRegistry.DRUGS.getValue(new ResourceLocation(Hallucinocraft.MOD_ID, name));
     }
