@@ -8,6 +8,8 @@ import com.daderpduck.hallucinocraft.items.ModItems;
 import com.daderpduck.hallucinocraft.network.PacketHandler;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemGroup;
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -23,10 +25,19 @@ import net.minecraftforge.registries.ForgeRegistries;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import javax.annotation.Nonnull;
+
 @Mod(Hallucinocraft.MOD_ID)
 public class Hallucinocraft {
     public static final String MOD_ID = "hallucinocraft";
     public static final Logger LOGGER = LogManager.getLogger();
+    public static final ItemGroup TAB = new ItemGroup("creativetab") {
+        @Nonnull
+        @Override
+        public ItemStack makeIcon() {
+            return ModItems.RED_SHROOMS.get().getDefaultInstance();
+        }
+    };
 
     public static final DeferredRegister<Drug> DRUGS = DeferredRegister.create(Drug.class, MOD_ID);
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, MOD_ID);
