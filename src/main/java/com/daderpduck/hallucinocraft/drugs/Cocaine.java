@@ -9,7 +9,6 @@ public class Cocaine extends Drug {
 
     @Override
     public void renderTick(float effect) {
-        DrugEffects.BRIGHTNESS.addValue(effect*0.3F);
         DrugEffects.SATURATION.addValue(effect*-0.1F);
         DrugEffects.CAMERA_TREMBLE.addValue(effect);
         super.renderTick(effect);

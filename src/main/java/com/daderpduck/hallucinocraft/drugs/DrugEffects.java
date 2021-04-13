@@ -13,9 +13,7 @@ public enum DrugEffects {
     WIGGLE_WAVES(true),
     WORLD_DEFORMATION(true),
     KALEIDOSCOPE_INTENSITY(true),
-    HUE(true),
     SATURATION(true),
-    BRIGHTNESS(true),
     HUE_AMPLITUDE(true);
 
 

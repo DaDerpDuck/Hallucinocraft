@@ -114,10 +114,8 @@ public class ShaderRenderer {
             DEPTH.process(partialTicks);
         }
 
-        if (DrugEffects.HUE.getValue() > EPSILON || DrugEffects.SATURATION.getValue() > EPSILON || DrugEffects.BRIGHTNESS.getValue() > EPSILON) {
-            COLOR.setUniform("Hue", DrugEffects.HUE.getValue());
-            COLOR.setUniform("Saturation", MathHelper.clamp (DrugEffects.SATURATION.getValue() + 1F, 1F, 1.5F));
-            COLOR.setUniform("Brightness", DrugEffects.SATURATION.getValue());
+        if (DrugEffects.SATURATION.getValue() != 0) {
+            COLOR.setUniform("Saturation", MathHelper.clamp (DrugEffects.SATURATION.getValue() + 1F, 0F, 1.5F));
             COLOR.process(partialTicks);
         }
 

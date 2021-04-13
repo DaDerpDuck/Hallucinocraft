@@ -4,7 +4,7 @@
   ],
   "passes": [
     {
-      "name": "hallucinocraft:color",
+      "name": "minecraft:color_convolve",
       "intarget": "minecraft:main",
       "outtarget": "swap"
     },
