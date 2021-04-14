@@ -4,8 +4,9 @@ import com.daderpduck.hallucinocraft.Hallucinocraft;
 import com.daderpduck.hallucinocraft.drugs.DrugRegistry;
 import net.minecraft.item.Item;
 import net.minecraft.item.UseAction;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.ColorHandlerEvent;
-import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.RegistryObject;
 
 import java.util.function.Supplier;
@@ -26,11 +27,11 @@ public class ModItems {
         return Hallucinocraft.ITEMS.register(name, supplier);
     }
 
+    @OnlyIn(Dist.CLIENT)
     public static void registerItemColors(ColorHandlerEvent.Item event) {
         event.getItemColors().register(new SyringeItem.Color(), COCAINE_SYRINGE.get());
     }
 
-    public static void init(IEventBus modEventBus) {
-        modEventBus.addListener(ModItems::registerItemColors);
+    public static void init() {
     }
 }

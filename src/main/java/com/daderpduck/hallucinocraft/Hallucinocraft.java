@@ -50,7 +50,7 @@ public class Hallucinocraft {
         ITEMS.register(modEventBus);
         BLOCKS.register(modEventBus);
 
-        ModItems.init(modEventBus);
+        ModItems.init();
 
         PacketHandler.init();
 
@@ -67,6 +67,8 @@ public class Hallucinocraft {
     }
 
     private void doClientStuff(final FMLClientSetupEvent event) {
+        IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
+        modEventBus.addListener(ModItems::registerItemColors);
         ShaderRenderer.setup();
     }
 

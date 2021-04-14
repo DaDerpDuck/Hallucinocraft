@@ -7,6 +7,8 @@ import com.daderpduck.hallucinocraft.drugs.DrugRegistry;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.network.PacketBuffer;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.network.NetworkEvent;
 
 import java.util.HashMap;
@@ -40,6 +42,7 @@ public class ActiveDrugCapSync implements IMessage {
         });
     }
 
+    @OnlyIn(Dist.CLIENT)
     @Override
     public void handle(Supplier<NetworkEvent.Context> ctx) {
         ctx.get().enqueueWork(() -> {
