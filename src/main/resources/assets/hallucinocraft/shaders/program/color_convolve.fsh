@@ -31,7 +31,7 @@ void main() {
     // Saturation
     float Luma = dot(OutColor, Gray);
     vec3 Chroma = OutColor - Luma;
-    OutColor = (Chroma * Saturation) + Luma;
+    OutColor = (Chroma * Saturation) + Luma + Brightness;
 
-    gl_FragColor = vec4(OutColor + Brightness, 1.0);
+    gl_FragColor = vec4(clamp(OutColor, 0.0, 1.0), 1.0);
 }
