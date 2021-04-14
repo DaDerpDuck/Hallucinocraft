@@ -21,7 +21,7 @@ public class PostShaders {
         KALEIDOSCOPE2 = new PostShader(new ResourceLocation(Hallucinocraft.MOD_ID, "shaders/post/kaleidoscope2.json"));
         COLOR = new PostShader(new ResourceLocation(Hallucinocraft.MOD_ID, "shaders/post/color.json"));
         DEPTH = new PostShader(new ResourceLocation(Hallucinocraft.MOD_ID, "shaders/post/depth.json"));
-        BUMPY = new PostShader(new ResourceLocation("shaders/post/bumpy.json"));
+        BUMPY = new PostShader(new ResourceLocation(Hallucinocraft.MOD_ID,"shaders/post/bumpy.json"));
 
         useShaders = true;
     }
