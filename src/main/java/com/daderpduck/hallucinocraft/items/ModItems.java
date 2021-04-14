@@ -17,7 +17,7 @@ public class ModItems {
     public static final RegistryObject<Item> COCAINE_POWDER = register("cocaine_powder", () -> new SnortDrugItem(new DrugItem.Properties().addDrug(DrugRegistry.COCAINE, 100, 0.3F, 3200).edible().tab(Hallucinocraft.TAB)));
     public static final RegistryObject<Item> COCA_LEAF = register("coca_leaf", () -> new Item(new Item.Properties().tab(Hallucinocraft.TAB)));
     public static final RegistryObject<Item> COCA_MULCH = register("coca_mulch", () -> new Item(new Item.Properties().tab(Hallucinocraft.TAB)));
-    public static final RegistryObject<Item> COCAINE_DUST = register("cocaine_dust", () -> new SnortDrugItem(new DrugItem.Properties().addDrug(DrugRegistry.COCAINE, 100, 0.1F, 400).edible().tab(Hallucinocraft.TAB)));
+    public static final RegistryObject<Item> COCAINE_DUST = register("cocaine_dust", () -> new SnortDrugItem(new DrugItem.Properties().addDrug(DrugRegistry.COCAINE, 100, 0.05F, 1000).edible().tab(Hallucinocraft.TAB)));
     public static final RegistryObject<Item> EMPTY_SYRINGE = register("syringe", () -> new Item(new Item.Properties().tab(Hallucinocraft.TAB).stacksTo(16)));
     public static final RegistryObject<Item> COCAINE_SYRINGE = register("cocaine_syringe", () -> new SyringeItem(new SyringeItem.Properties().color(0xFFFFFFFF).addDrug(DrugRegistry.COCAINE, 0, 0.5F, 3200).edible().tab(Hallucinocraft.TAB).stacksTo(1)));
 
