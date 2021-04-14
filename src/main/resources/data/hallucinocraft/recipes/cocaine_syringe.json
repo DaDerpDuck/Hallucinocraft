@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "hallucinocraft:cocaine_powder"
+    },
+    {
+      "item": "hallucinocraft:syringe"
+    },
+    {
+      "item": "minecraft:water_bucket"
+    }
+  ],
+  "result": {
+    "item": "hallucinocraft:cocaine_syringe"
+  }
+}

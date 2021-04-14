@@ -50,7 +50,7 @@ public class Hallucinocraft {
         ITEMS.register(modEventBus);
         BLOCKS.register(modEventBus);
 
-        ModItems.init();
+        ModItems.init(modEventBus);
 
         PacketHandler.init();
 

@@ -33,20 +33,23 @@ public class DrugItem extends Item {
         useDuration = drugProperties.useDuration;
     }
 
+    protected void addDrugs(PlayerEntity playerEntity) {
+        for (DrugEffectProperties properties : effects) {
+            if (properties.drug.isPresent()) {
+                Drug.addDrug(playerEntity, new DrugInstance(properties.drug.get(), properties.delayTick, properties.potencyPercentage*properties.drug.get().getMaxEffect(), properties.duration));
+            } else {
+                Hallucinocraft.LOGGER.error("{} is not in the drug registry!", properties.drug.toString());
+            }
+        }
+    }
+
     @Override
     public ItemStack finishUsingItem(ItemStack itemStack, World world, LivingEntity entity) {
         if (entity instanceof PlayerEntity) {
             PlayerEntity playerEntity = (PlayerEntity) entity;
-            if (!playerEntity.abilities.instabuild)
-                itemStack.shrink(1);
+            if (!playerEntity.abilities.instabuild) itemStack.shrink(1);
 
-            for (DrugEffectProperties properties : effects) {
-                if (properties.drug.isPresent()) {
-                    Drug.addDrug(playerEntity, new DrugInstance(properties.drug.get(), properties.delayTick, properties.potencyPercentage*properties.drug.get().getMaxEffect(), properties.duration));
-                } else {
-                    Hallucinocraft.LOGGER.error("{} is not in the drug registry!", properties.drug.toString());
-                }
-            }
+            addDrugs(playerEntity);
         }
 
         return itemStack;
