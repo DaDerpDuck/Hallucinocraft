@@ -114,8 +114,9 @@ public class ShaderRenderer {
             DEPTH.process(partialTicks);
         }
 
-        if (DrugEffects.SATURATION.getValue() != 0) {
+        if (DrugEffects.SATURATION.getValue() != 0 || DrugEffects.BRIGHTNESS.getValue() != 0) {
             COLOR.setUniform("Saturation", MathHelper.clamp (DrugEffects.SATURATION.getValue() + 1F, 0F, 1.5F));
+            COLOR.setUniform("Brightness", DrugEffects.BRIGHTNESS.getValue());
             COLOR.process(partialTicks);
         }
 

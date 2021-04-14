@@ -14,6 +14,7 @@ uniform vec3 BlueMatrix;
 uniform vec3 Offset;
 uniform vec3 ColorScale;
 uniform float Saturation;
+uniform float Brightness;
 
 void main() {
     vec4 InTexel = texture2D(DiffuseSampler, texCoord);
@@ -32,5 +33,5 @@ void main() {
     vec3 Chroma = OutColor - Luma;
     OutColor = (Chroma * Saturation) + Luma;
 
-    gl_FragColor = vec4(OutColor, 1.0);
+    gl_FragColor = vec4(OutColor + Brightness, 1.0);
 }
