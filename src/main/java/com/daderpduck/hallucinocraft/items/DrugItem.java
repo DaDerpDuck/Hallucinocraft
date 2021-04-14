@@ -37,7 +37,7 @@ public class DrugItem extends Item {
     public ItemStack finishUsingItem(ItemStack itemStack, World world, LivingEntity entity) {
         if (entity instanceof PlayerEntity) {
             PlayerEntity playerEntity = (PlayerEntity) entity;
-            if (!playerEntity.isCreative())
+            if (!playerEntity.abilities.instabuild)
                 itemStack.shrink(1);
 
             for (DrugEffectProperties properties : effects) {
