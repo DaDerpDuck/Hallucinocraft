@@ -14,12 +14,15 @@ public class PostShaders {
     public static PostShader KALEIDOSCOPE2;
     public static PostShader COLOR;
     public static PostShader DEPTH;
+    public static PostShader BUMPY;
 
     public static void init() throws IOException {
         KALEIDOSCOPE = new PostShader(new ResourceLocation(Hallucinocraft.MOD_ID, "shaders/post/kaleidoscope.json"));
         KALEIDOSCOPE2 = new PostShader(new ResourceLocation(Hallucinocraft.MOD_ID, "shaders/post/kaleidoscope2.json"));
         COLOR = new PostShader(new ResourceLocation(Hallucinocraft.MOD_ID, "shaders/post/color.json"));
         DEPTH = new PostShader(new ResourceLocation(Hallucinocraft.MOD_ID, "shaders/post/depth.json"));
+        BUMPY = new PostShader(new ResourceLocation("shaders/post/bumpy.json"));
+
         useShaders = true;
     }
 
@@ -37,5 +40,8 @@ public class PostShaders {
 
         if (DEPTH != null) DEPTH.close();
         DEPTH = null;
+
+        if (BUMPY != null) BUMPY.close();
+        BUMPY = null;
     }
 }

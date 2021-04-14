@@ -14,7 +14,8 @@ public enum DrugEffects {
     WORLD_DEFORMATION(true),
     KALEIDOSCOPE_INTENSITY(true),
     SATURATION(true),
-    HUE_AMPLITUDE(true);
+    HUE_AMPLITUDE(true),
+    BUMPY(true);
 
 
     private float value;

@@ -119,6 +119,11 @@ public class ShaderRenderer {
             COLOR.process(partialTicks);
         }
 
+        if (DrugEffects.BUMPY.getValue() > EPSILON) {
+            BUMPY.setUniform("Intensity", DrugEffects.BUMPY.getValue());
+            BUMPY.process(partialTicks);
+        }
+
         if (DrugEffects.KALEIDOSCOPE_INTENSITY.getValue() > EPSILON) {
             float value = MathHelper.clamp(DrugEffects.KALEIDOSCOPE_INTENSITY.getValue(), 0F, 0.8F);
             KALEIDOSCOPE2.setUniform("Extend", value);
