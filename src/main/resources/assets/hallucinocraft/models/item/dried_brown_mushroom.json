@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "hallucinocraft:items/dried_brown_mushroom"
+    "layer0": "hallucinocraft:item/dried_brown_mushroom"
   }
 }

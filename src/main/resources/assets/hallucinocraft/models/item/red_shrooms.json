@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "hallucinocraft:items/red_shrooms"
+    "layer0": "hallucinocraft:item/red_shrooms"
   }
 }

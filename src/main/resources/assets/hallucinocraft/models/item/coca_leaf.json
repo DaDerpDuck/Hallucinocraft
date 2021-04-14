@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "hallucinocraft:items/coca_leaf"
+    "layer0": "hallucinocraft:item/coca_leaf"
   }
 }

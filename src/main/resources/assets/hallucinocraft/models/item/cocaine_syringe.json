@@ -1,7 +1,7 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "hallucinocraft:items/syringe_overlay",
-    "layer1": "hallucinocraft:items/syringe"
+    "layer0": "hallucinocraft:item/syringe_overlay",
+    "layer1": "hallucinocraft:item/syringe"
   }
 }
