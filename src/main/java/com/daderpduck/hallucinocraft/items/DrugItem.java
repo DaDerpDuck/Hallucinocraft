@@ -8,6 +8,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.UseAction;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.world.World;
@@ -23,6 +24,7 @@ public class DrugItem extends Item {
     private final DrugEffectProperties[] effects;
     private final boolean edible;
     private final int useDuration;
+    private final UseAction useAction;
 
     public DrugItem(Item.Properties properties) {
         super(properties);
@@ -31,6 +33,7 @@ public class DrugItem extends Item {
         effects = drugProperties.attachedDrugs.toArray(new DrugEffectProperties[]{});
         edible = drugProperties.edible;
         useDuration = drugProperties.useDuration;
+        useAction = drugProperties.useAction;
     }
 
     protected void addDrugs(PlayerEntity playerEntity) {
@@ -72,6 +75,11 @@ public class DrugItem extends Item {
     }
 
     @Override
+    public UseAction getUseAnimation(ItemStack itemStack) {
+        return useAction;
+    }
+
+    @Override
     public int getUseDuration(ItemStack itemStack) {
         if (itemStack.getItem().isEdible()) {
             return useDuration;
@@ -84,6 +92,7 @@ public class DrugItem extends Item {
         private final List<DrugEffectProperties> attachedDrugs = new ArrayList<>();
         private boolean edible = false;
         private int useDuration = 32;
+        private UseAction useAction = UseAction.EAT;
 
         public Properties addDrug(RegistryObject<Drug> drugRegistryObject, int delayTicks, float potencyPercentage, int duration) {
             this.attachedDrugs.add(new DrugEffectProperties(drugRegistryObject, delayTicks, potencyPercentage, duration));
@@ -98,6 +107,11 @@ public class DrugItem extends Item {
         public Properties edible(int useDuration) {
             this.edible = true;
             this.useDuration = useDuration;
+            return this;
+        }
+
+        public Properties useAction(UseAction useAction) {
+            this.useAction = useAction;
             return this;
         }
     }

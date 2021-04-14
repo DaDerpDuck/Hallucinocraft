@@ -6,6 +6,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.UseAction;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -14,7 +15,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public class SyringeItem extends SnortDrugItem {
+public class SyringeItem extends DrugItem {
     private final int color;
 
     public SyringeItem(Item.Properties properties) {
@@ -37,6 +38,16 @@ public class SyringeItem extends SnortDrugItem {
         }
 
         return itemStack1;
+    }
+
+    @Override
+    public UseAction getUseAnimation(ItemStack itemStack) {
+        return UseAction.BOW;
+    }
+
+    @Override
+    public boolean isEdible() {
+        return true;
     }
 
     public int getColor() {
