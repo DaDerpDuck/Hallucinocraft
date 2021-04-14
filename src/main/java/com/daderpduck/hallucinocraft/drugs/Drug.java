@@ -114,7 +114,7 @@ public class Drug extends ForgeRegistryEntry<Drug> {
     }
 
     public static class DrugProperties {
-        private float maxEffect = 5;
+        private float maxEffect = 1;
         private float harmingPoint = -1;
         private DamageSource damageSource;
         private Envelope envelope;
