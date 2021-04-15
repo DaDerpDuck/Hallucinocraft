@@ -1,5 +1,6 @@
 package com.daderpduck.hallucinocraft;
 
+import com.daderpduck.hallucinocraft.blocks.ModBlocks;
 import com.daderpduck.hallucinocraft.capabilities.PlayerProperties;
 import com.daderpduck.hallucinocraft.client.rendering.shaders.ShaderRenderer;
 import com.daderpduck.hallucinocraft.commands.SetDrugCommand;
@@ -39,18 +40,19 @@ public class Hallucinocraft {
         }
     };
 
-    public static final DeferredRegister<Drug> DRUGS = DeferredRegister.create(Drug.class, MOD_ID);
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, MOD_ID);
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, MOD_ID);
+    public static final DeferredRegister<Drug> DRUGS = DeferredRegister.create(Drug.class, MOD_ID);
 
     public Hallucinocraft() {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
-        DRUGS.register(modEventBus);
         ITEMS.register(modEventBus);
         BLOCKS.register(modEventBus);
+        DRUGS.register(modEventBus);
 
         ModItems.init();
+        ModBlocks.init();
 
         PacketHandler.init();
 
@@ -69,6 +71,9 @@ public class Hallucinocraft {
     private void doClientStuff(final FMLClientSetupEvent event) {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         modEventBus.addListener(ModItems::registerItemColors);
+
+        ModBlocks.initRenderTypes();
+
         ShaderRenderer.setup();
     }
 

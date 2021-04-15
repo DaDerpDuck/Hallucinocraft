@@ -1,13 +1,15 @@
 {
   "itemGroup.creativetab": "Hallucinocraft",
   "item.hallucinocraft.red_shrooms": "Red Shrooms",
-  "item.hallucinocraft.brown_shrooms": "Brown Shrooms",
   "item.hallucinocraft.dried_red_mushroom": "Dried Red Mushroom",
+  "item.hallucinocraft.brown_shrooms": "Brown Shrooms",
   "item.hallucinocraft.dried_brown_mushroom": "Dried Brown Mushroom",
   "item.hallucinocraft.cocaine_powder": "Cocaine Powder",
-  "item.hallucinocraft.coca_leaf": "Coca Leaf",
-  "item.hallucinocraft.coca_mulch": "Coca Mulch",
   "item.hallucinocraft.cocaine_dust": "Cocaine Dust",
+  "item.hallucinocraft.coca_mulch": "Coca Mulch",
+  "item.hallucinocraft.coca_leaf": "Coca Leaf",
+  "item.hallucinocraft.coca_seeds": "Coca Seeds",
   "item.hallucinocraft.syringe": "Empty Syringe",
-  "item.hallucinocraft.cocaine_syringe": "Cocaine Syringe"
+  "item.hallucinocraft.cocaine_syringe": "Cocaine Syringe",
+  "block.hallucinocraft.coca": "Coca"
 }

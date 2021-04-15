@@ -1,7 +1,9 @@
 package com.daderpduck.hallucinocraft.items;
 
 import com.daderpduck.hallucinocraft.Hallucinocraft;
+import com.daderpduck.hallucinocraft.blocks.ModBlocks;
 import com.daderpduck.hallucinocraft.drugs.DrugRegistry;
+import net.minecraft.item.BlockNamedItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.UseAction;
 import net.minecraftforge.api.distmarker.Dist;
@@ -22,6 +24,7 @@ public class ModItems {
     public static final RegistryObject<Item> COCAINE_DUST = register("cocaine_dust", () -> new DrugItem(new DrugItem.Properties().addDrug(DrugRegistry.COCAINE, 100, 0.05F, 1000).edible().useAction(UseAction.BOW).tab(Hallucinocraft.TAB)));
     public static final RegistryObject<Item> EMPTY_SYRINGE = register("syringe", () -> new Item(new Item.Properties().tab(Hallucinocraft.TAB).stacksTo(16)));
     public static final RegistryObject<Item> COCAINE_SYRINGE = register("cocaine_syringe", () -> new SyringeItem(new SyringeItem.Properties().color(0xFFFFFFFF).addDrug(DrugRegistry.COCAINE, 0, 0.5F, 3200).tab(Hallucinocraft.TAB).stacksTo(1)));
+    public static final RegistryObject<Item> COCA_SEEDS = register("coca_seeds", () -> new BlockNamedItem(ModBlocks.COCA_BLOCK.get(), new Item.Properties().tab(Hallucinocraft.TAB)));
 
     public static RegistryObject<Item> register(String name, Supplier<Item> supplier) {
         return Hallucinocraft.ITEMS.register(name, supplier);
