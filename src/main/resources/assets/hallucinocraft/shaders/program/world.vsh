@@ -12,17 +12,6 @@ uniform float wiggleWaves;
 uniform float distantWorldDeformation;
 uniform float timePassed;
 
-int hash(int state) {
-    state ^= 2747636419;
-    state *= 2654435769;
-    state ^= state >> 16;
-    state *= 2654435769;
-    state ^= state >> 16;
-    state *= 2654435769;
-
-    return state;
-}
-
 void main(){
     normalVector = normalize(gl_NormalMatrix * gl_Normal);
     texCoord = gl_TextureMatrix[0] * gl_MultiTexCoord0;
