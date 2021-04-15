@@ -22,11 +22,6 @@ const int GL_EXP = 2048;
 const int GL_EXP2 = 2049;
 
 void main() {
-    /*vec4 modCoord = texCoord;
-    float lower = texCoord.s - mod(texCoord.s, 0.015625);
-    modCoord.s = fract(timePassed*0.1 + texCoord.s/0.015625)*0.015625 + lower;
-    gl_FragColor = texture2D(texture, modCoord.st) * gl_Color;*/
-
     gl_FragColor = texture2D(texture, texCoord.st) * gl_Color;
 
     gl_FragColor.rgb = mix(gl_FragColor.rgb, entityColor.rgb, entityColor.a);

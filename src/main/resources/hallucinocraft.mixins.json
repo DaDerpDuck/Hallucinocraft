@@ -9,11 +9,8 @@
   ],
   "client": [
     "client.AccessorRenderTypeBuffer",
-    "client.AccessorShaderInstance",
     "client.AccessorShaderGroup",
-    "client.AccessorSheetData",
     "client.MixinAbstractEyesLayer",
-    "client.MixinAtlasTexture",
     "client.MixinGameRenderer",
     "client.MixinLightTexture",
     "client.MixinLivingRenderer",
@@ -22,8 +19,6 @@
     "client.MixinOverlayTexture",
     "client.MixinRenderHelper",
     "client.MixinGlStateManager",
-    "client.MixinShaderUniform",
-    "client.MixinTextureManager",
     "client.MixinWorldRenderer"
   ],
   "injectors": {

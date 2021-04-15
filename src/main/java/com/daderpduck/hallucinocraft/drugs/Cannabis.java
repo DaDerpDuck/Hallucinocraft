@@ -10,6 +10,7 @@ public class Cannabis extends Drug {
     @Override
     public void renderTick(float effect) {
         DrugEffects.SATURATION.addValue(effect);
+        DrugEffects.CAMERA_INERTIA.addValue(effect);
         super.renderTick(effect);
     }
 
