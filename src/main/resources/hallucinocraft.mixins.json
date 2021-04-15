@@ -10,18 +10,21 @@
   "client": [
     "client.AccessorRenderTypeBuffer",
     "client.AccessorShaderGroup",
+    "client.InvokerRenderUtilsOF",
     "client.MixinAbstractEyesLayer",
     "client.MixinGameRenderer",
+    "client.MixinGlStateManager",
     "client.MixinLightTexture",
     "client.MixinLivingRenderer",
     "client.MixinModelRenderer",
     "client.MixinMouseHelper",
     "client.MixinOverlayTexture",
     "client.MixinRenderHelper",
-    "client.MixinGlStateManager",
+    "client.MixinRenderTypeBuffer",
     "client.MixinWorldRenderer"
   ],
   "injectors": {
     "defaultRequire": 1
-  }
+  },
+  "plugin": "com.daderpduck.hallucinocraft.mixin.ModCompatMixinPlugin"
 }
