@@ -22,8 +22,6 @@ import java.util.List;
 @MethodsReturnNonnullByDefault
 public class DrugItem extends Item {
     private final DrugEffectProperties[] effects;
-    private final boolean edible;
-    private final int useDuration;
     private final UseAction useAction;
 
     public DrugItem(Item.Properties properties) {
@@ -31,8 +29,6 @@ public class DrugItem extends Item {
         Properties drugProperties = (Properties)properties;
 
         effects = drugProperties.attachedDrugs.toArray(new DrugEffectProperties[]{});
-        edible = drugProperties.edible;
-        useDuration = drugProperties.useDuration;
         useAction = drugProperties.useAction;
     }
 
@@ -60,7 +56,7 @@ public class DrugItem extends Item {
 
     @Override
     public boolean isEdible() {
-        return super.isEdible() || edible;
+        return true;
     }
 
     @Override
@@ -81,32 +77,15 @@ public class DrugItem extends Item {
 
     @Override
     public int getUseDuration(ItemStack itemStack) {
-        if (itemStack.getItem().isEdible()) {
-            return useDuration;
-        } else {
-            return 0;
-        }
+        return 32;
     }
 
     public static class Properties extends Item.Properties {
         private final List<DrugEffectProperties> attachedDrugs = new ArrayList<>();
-        private boolean edible = false;
-        private int useDuration = 32;
         private UseAction useAction = UseAction.EAT;
 
         public Properties addDrug(RegistryObject<Drug> drugRegistryObject, int delayTicks, float potencyPercentage, int duration) {
             this.attachedDrugs.add(new DrugEffectProperties(drugRegistryObject, delayTicks, potencyPercentage, duration));
-            return this;
-        }
-
-        public Properties edible() {
-            this.edible = true;
-            return this;
-        }
-
-        public Properties edible(int useDuration) {
-            this.edible = true;
-            this.useDuration = useDuration;
             return this;
         }
 

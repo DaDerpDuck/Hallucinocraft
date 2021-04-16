@@ -14,16 +14,16 @@ import net.minecraftforge.fml.RegistryObject;
 import java.util.function.Supplier;
 
 public class ModItems {
-    public static final RegistryObject<Item> RED_SHROOMS = register("red_shrooms", () -> new DrugItem(new DrugItem.Properties().addDrug(DrugRegistry.RED_SHROOMS, 400, 0.3F, 9600).edible().tab(Hallucinocraft.TAB)));
+    public static final RegistryObject<Item> RED_SHROOMS = register("red_shrooms", () -> new DrugItem(new DrugItem.Properties().addDrug(DrugRegistry.RED_SHROOMS, 400, 0.3F, 9600).tab(Hallucinocraft.TAB)));
     public static final RegistryObject<Item> DRIED_RED_MUSHROOM = register("dried_red_mushroom", () -> new Item(new Item.Properties().tab(Hallucinocraft.TAB)));
-    public static final RegistryObject<Item> BROWN_SHROOMS = register("brown_shrooms", () -> new DrugItem(new DrugItem.Properties().addDrug(DrugRegistry.BROWN_SHROOMS, 200, 0.3F, 3200).edible().tab(Hallucinocraft.TAB)));
+    public static final RegistryObject<Item> BROWN_SHROOMS = register("brown_shrooms", () -> new DrugItem(new DrugItem.Properties().addDrug(DrugRegistry.BROWN_SHROOMS, 200, 0.3F, 3200).tab(Hallucinocraft.TAB)));
     public static final RegistryObject<Item> DRIED_BROWN_MUSHROOM = register("dried_brown_mushroom", () -> new Item(new Item.Properties().tab(Hallucinocraft.TAB)));
-    public static final RegistryObject<Item> COCAINE_POWDER = register("cocaine_powder", () -> new DrugItem(new DrugItem.Properties().addDrug(DrugRegistry.COCAINE, 100, 0.3F, 3200).edible().useAction(UseAction.BOW).tab(Hallucinocraft.TAB)));
-    public static final RegistryObject<Item> COCAINE_DUST = register("cocaine_dust", () -> new DrugItem(new DrugItem.Properties().addDrug(DrugRegistry.COCAINE, 100, 0.05F, 1000).edible().useAction(UseAction.BOW).tab(Hallucinocraft.TAB)));
+    public static final RegistryObject<Item> COCAINE_POWDER = register("cocaine_powder", () -> new DrugItem(new DrugItem.Properties().addDrug(DrugRegistry.COCAINE, 100, 0.3F, 3200).useAction(UseAction.BOW).tab(Hallucinocraft.TAB)));
+    public static final RegistryObject<Item> COCAINE_DUST = register("cocaine_dust", () -> new DrugItem(new DrugItem.Properties().addDrug(DrugRegistry.COCAINE, 100, 0.05F, 1000).useAction(UseAction.BOW).tab(Hallucinocraft.TAB)));
     public static final RegistryObject<Item> COCA_MULCH = register("coca_mulch", () -> new Item(new Item.Properties().tab(Hallucinocraft.TAB)));
     public static final RegistryObject<Item> COCA_LEAF = register("coca_leaf", () -> new Item(new Item.Properties().tab(Hallucinocraft.TAB)));
     public static final RegistryObject<Item> COCA_SEEDS = register("coca_seeds", () -> new BlockNamedItem(ModBlocks.COCA_BLOCK.get(), new Item.Properties().tab(Hallucinocraft.TAB)));
-    public static final RegistryObject<Item> CANNABIS_JOINT = register("cannabis_joint", () -> new DrugItem(new DrugItem.Properties().addDrug(DrugRegistry.CANNABIS, 100, 0.12F, 3200).edible().useAction(UseAction.BOW).tab(Hallucinocraft.TAB).stacksTo(16)));
+    public static final RegistryObject<Item> CANNABIS_JOINT = register("cannabis_joint", () -> new DrugItem(new DrugItem.Properties().addDrug(DrugRegistry.CANNABIS, 100, 0.12F, 3200).useAction(UseAction.BOW).tab(Hallucinocraft.TAB).stacksTo(16)));
     public static final RegistryObject<Item> DRIED_CANNABIS_LEAF = register("dried_cannabis_leaf", () -> new Item(new Item.Properties().tab(Hallucinocraft.TAB)));
     public static final RegistryObject<Item> CANNABIS_LEAF = register("cannabis_leaf", () -> new Item(new Item.Properties().tab(Hallucinocraft.TAB)));
     public static final RegistryObject<Item> DRIED_CANNABIS_BUD = register("dried_cannabis_bud", () -> new Item(new Item.Properties().tab(Hallucinocraft.TAB)));
