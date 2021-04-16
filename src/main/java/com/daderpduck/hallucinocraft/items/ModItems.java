@@ -23,6 +23,8 @@ public class ModItems {
     public static final RegistryObject<Item> DRIED_RED_MUSHROOM = registerItem("dried_red_mushroom");
     public static final RegistryObject<Item> BROWN_SHROOMS = registerDrug("brown_shrooms", new DrugChain().add(DrugRegistry.BROWN_SHROOMS, 200, 0.3F, 3200));
     public static final RegistryObject<Item> DRIED_BROWN_MUSHROOM = registerItem("dried_brown_mushroom");
+    public static final RegistryObject<Item> COCAINE_JOINT = registerDrug("cocaine_joint", new DrugChain().add(DrugRegistry.COCAINE, 0, 0.5F, 2800), UseAction.BOW, 16);
+    public static final RegistryObject<Item> COCAINE_ROCK = registerItem("cocaine_rock");
     public static final RegistryObject<Item> COCAINE_POWDER = registerDrug("cocaine_powder", new DrugChain().add(DrugRegistry.COCAINE, 100, 0.3F, 3200), UseAction.BOW, 64);
     public static final RegistryObject<Item> COCAINE_DUST = registerDrug("cocaine_dust", new DrugChain().add(DrugRegistry.COCAINE, 100, 0.05F, 1000), UseAction.BOW, 64);
     public static final RegistryObject<Item> COCA_MULCH = registerItem("coca_mulch");
@@ -34,7 +36,7 @@ public class ModItems {
     public static final RegistryObject<Item> DRIED_CANNABIS_BUD = registerItem("dried_cannabis_bud");
     public static final RegistryObject<Item> CANNABIS_BUD = registerItem("cannabis_bud");
     public static final RegistryObject<Item> EMPTY_SYRINGE = registerItem("syringe", 16);
-    public static final RegistryObject<Item> COCAINE_SYRINGE = registerSyringe("cocaine_syringe", new DrugChain().add(DrugRegistry.COCAINE, 0, 0.5F, 3200), 0xFFFFFFFF);
+    public static final RegistryObject<Item> COCAINE_SYRINGE = registerSyringe("cocaine_syringe", new DrugChain().add(DrugRegistry.COCAINE, 0, 0.5F, 4800), 0xFFFFFFFF);
 
     public static RegistryObject<Item> registerDrug(String name, DrugChain drugChain) {
         return registerDrug(name, drugChain, UseAction.EAT, 64);

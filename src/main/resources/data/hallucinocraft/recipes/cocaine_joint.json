@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "#",
+    "@",
+    "#"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:paper"
+    },
+    "@": {
+      "item": "hallucinocraft:cocaine_rock"
+    }
+  },
+  "result": {
+    "item": "hallucinocraft:cocaine_joint"
+  }
+}

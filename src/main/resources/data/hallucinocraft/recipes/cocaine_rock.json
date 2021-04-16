@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smelting",
+  "ingredient": {
+    "item": "hallucinocraft:cocaine_powder"
+  },
+  "result": "hallucinocraft:cocaine_rock",
+  "experience": 0.35,
+  "cookingtime": 200
+}
