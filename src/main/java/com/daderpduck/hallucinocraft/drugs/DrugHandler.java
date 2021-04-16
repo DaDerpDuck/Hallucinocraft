@@ -22,10 +22,9 @@ public class DrugHandler {
         PlayerEntity player = event.player;
         Drug.tick(player);
 
-        modifyAttribute(player, Attributes.MOVEMENT_SPEED, "Drug movement speed", DrugEffects.MOVEMENT_SPEED.getValue(), AttributeModifier.Operation.MULTIPLY_TOTAL);
+        modifyAttribute(player, Attributes.MOVEMENT_SPEED, "Drug movement speed", Math.max(DrugEffects.MOVEMENT_SPEED.getValue(), -0.5F), AttributeModifier.Operation.MULTIPLY_TOTAL);
         modifyAttribute(player, Attributes.ATTACK_SPEED, "Drug attack speed", DrugEffects.DIG_SPEED.getValue(), AttributeModifier.Operation.MULTIPLY_TOTAL);
 
-        // Here's hoping!
         for (DrugEffects effect : DrugEffects.values()) {
             if (!effect.isClientOnly()) effect.resetValue();
         }
@@ -36,6 +35,6 @@ public class DrugHandler {
         ModifiableAttributeInstance attributeInstance = entity.getAttribute(attribute);
         if (attributeInstance == null) return;
         attributeInstance.removeModifier(uuid);
-        if (value > 0) attributeInstance.addTransientModifier(new AttributeModifier(uuid, name, value, op));
+        attributeInstance.addTransientModifier(new AttributeModifier(uuid, name, value, op));
     }
 }

@@ -113,6 +113,7 @@ public class Drug extends ForgeRegistryEntry<Drug> {
         return envelope;
     }
 
+    // TODO: Make envelope percentage-based
     public static class DrugProperties {
         private float maxEffect = 1;
         private float harmingPoint = -1;

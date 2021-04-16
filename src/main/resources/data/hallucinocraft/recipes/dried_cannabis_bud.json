@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:campfire_cooking",
+  "ingredient": {
+    "item": "hallucinocraft:cannabis_bud"
+  },
+  "result": "hallucinocraft:dried_cannabis_bud",
+  "experience": 0.35,
+  "cookingtime": 600
+}
