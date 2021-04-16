@@ -14,9 +14,9 @@ import net.minecraftforge.fml.RegistryObject;
 import java.util.function.Supplier;
 
 public class ModBlocks {
-    public static final RegistryObject<Block> COCA_BLOCK = register("coca", () -> new TallCropsBlock(AbstractBlock.Properties.of(Material.PLANT).strength(0F).noCollission().randomTicks().sound(SoundType.CROP)));
+    public static final RegistryObject<TallCropsBlock> COCA_BLOCK = register("coca", () -> new TallCropsBlock(AbstractBlock.Properties.of(Material.PLANT).strength(0F).noCollission().randomTicks().sound(SoundType.CROP)));
 
-    public static RegistryObject<Block> register(String name, Supplier<Block> supplier) {
+    public static <T extends Block> RegistryObject<T> register(String name, Supplier<T> supplier) {
         return Hallucinocraft.BLOCKS.register(name, supplier);
     }
 
