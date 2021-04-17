@@ -1,6 +1,8 @@
 {
   "replace": false,
   "values": [
+    "hallucinocraft:cocaine_joint",
+    "hallucinocraft:cocaine_syringe",
     "hallucinocraft:cocaine_powder",
     "hallucinocraft:cocaine_dust"
   ]
