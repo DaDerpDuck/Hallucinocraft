@@ -2,9 +2,8 @@ package com.daderpduck.hallucinocraft.blocks;
 
 import com.daderpduck.hallucinocraft.items.ModItems;
 import mcp.MethodsReturnNonnullByDefault;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.CropsBlock;
+import net.minecraft.block.*;
+import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.IntegerProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.state.properties.BlockStateProperties;
@@ -25,6 +24,7 @@ import java.util.Random;
 public class TallCropsBlock extends CropsBlock {
     public static final IntegerProperty AGE = BlockStateProperties.AGE_3;
     public static final IntegerProperty HEIGHT = IntegerProperty.create("height",0,2);
+    public static final BooleanProperty CROP = BooleanProperty.create("crop");
     private static final VoxelShape[] SHAPE_BY_AGE = new VoxelShape[]{Block.box(0.0D, 0.0D, 0.0D, 16.0D, 6.0D, 16.0D), Block.box(0.0D, 0.0D, 0.0D, 16.0D, 10.0D, 16.0D), Block.box(0.0D, 0.0D, 0.0D, 16.0D, 14.0D, 16.0D), Block.box(0.0D, 0.0D, 0.0D, 16.0D, 16.0D, 16.0D)};
 
     public TallCropsBlock(Properties properties) {
@@ -90,6 +90,14 @@ public class TallCropsBlock extends CropsBlock {
         return blockState.getValue(getHeightProperty()) >= getMaxHeight();
     }
 
+    public BooleanProperty getCropProperty() {
+        return CROP;
+    }
+
+    public boolean isCrop(BlockState blockState) {
+        return blockState.getValue(getCropProperty());
+    }
+
     @Override
     protected int getBonemealAgeIncrease(World world) {
         return super.getBonemealAgeIncrease(world)/3;
@@ -105,6 +113,8 @@ public class TallCropsBlock extends CropsBlock {
         if (getHeight(blockState) > 0) {
             BlockState belowState = worldReader.getBlockState(blockPos.below());
             return belowState.getBlock().equals(this) && getHeight(belowState) < getHeight(blockState);
+        } else if (!isCrop(blockState)) {
+            return worldReader.getBlockState(blockPos.below()).is(Blocks.GRASS_BLOCK);
         } else {
             return super.canSurvive(blockState, worldReader, blockPos);
         }
@@ -129,6 +139,7 @@ public class TallCropsBlock extends CropsBlock {
     protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
         builder.add(AGE);
         builder.add(HEIGHT);
+        builder.add(CROP);
     }
 
     @Override
