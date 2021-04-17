@@ -5,6 +5,7 @@ import com.daderpduck.hallucinocraft.capabilities.PlayerProperties;
 import com.daderpduck.hallucinocraft.client.rendering.shaders.ShaderRenderer;
 import com.daderpduck.hallucinocraft.commands.SetDrugCommand;
 import com.daderpduck.hallucinocraft.drugs.Drug;
+import com.daderpduck.hallucinocraft.items.CompostRegistry;
 import com.daderpduck.hallucinocraft.items.ModItems;
 import com.daderpduck.hallucinocraft.network.PacketHandler;
 import net.minecraft.block.Block;
@@ -66,6 +67,7 @@ public class Hallucinocraft {
 
     private void setup(final FMLCommonSetupEvent event) {
         PlayerProperties.register();
+        CompostRegistry.register();
     }
 
     private void doClientStuff(final FMLClientSetupEvent event) {
