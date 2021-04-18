@@ -15,8 +15,12 @@ import net.minecraftforge.fml.common.Mod;
 public class WorldGen {
     @SubscribeEvent(priority = EventPriority.HIGH)
     public static void onBiomeLoad(BiomeLoadingEvent event) {
-        if (event.getCategory() == Biome.Category.JUNGLE) {
+        Biome.Category category = event.getCategory();
+
+        if (category == Biome.Category.JUNGLE) {
             event.getGeneration().addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, getFeature(ModConfiguredFeatures.COCA));
+        } else if (category == Biome.Category.SAVANNA) {
+            event.getGeneration().addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, getFeature(ModConfiguredFeatures.CANNABIS));
         }
     }
 
