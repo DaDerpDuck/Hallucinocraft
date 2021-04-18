@@ -54,11 +54,11 @@ public class DrugRenderer {
     // Shader stuff
 
     @SubscribeEvent
-    public static void onRenderTerrain(RenderTerrainEvent event) {
+    public static void onRender(RenderEvent event) {
         if (!ShaderRenderer.useShader) return;
 
-        if (event.phase == RenderTerrainEvent.Phase.START) {
-            ShaderRenderer.getWorldShader().safeGetUniform("lightmapEnabled").setInt(1);
+        if (event.phase == RenderEvent.Phase.START) {
+            if (event instanceof RenderEvent.RenderTerrainEvent) ShaderRenderer.getWorldShader().safeGetUniform("lightmapEnabled").setInt(1);
             ShaderRenderer.startRenderPass();
         } else {
             ShaderRenderer.endRenderPass();
@@ -66,58 +66,6 @@ public class DrugRenderer {
 
         RenderUtil.checkGlErrors();
     }
-
-    @SubscribeEvent
-    public static void onRenderEntity(RenderEntityEvent event) {
-        if (!ShaderRenderer.useShader) return;
-
-        if (event.phase == RenderEntityEvent.Phase.START) {
-            ShaderRenderer.startRenderPass();
-        } else {
-            ShaderRenderer.endRenderPass();
-        }
-
-        RenderUtil.checkGlErrors();
-    }
-
-    @SubscribeEvent
-    public static void onRenderBlockEntity(RenderBlockEntityEvent event) {
-        if (!ShaderRenderer.useShader) return;
-
-        if (event.phase == RenderBlockEntityEvent.Phase.START) {
-            ShaderRenderer.startRenderPass();
-        } else {
-            ShaderRenderer.endRenderPass();
-        }
-
-        RenderUtil.checkGlErrors();
-    }
-
-    @SubscribeEvent
-    public static void onRenderParticles(RenderParticlesEvent event) {
-        if (!ShaderRenderer.useShader) return;
-
-        if (event.phase == RenderParticlesEvent.Phase.START) {
-            ShaderRenderer.startRenderPass();
-        } else {
-            ShaderRenderer.endRenderPass();
-        }
-
-        RenderUtil.checkGlErrors();
-    }
-
-    //TODO: Hook into block outline
-    /*@SubscribeEvent
-    public static void onRenderBlockOutline(RenderBlockOutlineEvent event) {
-        if (event.phase == RenderBlockOutlineEvent.Phase.START) {
-            RenderUtil.flushRenderBuffer();
-            startRenderPass(shaderWorld);
-        } else {
-            endRenderPass();
-        }
-
-        RenderUtil.checkGlErrors();
-    }*/
 
     @SubscribeEvent
     public static void renderPostWorld(RenderWorldLastEvent event) {
