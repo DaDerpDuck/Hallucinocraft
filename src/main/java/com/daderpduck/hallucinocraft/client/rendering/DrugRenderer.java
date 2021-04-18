@@ -93,6 +93,19 @@ public class DrugRenderer {
         RenderUtil.checkGlErrors();
     }
 
+    @SubscribeEvent
+    public static void onRenderParticles(RenderParticlesEvent event) {
+        if (!ShaderRenderer.useShader) return;
+
+        if (event.phase == RenderParticlesEvent.Phase.START) {
+            ShaderRenderer.startRenderPass();
+        } else {
+            ShaderRenderer.endRenderPass();
+        }
+
+        RenderUtil.checkGlErrors();
+    }
+
     //TODO: Hook into block outline
     /*@SubscribeEvent
     public static void onRenderBlockOutline(RenderBlockOutlineEvent event) {
