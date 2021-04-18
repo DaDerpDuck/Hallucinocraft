@@ -16,7 +16,9 @@
   "item.hallucinocraft.cannabis_leaf": "Cannabis Leaf",
   "item.hallucinocraft.dried_cannabis_bud": "Dried Cannabis Bud",
   "item.hallucinocraft.cannabis_bud": "Cannabis Bud",
+  "item.hallucinocraft.cannabis_seeds": "Cannabis Seeds",
   "item.hallucinocraft.syringe": "Empty Syringe",
   "item.hallucinocraft.cocaine_syringe": "Cocaine Syringe",
-  "block.hallucinocraft.coca": "Coca"
+  "block.hallucinocraft.coca": "Coca",
+  "block.hallucinocraft.cannabis": "Cannabis"
 }

@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cross",
+  "textures": {
+    "cross": "hallucinocraft:block/cannabis_stage0"
+  }
+}

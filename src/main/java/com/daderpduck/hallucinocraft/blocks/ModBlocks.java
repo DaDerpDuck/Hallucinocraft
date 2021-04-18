@@ -15,6 +15,7 @@ import java.util.function.Supplier;
 
 public class ModBlocks {
     public static final RegistryObject<TallCropsBlock> COCA_BLOCK = register("coca", () -> new TallCropsBlock(AbstractBlock.Properties.of(Material.PLANT).strength(0F).noCollission().randomTicks().sound(SoundType.CROP)));
+    public static final RegistryObject<TallCropsBlock> CANNABIS_BLOCK = register("cannabis", () -> new CannabisBlock(AbstractBlock.Properties.of(Material.PLANT).strength(0F).noCollission().randomTicks().sound(SoundType.CROP)));
 
     public static <T extends Block> RegistryObject<T> register(String name, Supplier<T> supplier) {
         return Hallucinocraft.BLOCKS.register(name, supplier);
@@ -23,6 +24,7 @@ public class ModBlocks {
     @OnlyIn(Dist.CLIENT)
     public static void initRenderTypes() {
         RenderTypeLookup.setRenderLayer(ModBlocks.COCA_BLOCK.get(), RenderType.cutout());
+        RenderTypeLookup.setRenderLayer(ModBlocks.CANNABIS_BLOCK.get(), RenderType.cutout());
     }
 
     public static void init() {

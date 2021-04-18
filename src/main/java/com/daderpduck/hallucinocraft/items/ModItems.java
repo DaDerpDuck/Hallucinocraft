@@ -34,6 +34,7 @@ public class ModItems {
     public static final RegistryObject<Item> DRIED_CANNABIS_LEAF = registerItem("dried_cannabis_leaf");
     public static final RegistryObject<Item> CANNABIS_LEAF = registerItem("cannabis_leaf");
     public static final RegistryObject<Item> DRIED_CANNABIS_BUD = registerItem("dried_cannabis_bud");
+    public static final RegistryObject<Item> CANNABIS_SEEDS = registerBlockNamed("cannabis_seeds", ModBlocks.CANNABIS_BLOCK);
     public static final RegistryObject<Item> CANNABIS_BUD = registerItem("cannabis_bud");
     public static final RegistryObject<Item> EMPTY_SYRINGE = registerItem("syringe", 16);
     public static final RegistryObject<SyringeItem> COCAINE_SYRINGE = registerSyringe("cocaine_syringe", new DrugChain().add(DrugRegistry.COCAINE, 0, 0.5F, 4800), 0xFFFFFFFF);
