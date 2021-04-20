@@ -6,7 +6,9 @@ import com.daderpduck.hallucinocraft.client.rendering.shaders.RenderUtil;
 import com.daderpduck.hallucinocraft.client.rendering.shaders.ShaderRenderer;
 import com.daderpduck.hallucinocraft.drugs.Drug;
 import com.daderpduck.hallucinocraft.drugs.DrugEffects;
-import com.daderpduck.hallucinocraft.events.hooks.*;
+import com.daderpduck.hallucinocraft.events.hooks.BobHurtEvent;
+import com.daderpduck.hallucinocraft.events.hooks.RenderEvent;
+import com.daderpduck.hallucinocraft.mixin.client.InvokerConfigOF;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -23,6 +25,19 @@ public class DrugRenderer {
     @SubscribeEvent
     public static void onRenderTick(TickEvent.RenderTickEvent event) {
         Minecraft mc = Minecraft.getInstance();
+
+        if (RenderUtil.hasOptifine) {
+            if (InvokerConfigOF.callIsShaders() && ShaderRenderer.useShader) {
+                ShaderRenderer.clear(true);
+                ShaderRenderer.useShader = false;
+                PostShaders.useShaders = false;
+            } else if (!InvokerConfigOF.callIsShaders() && !ShaderRenderer.useShader) {
+                ShaderRenderer.setup();
+                ShaderRenderer.useShader = true;
+                PostShaders.useShaders = true;
+            }
+        }
+
         if (mc.level == null) return;
 
         if (event.phase == TickEvent.Phase.START) {
