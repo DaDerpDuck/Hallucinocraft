@@ -1,7 +1,6 @@
 package com.daderpduck.hallucinocraft.worldgen;
 
 import com.daderpduck.hallucinocraft.Hallucinocraft;
-import com.daderpduck.hallucinocraft.blocks.CannabisBlock;
 import com.daderpduck.hallucinocraft.blocks.ModBlocks;
 import com.daderpduck.hallucinocraft.blocks.TallCropsBlock;
 import net.minecraft.util.RegistryKey;
@@ -32,7 +31,7 @@ public class ModConfiguredFeatures {
         @SubscribeEvent(priority = EventPriority.LOW)
         public static void register(RegistryEvent.Register<Feature<?>> event) {
             register(COCA, Feature.RANDOM_PATCH.configured(new BlockClusterFeatureConfig.Builder(new SimpleBlockStateProvider(ModBlocks.COCA_BLOCK.get().defaultBlockState().setValue(TallCropsBlock.AGE, 3).setValue(TallCropsBlock.CROP, false)), SimpleBlockPlacer.INSTANCE).tries(32).build()).decorated(Features.Placements.HEIGHTMAP_DOUBLE_SQUARE).chance(4));
-            register(CANNABIS, Feature.RANDOM_PATCH.configured(new BlockClusterFeatureConfig.Builder(new SimpleBlockStateProvider(ModBlocks.CANNABIS_BLOCK.get().defaultBlockState().setValue(CannabisBlock.AGE, 3).setValue(CannabisBlock.CROP, false)), SimpleBlockPlacer.INSTANCE).tries(32).build()).decorated(Features.Placements.HEIGHTMAP_DOUBLE_SQUARE).chance(24));
+            register(CANNABIS, Feature.RANDOM_PATCH.configured(new BlockClusterFeatureConfig.Builder(new SimpleBlockStateProvider(ModBlocks.CANNABIS_BLOCK.get().defaultBlockState().setValue(TallCropsBlock.AGE, 3).setValue(TallCropsBlock.CROP, false)), SimpleBlockPlacer.INSTANCE).tries(32).build()).decorated(Features.Placements.HEIGHTMAP_DOUBLE_SQUARE).chance(24));
         }
 
         private static void register(RegistryKey<ConfiguredFeature<?, ?>> key, ConfiguredFeature<?, ?> configuredFeature) {
