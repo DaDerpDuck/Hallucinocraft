@@ -4,7 +4,6 @@ const int ITERATIONS = 3;
 
 uniform sampler2D DiffuseSampler;
 
-uniform vec2 ScreenSize;
 uniform float Scale;
 uniform float Shift;
 uniform float TimePassed;
