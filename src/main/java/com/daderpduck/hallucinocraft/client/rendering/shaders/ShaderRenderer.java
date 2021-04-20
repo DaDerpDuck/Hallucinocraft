@@ -137,6 +137,12 @@ public class ShaderRenderer {
             KALEIDOSCOPE.setUniform("Intensity", value + 1F);
             KALEIDOSCOPE.process(partialTicks);
         }
+
+        if (DrugEffects.BLOOM_RADIUS.getValue() > EPSILON) {
+            BLOOM.setUniform("Radius", DrugEffects.BLOOM_RADIUS.getValue());
+            BLOOM.setUniform("Threshold", 1F - DrugEffects.BLOOM_THRESHOLD.getClamped());
+            BLOOM.process(partialTicks);
+        }
     }
 
     public static WorldShader getWorldShader() {

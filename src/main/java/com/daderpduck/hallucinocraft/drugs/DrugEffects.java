@@ -16,7 +16,9 @@ public enum DrugEffects {
     SATURATION(true),
     HUE_AMPLITUDE(true),
     BUMPY(true),
-    BRIGHTNESS(true);
+    BRIGHTNESS(true),
+    BLOOM_RADIUS(true),
+    BLOOM_THRESHOLD(true);
 
 
     private float value;
