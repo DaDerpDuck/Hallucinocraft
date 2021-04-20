@@ -23,7 +23,7 @@ public class DrugHandler {
         Drug.tick(player);
 
         modifyAttribute(player, Attributes.MOVEMENT_SPEED, "Drug movement speed", Math.max(DrugEffects.MOVEMENT_SPEED.getValue(), -0.5F), AttributeModifier.Operation.MULTIPLY_TOTAL);
-        modifyAttribute(player, Attributes.ATTACK_SPEED, "Drug attack speed", DrugEffects.DIG_SPEED.getValue(), AttributeModifier.Operation.MULTIPLY_TOTAL);
+        modifyAttribute(player, Attributes.ATTACK_SPEED, "Drug attack speed", Math.max(DrugEffects.DIG_SPEED.getValue(), -0.5F), AttributeModifier.Operation.MULTIPLY_TOTAL);
 
         for (DrugEffects effect : DrugEffects.values()) {
             if (!effect.isClientOnly()) effect.resetValue();
