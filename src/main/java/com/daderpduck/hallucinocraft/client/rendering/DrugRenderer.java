@@ -46,6 +46,8 @@ public class DrugRenderer {
             activeDrugs.forEach((drug, effect) -> {
                 if (effect > 0) drug.renderTick(effect);
             });
+
+            MouseSmootherEffect.INSTANCE.setAmplifier(DrugEffects.CAMERA_INERTIA.getClamped());
         } else {
             for (DrugEffects effect : DrugEffects.values()) {
                 if (effect.isClientOnly()) effect.resetValue();
@@ -58,12 +60,6 @@ public class DrugRenderer {
     public static void onBobHurt(BobHurtEvent event) {
         trembleEffect.setAmplitude(DrugEffects.CAMERA_TREMBLE.getValue());
         trembleEffect.tick(event.matrixStack);
-    }
-
-    private static final MouseSmootherEffect smoothEffect = new MouseSmootherEffect();
-    @SubscribeEvent
-    public static void onPlayerTurn(PlayerTurnEvent event) {
-        smoothEffect.tick(DrugEffects.CAMERA_INERTIA.getValue(), event.accumulatedDX, event.accumulatedDY);
     }
 
     // Shader stuff
