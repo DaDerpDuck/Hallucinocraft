@@ -20,7 +20,7 @@ vec3 hueShift(vec3 color, float hue) {
 
 float linearize(float depth) {
     float z = depth*2.0 - 1.0;
-    return (near*far)/(far + near - z*(far - near));
+    return (2.0 * near * far)/(far + near - z * (far - near));
 }
 
 void main() {
