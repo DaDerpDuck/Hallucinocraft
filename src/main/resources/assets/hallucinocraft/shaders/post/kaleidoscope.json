@@ -9,7 +9,7 @@
       "outtarget": "swap"
     },
     {
-      "name": "blit",
+      "name": "hallucinocraft:kaleidoscope2",
       "intarget": "swap",
       "outtarget": "minecraft:main"
     }
