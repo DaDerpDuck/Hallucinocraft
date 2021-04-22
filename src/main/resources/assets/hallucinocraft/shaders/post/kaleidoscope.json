@@ -4,12 +4,12 @@
   ],
   "passes": [
     {
-      "name": "hallucinocraft:kaleidoscope",
+      "name": "hallucinocraft:kaleidoscope2",
       "intarget": "minecraft:main",
       "outtarget": "swap"
     },
     {
-      "name": "hallucinocraft:kaleidoscope2",
+      "name": "hallucinocraft:kaleidoscope",
       "intarget": "swap",
       "outtarget": "minecraft:main"
     }
