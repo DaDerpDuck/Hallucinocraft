@@ -126,9 +126,7 @@ public class ShaderRenderer {
         }
 
         if (DrugEffects.KALEIDOSCOPE_INTENSITY.getValue() > EPSILON) {
-            float value = MathHelper.clamp(DrugEffects.KALEIDOSCOPE_INTENSITY.getValue(), 0F, 0.8F);
-            KALEIDOSCOPE.setUniform("Extend", value);
-            KALEIDOSCOPE.setUniform("Intensity", value + 1F);
+            KALEIDOSCOPE.setUniform("Extend", DrugEffects.KALEIDOSCOPE_INTENSITY.getValue());
             KALEIDOSCOPE.setUniform("TimePassed", GlobalUniforms.timePassed);
             KALEIDOSCOPE.setUniform("TimePassedSin", GlobalUniforms.timePassedSin);
             KALEIDOSCOPE.process(partialTicks);
