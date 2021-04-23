@@ -35,7 +35,7 @@ public class DrugItem extends Item {
     protected void addDrugs(PlayerEntity playerEntity) {
         for (DrugEffectProperties properties : effects) {
             if (properties.drug.isPresent()) {
-                Drug.addDrug(playerEntity, new DrugInstance(properties.drug.get(), properties.delayTick, properties.potencyPercentage*properties.drug.get().getMaxEffect(), properties.duration));
+                Drug.addDrug(playerEntity, new DrugInstance(properties.drug.get(), properties.delayTick, properties.potencyPercentage, properties.duration));
             } else {
                 Hallucinocraft.LOGGER.error("{} is not in the drug registry!", properties.drug.toString());
             }

@@ -15,13 +15,11 @@ import javax.annotation.Nullable;
 import java.util.*;
 
 public class Drug extends ForgeRegistryEntry<Drug> {
-    private final float maxEffect;
     private final float harmingPoint;
     private final DamageSource damageSource;
     private final Envelope envelope;
 
     public Drug(DrugProperties properties) {
-        this.maxEffect = properties.maxEffect;
         this.harmingPoint = properties.harmingPoint;
         this.damageSource = properties.damageSource;
         this.envelope = Objects.requireNonNull(properties.envelope);
@@ -84,7 +82,7 @@ public class Drug extends ForgeRegistryEntry<Drug> {
         }
 
         for (Map.Entry<Drug, Float> entry : map.entrySet()) {
-            float clamped = MathHelper.clamp(entry.getValue(), 0, entry.getKey().getMaxEffect());
+            float clamped = MathHelper.clamp(entry.getValue(), 0F, 1F);
             if (clamped < 1E-6F) continue;
             entry.setValue(clamped);
             entry.getKey().effectTick(player, clamped);
@@ -101,10 +99,6 @@ public class Drug extends ForgeRegistryEntry<Drug> {
     public void renderTick(float effect) {
     }
 
-    public float getMaxEffect() {
-        return maxEffect;
-    }
-
     public float getDamage(float effect) {
         return 0;
     }
@@ -115,15 +109,9 @@ public class Drug extends ForgeRegistryEntry<Drug> {
 
     // TODO: Make envelope percentage-based
     public static class DrugProperties {
-        private float maxEffect = 1;
         private float harmingPoint = -1;
         private DamageSource damageSource;
         private Envelope envelope;
-
-        public DrugProperties max(float maxEffect) {
-            this.maxEffect = maxEffect;
-            return this;
-        }
 
         public DrugProperties adsr(float attack, float decay, float sustain, float release) {
             envelope = new Envelope(attack, decay, sustain, release);
