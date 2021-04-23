@@ -53,7 +53,7 @@ public class PostShaders {
                 shader.setUniform("TimePassedSin", GlobalUniforms.timePassedSin);
                 shader.process(partialTicks);
             });
-        register(new ResourceLocation(Hallucinocraft.MOD_ID, "shaderes/post/bloom.json"),
+        register(new ResourceLocation(Hallucinocraft.MOD_ID, "shaders/post/bloom.json"),
             () -> DrugEffects.BLOOM_RADIUS.getValue() > EPSILON,
             (shader, partialTicks) -> {
                 shader.setUniform("Radius", DrugEffects.BLOOM_RADIUS.getValue());
