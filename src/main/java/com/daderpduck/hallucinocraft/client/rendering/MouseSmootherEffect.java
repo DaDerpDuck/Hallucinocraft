@@ -1,7 +1,6 @@
 package com.daderpduck.hallucinocraft.client.rendering;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.util.MouseSmoother;
 import net.minecraft.client.util.NativeUtil;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.api.distmarker.Dist;
@@ -10,8 +9,8 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 @OnlyIn(Dist.CLIENT)
 public class MouseSmootherEffect {
     public static final MouseSmootherEffect INSTANCE = new MouseSmootherEffect();
-    private final MouseSmoother smoothTurnX = new MouseSmoother();
-    private final MouseSmoother smoothTurnY = new MouseSmoother();
+    private final Smoother smoothTurnX = new Smoother();
+    private final Smoother smoothTurnY = new Smoother();
     private double lastMouseEventTime = Double.MIN_VALUE;
     private double amplifier = 0;
     private double smoothedX = 0;
@@ -39,11 +38,8 @@ public class MouseSmootherEffect {
             double d1 = d0 * d0 * d0 * 8.0D;
 
             double amplifier = getAmplifier();
-            double t = amplifier * amplifier * amplifier;
-            double lerped = MathHelper.lerp(t, 1.0D, deltaTime*d1);
-
-            smoothedX = smoothTurnX.getNewDeltaValue(deltaX*d1, lerped);
-            smoothedY = smoothTurnY.getNewDeltaValue(deltaY*d1, lerped);
+            smoothedX = smoothTurnX.getNewDeltaValue(deltaX*d1, deltaTime*d1, amplifier);
+            smoothedY = smoothTurnY.getNewDeltaValue(deltaY*d1, deltaTime*d1, amplifier);
         }
     }
 
@@ -53,5 +49,38 @@ public class MouseSmootherEffect {
 
     public double getY() {
         return smoothedY;
+    }
+
+    public void reset() {
+        smoothTurnX.reset();
+        smoothTurnY.reset();
+    }
+
+    private static class Smoother {
+        private double targetValue;
+        private double remainingValue;
+        private double lastAmount;
+
+        public double getNewDeltaValue(double target, double dt, double inertia) {
+            targetValue += target;
+            double t = 1D - inertia;
+            dt = MathHelper.lerp(t*t*t, dt, 1D);
+            double d0 = targetValue - remainingValue;
+            double d1 = MathHelper.lerp(1D - inertia/2D, lastAmount, d0);
+            double d2 = Math.signum(d0);
+            if (d2 * d0 > d2 * lastAmount) {
+                d0 = d1;
+            }
+
+            lastAmount = d1;
+            remainingValue += d0 * dt;
+            return d0 * dt;
+        }
+
+        public void reset() {
+            this.targetValue = 0.0D;
+            this.remainingValue = 0.0D;
+            this.lastAmount = 0.0D;
+        }
     }
 }

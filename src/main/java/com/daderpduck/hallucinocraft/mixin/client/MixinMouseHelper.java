@@ -17,8 +17,11 @@ public class MixinMouseHelper {
 
     @Inject(at = @At("HEAD"), method = "turnPlayer()V")
     private void onTurn(CallbackInfo ci) {
-        if (MouseSmootherEffect.INSTANCE.getAmplifier() > 0)
+        if (MouseSmootherEffect.INSTANCE.getAmplifier() > 0) {
             MouseSmootherEffect.INSTANCE.tick(accumulatedDX, accumulatedDY);
+        } else {
+            MouseSmootherEffect.INSTANCE.reset();
+        }
     }
 
     @Redirect(at = @At(value = "FIELD", target = "Lnet/minecraft/client/MouseHelper;accumulatedDX:D", ordinal = 1), method = "turnPlayer()V")
