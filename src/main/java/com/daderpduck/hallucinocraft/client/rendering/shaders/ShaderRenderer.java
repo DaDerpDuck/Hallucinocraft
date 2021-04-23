@@ -5,15 +5,12 @@ import com.daderpduck.hallucinocraft.drugs.DrugEffects;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.shader.Framebuffer;
-import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.common.Mod;
 import org.lwjgl.opengl.GL11;
 
 import java.io.IOException;
-
-import static com.daderpduck.hallucinocraft.client.rendering.shaders.PostShaders.*;
 
 @SuppressWarnings("deprecation")
 @OnlyIn(Dist.CLIENT)
@@ -32,9 +29,9 @@ public class ShaderRenderer {
 
         Minecraft mc = Minecraft.getInstance();
         clear(true);
+        PostShaders.setup();
 
         try {
-            PostShaders.init();
             shaderWorld = new WorldShader(mc.getResourceManager(), "hallucinocraft:world");
             shaderWorld.setSampler("texture", () -> 0);
             shaderWorld.setSampler("lightMap", () -> 2);
@@ -100,43 +97,11 @@ public class ShaderRenderer {
         RenderSystem.matrixMode(GL11.GL_TEXTURE);
         RenderSystem.pushMatrix();
         RenderSystem.loadIdentity();
-        renderPost(partialTicks);
+        PostShaders.processShaders(partialTicks);
         RenderSystem.popMatrix();
         RenderSystem.enableTexture();
 
         framebuffer.bindWrite(false);
-    }
-
-    private static void renderPost(float partialTicks) {
-        if (DrugEffects.HUE_AMPLITUDE.getValue() > EPSILON) {
-            DEPTH.setUniform("Amplitude", DrugEffects.HUE_AMPLITUDE.getClamped());
-            DEPTH.setUniform("TimePassed", GlobalUniforms.timePassed);
-            DEPTH.process(partialTicks);
-        }
-
-        if (DrugEffects.SATURATION.getValue() != 0 || DrugEffects.BRIGHTNESS.getValue() != 0) {
-            COLOR.setUniform("Saturation", MathHelper.clamp (DrugEffects.SATURATION.getValue() + 1F, 0F, 1.5F));
-            COLOR.setUniform("Brightness", DrugEffects.BRIGHTNESS.getValue());
-            COLOR.process(partialTicks);
-        }
-
-        if (DrugEffects.BUMPY.getValue() > EPSILON) {
-            BUMPY.setUniform("Intensity", DrugEffects.BUMPY.getValue());
-            BUMPY.process(partialTicks);
-        }
-
-        if (DrugEffects.KALEIDOSCOPE_INTENSITY.getValue() > EPSILON) {
-            KALEIDOSCOPE.setUniform("Extend", DrugEffects.KALEIDOSCOPE_INTENSITY.getValue());
-            KALEIDOSCOPE.setUniform("TimePassed", GlobalUniforms.timePassed);
-            KALEIDOSCOPE.setUniform("TimePassedSin", GlobalUniforms.timePassedSin);
-            KALEIDOSCOPE.process(partialTicks);
-        }
-
-        if (DrugEffects.BLOOM_RADIUS.getValue() > EPSILON) {
-            BLOOM.setUniform("Radius", DrugEffects.BLOOM_RADIUS.getValue());
-            BLOOM.setUniform("Threshold", 1F - DrugEffects.BLOOM_THRESHOLD.getClamped());
-            BLOOM.process(partialTicks);
-        }
     }
 
     public static WorldShader getWorldShader() {
