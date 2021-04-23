@@ -18,7 +18,8 @@ public enum DrugEffects {
     BUMPY(true),
     BRIGHTNESS(true),
     BLOOM_RADIUS(true),
-    BLOOM_THRESHOLD(true);
+    BLOOM_THRESHOLD(true),
+    RECURSION(true);
 
 
     private float value;

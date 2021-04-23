@@ -60,6 +60,13 @@ public class PostShaders {
                 shader.setUniform("Threshold", 1F - DrugEffects.BLOOM_THRESHOLD.getValue());
                 shader.process(partialTicks);
             });
+        register(new ResourceLocation(Hallucinocraft.MOD_ID, "shaders/post/recursion.json"),
+            () -> DrugEffects.RECURSION.getValue() > EPSILON,
+            (shader, partialTicks) -> {
+                shader.setUniform("Extend", DrugEffects.RECURSION.getValue());
+                shader.setUniform("TimePassed", GlobalUniforms.timePassed);
+                shader.process(partialTicks);
+            });
 
         useShaders = true;
     }
