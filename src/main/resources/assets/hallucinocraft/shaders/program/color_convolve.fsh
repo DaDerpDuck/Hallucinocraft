@@ -3,9 +3,6 @@
 uniform sampler2D DiffuseSampler;
 
 varying vec2 texCoord;
-varying vec2 oneTexel;
-
-uniform vec2 InSize;
 
 uniform vec3 Gray;
 uniform vec3 RedMatrix;
