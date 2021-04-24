@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.function.Supplier;
 
 public class ModItems {
-    public static final RegistryObject<DrugItem> RED_SHROOMS = registerDrug("red_shrooms", new DrugChain().add(DrugRegistry.RED_SHROOMS, 400, 0.3F, 9600));
+    public static final RegistryObject<DrugItem> RED_SHROOMS = registerDrug("red_shrooms", new DrugChain().add(DrugRegistry.RED_SHROOMS, 400, 0.3F, 6900));
     public static final RegistryObject<Item> DRIED_RED_MUSHROOM = registerItem("dried_red_mushroom");
 
     public static final RegistryObject<DrugItem> BROWN_SHROOMS = registerDrug("brown_shrooms", new DrugChain().add(DrugRegistry.BROWN_SHROOMS, 200, 0.3F, 3200));
