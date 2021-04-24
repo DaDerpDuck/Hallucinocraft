@@ -1,0 +1,20 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "hallucinocraft:item/empty_bong"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "damage": 0
+      },
+      "model": "hallucinocraft:item/filled_bong"
+    },
+    {
+      "predicate": {
+        "damage": 1
+      },
+      "model": "hallucinocraft:item/empty_bong"
+    }
+  ]
+}

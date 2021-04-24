@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    { "item": "hallucinocraft:bong" },
+    { "item": "minecraft:water_bucket" }
+  ],
+  "result": {
+    "item": "hallucinocraft:bong",
+    "nbt": {
+      "Damage": 0
+    }
+  }
+}

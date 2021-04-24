@@ -12,6 +12,8 @@ import net.minecraft.item.UseAction;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.ColorHandlerEvent;
+import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.RegistryObject;
 
 import java.util.ArrayList;
@@ -42,7 +44,9 @@ public class ModItems {
 
     public static final RegistryObject<Item> EMPTY_SYRINGE = registerItem("syringe", 16);
     public static final RegistryObject<SyringeItem> COCAINE_SYRINGE = registerSyringe("cocaine_syringe", new DrugChain().add(DrugRegistry.COCAINE, 0, 0.5F, 4800), 0xFFFFFFFF);
-    public static final RegistryObject<Item> COKE_CAKE = registerBlock("coke_cake", ModBlocks.COKE_CAKE_BLOCK, 1);
+
+    public static final RegistryObject<Item> BONG = registerItem("bong", () -> new BongItem(new Item.Properties().durability(8).setNoRepair().tab(Hallucinocraft.TAB)));
+
 
     public static RegistryObject<DrugItem> registerDrug(String name, DrugChain drugChain) {
         return registerDrug(name, drugChain, UseAction.EAT, 64);
@@ -93,7 +97,7 @@ public class ModItems {
     }
 
     public static class DrugChain {
-        private final List<DrugEffectProperty> list = new ArrayList<>();
+        public final List<DrugEffectProperty> list = new ArrayList<>();
 
         public DrugChain add(RegistryObject<Drug> drug, int delayTicks, float potencyPercentage, int duration) {
             list.add(new DrugEffectProperty(drug, delayTicks, potencyPercentage, duration));
@@ -101,11 +105,11 @@ public class ModItems {
         }
     }
 
-    private static class DrugEffectProperty {
-        private final RegistryObject<Drug> drug;
-        private final int delayTicks;
-        private final float potencyPercentage;
-        private final int duration;
+    public static class DrugEffectProperty {
+        public final RegistryObject<Drug> drug;
+        public final int delayTicks;
+        public final float potencyPercentage;
+        public final int duration;
 
         public DrugEffectProperty(RegistryObject<Drug> drug, int delayTicks, float potencyPercentage, int duration) {
             this.drug = drug;
@@ -119,7 +123,6 @@ public class ModItems {
     @OnlyIn(Dist.CLIENT)
     public static void registerItemColors(ColorHandlerEvent.Item event) {
         event.getItemColors().register(new SyringeItem.Color(), COCAINE_SYRINGE.get());
-        event.getItemColors().register(new BongItem.Color(), BONG.get());
     }
 
     public static void init(IEventBus modBus) {
