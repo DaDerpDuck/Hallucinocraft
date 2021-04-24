@@ -18,7 +18,6 @@ public class Cocaine extends Drug {
     @Override
     public void effectTick(PlayerEntity player, float effect) {
         DrugEffects.MOVEMENT_SPEED.addValue(effect*1.1F);
-        DrugEffects.DIG_SPEED.addValue(effect*1.1F);
         super.effectTick(player, effect);
     }
 }
