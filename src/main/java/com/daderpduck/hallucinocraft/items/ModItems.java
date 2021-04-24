@@ -38,6 +38,7 @@ public class ModItems {
     public static final RegistryObject<Item> CANNABIS_BUD = registerItem("cannabis_bud");
     public static final RegistryObject<Item> EMPTY_SYRINGE = registerItem("syringe", 16);
     public static final RegistryObject<SyringeItem> COCAINE_SYRINGE = registerSyringe("cocaine_syringe", new DrugChain().add(DrugRegistry.COCAINE, 0, 0.5F, 4800), 0xFFFFFFFF);
+    public static final RegistryObject<Item> COKE_CAKE = registerBlock("coke_cake", ModBlocks.COKE_CAKE_BLOCK, 1);
 
     public static RegistryObject<DrugItem> registerDrug(String name, DrugChain drugChain) {
         return registerDrug(name, drugChain, UseAction.EAT, 64);
@@ -60,11 +61,19 @@ public class ModItems {
     }
 
     public static <T extends Block> RegistryObject<Item> registerBlock(String name, RegistryObject<T> block) {
-        return registerItem(name, () -> new BlockItem(block.get(), new Item.Properties().tab(Hallucinocraft.TAB)));
+        return registerBlock(name, block, 64);
+    }
+
+    public static <T extends Block> RegistryObject<Item> registerBlock(String name, RegistryObject<T> block, int stackSize) {
+        return registerItem(name, () -> new BlockItem(block.get(), new Item.Properties().tab(Hallucinocraft.TAB).stacksTo(stackSize)));
     }
 
     public static <T extends Block> RegistryObject<Item> registerBlockNamed(String name, RegistryObject<T> block) {
-        return registerItem(name, () -> new BlockNamedItem(block.get(), new Item.Properties().tab(Hallucinocraft.TAB)));
+        return registerBlockNamed(name, block, 64);
+    }
+
+    public static <T extends Block> RegistryObject<Item> registerBlockNamed(String name, RegistryObject<T> block, int stackSize) {
+        return registerItem(name, () -> new BlockNamedItem(block.get(), new Item.Properties().tab(Hallucinocraft.TAB).stacksTo(stackSize)));
     }
 
     public static RegistryObject<Item> registerItem(String name) {
