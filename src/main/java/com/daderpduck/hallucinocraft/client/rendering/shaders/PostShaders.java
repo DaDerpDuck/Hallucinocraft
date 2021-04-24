@@ -35,7 +35,7 @@ public class PostShaders {
         register(new ResourceLocation(Hallucinocraft.MOD_ID, "shaders/post/color.json"),
             () -> DrugEffects.SATURATION.getValue() != 0 || DrugEffects.BRIGHTNESS.getValue() != 0,
             (shader, partialTicks) -> {
-                shader.setUniform("Saturation", MathHelper.clamp(DrugEffects.SATURATION.getValue() + 1F, 0F, 1.5F));
+                shader.setUniform("Saturation", MathHelper.clamp(DrugEffects.SATURATION.getValue() + 1F, 0F, 3F));
                 shader.setUniform("Brightness", DrugEffects.BRIGHTNESS.getValue());
                 shader.process(partialTicks);
             });
@@ -45,6 +45,13 @@ public class PostShaders {
                 shader.setUniform("Intensity", DrugEffects.BUMPY.getValue());
                 shader.process(partialTicks);
             });
+        register(new ResourceLocation(Hallucinocraft.MOD_ID, "shaders/post/recursion.json"),
+                () -> DrugEffects.RECURSION.getValue() > EPSILON,
+                (shader, partialTicks) -> {
+                    shader.setUniform("Extend", DrugEffects.RECURSION.getValue());
+                    shader.setUniform("TimePassed", GlobalUniforms.timePassed);
+                    shader.process(partialTicks);
+                });
         register(new ResourceLocation(Hallucinocraft.MOD_ID, "shaders/post/kaleidoscope.json"),
             () -> DrugEffects.KALEIDOSCOPE_INTENSITY.getValue() > EPSILON,
             (shader, partialTicks) -> {
@@ -58,13 +65,6 @@ public class PostShaders {
             (shader, partialTicks) -> {
                 shader.setUniform("Radius", DrugEffects.BLOOM_RADIUS.getValue());
                 shader.setUniform("Threshold", 1F - DrugEffects.BLOOM_THRESHOLD.getValue());
-                shader.process(partialTicks);
-            });
-        register(new ResourceLocation(Hallucinocraft.MOD_ID, "shaders/post/recursion.json"),
-            () -> DrugEffects.RECURSION.getValue() > EPSILON,
-            (shader, partialTicks) -> {
-                shader.setUniform("Extend", DrugEffects.RECURSION.getValue());
-                shader.setUniform("TimePassed", GlobalUniforms.timePassed);
                 shader.process(partialTicks);
             });
 

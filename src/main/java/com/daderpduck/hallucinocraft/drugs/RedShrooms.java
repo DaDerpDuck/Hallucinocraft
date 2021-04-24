@@ -10,11 +10,13 @@ public class RedShrooms extends Drug {
         DrugEffects.BIG_WAVES.addValue(effect*0.3F);
         DrugEffects.SMALL_WAVES.addValue(effect*0.4F);
         DrugEffects.WIGGLE_WAVES.addValue(effect*0.4F);
-        DrugEffects.WORLD_DEFORMATION.addValue(effect*1.3F);
-        DrugEffects.KALEIDOSCOPE_INTENSITY.addValue(effect*effect*0.2F);
-        DrugEffects.SATURATION.addValue(Math.min(effect, 0.5F)*0.5F);
-        DrugEffects.HUE_AMPLITUDE.addValue(effect*0.8F);
+        DrugEffects.WORLD_DEFORMATION.addValue(effect*0.7F);
+        DrugEffects.SATURATION.addValue(effect*2.0F);
+        DrugEffects.HUE_AMPLITUDE.addValue(effect*0.4F);
         DrugEffects.CAMERA_TREMBLE.addValue(effect*0.5F);
+        if (effect > 0.7) {
+            DrugEffects.KALEIDOSCOPE_INTENSITY.addValue((effect - 0.7F)*15.0F);
+        }
         super.renderTick(effect);
     }
 }
