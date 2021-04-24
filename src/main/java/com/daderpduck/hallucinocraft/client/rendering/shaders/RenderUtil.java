@@ -5,6 +5,7 @@ import com.daderpduck.hallucinocraft.mixin.client.InvokerRenderUtilsOF;
 import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.lwjgl.opengl.GL11;
@@ -41,6 +42,7 @@ public class RenderUtil {
         bufferExt.flushRenderBuffers();
     }
 
+    private static long lastErrorTime = System.currentTimeMillis();
     public static void checkGlErrors() {
         int i = GlStateManager._getError();
         if (i != GL11.GL_NO_ERROR) {
@@ -64,8 +66,15 @@ public class RenderUtil {
                 case GL11.GL_OUT_OF_MEMORY:
                     e = "out of memory";
                     break;
+                default:
+                    e = "unknown";
+                    break;
             }
-            Hallucinocraft.LOGGER.error(e);
+            if ((System.currentTimeMillis() - lastErrorTime) > 10000L) {
+                lastErrorTime = System.currentTimeMillis();
+                Hallucinocraft.LOGGER.error("Shader error: {}", e);
+                Minecraft.getInstance().gui.getChat().addMessage(new StringTextComponent("Hallucinocraft Shader Error: " + e));
+            }
         }
     }
 }
