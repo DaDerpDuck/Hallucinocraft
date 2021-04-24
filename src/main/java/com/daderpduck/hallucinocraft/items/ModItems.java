@@ -115,12 +115,14 @@ public class ModItems {
         }
     }
 
+    @SubscribeEvent
     @OnlyIn(Dist.CLIENT)
     public static void registerItemColors(ColorHandlerEvent.Item event) {
         event.getItemColors().register(new SyringeItem.Color(), COCAINE_SYRINGE.get());
         event.getItemColors().register(new BongItem.Color(), BONG.get());
     }
 
-    public static void init() {
+    public static void init(IEventBus modBus) {
+        modBus.register(ModItems.class);
     }
 }
