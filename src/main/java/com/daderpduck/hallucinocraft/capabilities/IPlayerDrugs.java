@@ -28,4 +28,14 @@ public interface IPlayerDrugs {
     void setActives(Map<Drug, Float> activeDrugs);
 
     Map<Drug, Float> getActiveDrugs();
+
+    void addDrugAbuse(Drug drug, int ticks);
+
+    int getDrugAbuse(Drug drug);
+
+    void tickDrugAbuse();
+
+    void setDrugAbuseMap(Map<Drug, Integer> drugAbuseMap);
+
+    Map<Drug, Integer> getDrugAbuseMap();
 }

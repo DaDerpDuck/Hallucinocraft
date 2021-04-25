@@ -29,15 +29,13 @@ import net.minecraftforge.fml.network.PacketDistributor;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class PlayerDrugs {
     static class Implementation implements IPlayerDrugs {
         private final Map<Drug, Float> active = new HashMap<>();
         private final List<DrugInstance> sources = new ArrayList<>();
+        private final Map<Drug, Integer> abuseTimers = new HashMap<>();
 
         @Override
         public void addDrugSource(DrugInstance drug) {
@@ -95,6 +93,32 @@ public class PlayerDrugs {
         public Map<Drug, Float> getActiveDrugs() {
             return active;
         }
+
+        @Override
+        public void addDrugAbuse(Drug drug, int ticks) {
+            abuseTimers.put(drug, abuseTimers.getOrDefault(drug, 0) + ticks);
+        }
+
+        @Override
+        public int getDrugAbuse(Drug drug) {
+            return abuseTimers.getOrDefault(drug, 0);
+        }
+
+        @Override
+        public void tickDrugAbuse() {
+            abuseTimers.replaceAll((drug, tick) -> --tick <= 0 ? null : tick);
+        }
+
+        @Override
+        public void setDrugAbuseMap(Map<Drug, Integer> drugAbuseMap) {
+            abuseTimers.clear();
+            abuseTimers.putAll(drugAbuseMap);
+        }
+
+        @Override
+        public Map<Drug, Integer> getDrugAbuseMap() {
+            return abuseTimers;
+        }
     }
 
     static class Provider implements ICapabilitySerializable<CompoundNBT> {
@@ -139,6 +163,13 @@ public class PlayerDrugs {
                 drugSources.add(drugProperties);
             }
             nbt.put("sources", drugSources);
+
+            CompoundNBT drugAbuse = new CompoundNBT();
+            instance.getDrugAbuseMap().forEach((drug, tick) -> {
+                if (tick > 0)
+                    drugAbuse.putInt(Objects.requireNonNull(drug.getRegistryName()).getPath(), tick);
+            });
+            nbt.put("abuse", drugAbuse);
 
             return nbt;
         }

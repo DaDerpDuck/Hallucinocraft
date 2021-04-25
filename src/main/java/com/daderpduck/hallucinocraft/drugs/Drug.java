@@ -4,7 +4,6 @@ import com.daderpduck.hallucinocraft.Hallucinocraft;
 import com.daderpduck.hallucinocraft.capabilities.IPlayerDrugs;
 import com.daderpduck.hallucinocraft.capabilities.PlayerProperties;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.api.distmarker.Dist;
@@ -12,17 +11,18 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 
 import javax.annotation.Nullable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 public class Drug extends ForgeRegistryEntry<Drug> {
-    private final float harmingPoint;
-    private final DamageSource damageSource;
     private final Envelope envelope;
+    private final int abuseAdder;
 
     public Drug(DrugProperties properties) {
-        this.harmingPoint = properties.harmingPoint;
-        this.damageSource = properties.damageSource;
         this.envelope = Objects.requireNonNull(properties.envelope);
+        this.abuseAdder = properties.abuseAdder;
     }
 
     @Nullable
@@ -35,13 +35,11 @@ public class Drug extends ForgeRegistryEntry<Drug> {
     }
 
     public static void addDrug(PlayerEntity player, DrugInstance drugInstance) {
-        IPlayerDrugs playerDrugs = PlayerProperties.getPlayerDrugs(player);
-        playerDrugs.addDrugSource(drugInstance);
+        PlayerProperties.getPlayerDrugs(player).addDrugSource(drugInstance);
     }
 
     public static void clearDrugs(PlayerEntity player) {
-        IPlayerDrugs playerDrugs = PlayerProperties.getPlayerDrugs(player);
-        playerDrugs.clearDrugSources();
+        PlayerProperties.getPlayerDrugs(player).clearDrugSources();
     }
 
     public static List<DrugInstance> getDrugSources(PlayerEntity player) {
@@ -52,11 +50,20 @@ public class Drug extends ForgeRegistryEntry<Drug> {
         return PlayerProperties.getPlayerDrugs(player).getActiveDrugs();
     }
 
+    public static int getAbuse(PlayerEntity player, Drug drug) {
+        return PlayerProperties.getPlayerDrugs(player).getDrugAbuse(drug);
+    }
+
+    public static void addAbuse(PlayerEntity player, Drug drug, int ticks) {
+        PlayerProperties.getPlayerDrugs(player).addDrugAbuse(drug, ticks);
+    }
+
     public static void tick(PlayerEntity player) {
         IPlayerDrugs playerDrugs = PlayerProperties.getPlayerDrugs(player);
         Map<Drug, Float> map = playerDrugs.getActiveDrugs();
         List<DrugInstance> toRemove = new ArrayList<>();
 
+        playerDrugs.tickDrugAbuse();
         map.clear();
 
         for (DrugInstance drugInstance : playerDrugs.getDrugSources()) {
@@ -74,6 +81,7 @@ public class Drug extends ForgeRegistryEntry<Drug> {
                 }
 
                 map.put(drug, map.get(drug) + effect);
+                addAbuse(player, drug, drug.getAbuseAdder());
             }
         }
 
@@ -90,27 +98,26 @@ public class Drug extends ForgeRegistryEntry<Drug> {
     }
 
     public void effectTick(PlayerEntity player, float effect) {
-        if (harmingPoint > 0 && effect < harmingPoint && !player.isInvulnerableTo(damageSource)) {
-            player.hurt(damageSource, getDamage(effect));
-        }
     }
 
     @OnlyIn(Dist.CLIENT)
     public void renderTick(float effect) {
     }
 
-    public float getDamage(float effect) {
-        return 0;
+    public int getAbuse(PlayerEntity playerEntity) {
+        return Drug.getAbuse(playerEntity, this);
+    }
+
+    public int getAbuseAdder() {
+        return abuseAdder;
     }
 
     public Envelope getEnvelope() {
         return envelope;
     }
 
-    // TODO: Make envelope percentage-based
     public static class DrugProperties {
-        private float harmingPoint = -1;
-        private DamageSource damageSource;
+        private int abuseAdder = 0;
         private Envelope envelope;
 
         public DrugProperties adsr(float attack, float decay, float sustain, float release) {
@@ -118,9 +125,8 @@ public class Drug extends ForgeRegistryEntry<Drug> {
             return this;
         }
 
-        public DrugProperties harmfulAt(float harmingPoint, DamageSource damageSource) {
-            this.harmingPoint = harmingPoint;
-            this.damageSource = damageSource;
+        public DrugProperties abuse(int ticks) {
+            abuseAdder = ticks;
             return this;
         }
     }
