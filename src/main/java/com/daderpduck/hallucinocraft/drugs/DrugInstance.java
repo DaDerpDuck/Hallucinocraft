@@ -40,11 +40,7 @@ public class DrugInstance {
     }
 
     public float getEffect(Drug.Envelope envelope) {
-        if (timeActive++ < duration) {
-            return potency*envelope.getRisingLevel(timeActive);
-        } else {
-            return potency*envelope.getDecayingLevel(timeActive - duration);
-        }
+        return potency*envelope.getLevel(timeActive++, duration);
     }
 
     public float getPotency() {

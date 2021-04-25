@@ -138,7 +138,15 @@ public class Drug extends ForgeRegistryEntry<Drug> {
             this.release = release;
         }
 
-        public float getRisingLevel(float timeRising) {
+        public float getLevel(int timeActive, int duration) {
+            if (timeActive < duration) {
+                return getRisingLevel(timeActive);
+            } else {
+                return getDecayingLevel(timeActive - duration);
+            }
+        }
+
+        private float getRisingLevel(float timeRising) {
             if (timeRising < attack) {
                 return lerp(0F, 1F, (float) MathHelper.smoothstep(timeRising/attack));
             } else if (timeRising < attack + decay) {
@@ -148,7 +156,7 @@ public class Drug extends ForgeRegistryEntry<Drug> {
             }
         }
 
-        public float getDecayingLevel(float timeDecaying) {
+        private float getDecayingLevel(float timeDecaying) {
             return lerp(sustain, 0F, (float) MathHelper.smoothstep(timeDecaying/release));
         }
 
