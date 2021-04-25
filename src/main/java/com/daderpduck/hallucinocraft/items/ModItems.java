@@ -35,7 +35,7 @@ public class ModItems {
     public static final RegistryObject<Item> COCA_LEAF = registerItem("coca_leaf");
     public static final RegistryObject<Item> COCA_SEEDS = registerBlockNamed("coca_seeds", ModBlocks.COCA_BLOCK);
 
-    public static final RegistryObject<DrugItem> CANNABIS_JOINT = registerDrug("cannabis_joint", new DrugChain().add(DrugRegistry.CANNABIS, 0, 0.12F, 3200), UseAction.BOW, 16);
+    public static final RegistryObject<JointItem> CANNABIS_JOINT = registerJoint("cannabis_joint", new DrugChain().add(DrugRegistry.CANNABIS, 0, 0.12F, 3200));
     public static final RegistryObject<Item> DRIED_CANNABIS_LEAF = registerItem("dried_cannabis_leaf");
     public static final RegistryObject<Item> CANNABIS_LEAF = registerItem("cannabis_leaf");
     public static final RegistryObject<Item> DRIED_CANNABIS_BUD = registerItem("dried_cannabis_bud");
@@ -66,6 +66,14 @@ public class ModItems {
             itemProperties.addDrug(property.drug, property.delayTicks, property.potencyPercentage, property.duration);
         }
         return registerItem(name, () -> new SyringeItem(itemProperties.tab(Hallucinocraft.TAB).stacksTo(1)));
+    }
+
+    public static RegistryObject<JointItem> registerJoint(String name, DrugChain drugChain) {
+        DrugItem.Properties itemProperties = new DrugItem.Properties();
+        for (DrugEffectProperty property : drugChain.list) {
+            itemProperties.addDrug(property.drug, property.delayTicks, property.potencyPercentage, property.duration);
+        }
+        return registerItem(name, () -> new JointItem(itemProperties.useAction(UseAction.BOW).stacksTo(16).tab(Hallucinocraft.TAB)));
     }
 
     public static <T extends Block> RegistryObject<Item> registerBlock(String name, RegistryObject<T> block) {
