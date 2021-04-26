@@ -12,7 +12,6 @@ import net.minecraft.entity.ai.attributes.ModifiableAttributeInstance;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.particles.ParticleTypes;
-import net.minecraft.tags.FluidTags;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.server.ServerWorld;
@@ -38,7 +37,7 @@ public class DrugHandler {
 
             if ((int) drugEffects.DROWN_RATE.getValue() > 0) {
                 player.setAirSupply(player.getAirSupply() - (int) drugEffects.DROWN_RATE.getValue());
-                if (player.getAirSupply() == -20 && !player.isEyeInFluid(FluidTags.WATER)) {
+                if (player.getAirSupply() <= -20) {
                     player.setAirSupply(0);
                     player.hurt(DamageSource.DROWN, 2F);
                 }
