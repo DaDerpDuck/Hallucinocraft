@@ -40,6 +40,12 @@ public class DrugHandler {
             if (drugEffects.HUNGER_RATE.getValue() > 0) {
                 player.causeFoodExhaustion(0.005F*drugEffects.HUNGER_RATE.getValue());
             }
+            if (drugEffects.REGENERATION_RATE.getValue() > 0) {
+                int k = (int) (50/(2*drugEffects.REGENERATION_RATE.getValue()));
+                if (k > 0 && player.tickCount % k == 0 && player.getHealth() < player.getMaxHealth()) {
+                    player.heal(1F);
+                }
+            }
         } else {
             drugEffects.reset(false);
         }
