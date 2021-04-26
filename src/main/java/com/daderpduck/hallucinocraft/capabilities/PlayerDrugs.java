@@ -2,6 +2,7 @@ package com.daderpduck.hallucinocraft.capabilities;
 
 import com.daderpduck.hallucinocraft.Hallucinocraft;
 import com.daderpduck.hallucinocraft.drugs.Drug;
+import com.daderpduck.hallucinocraft.drugs.DrugEffects;
 import com.daderpduck.hallucinocraft.drugs.DrugInstance;
 import com.daderpduck.hallucinocraft.network.ActiveDrugCapSync;
 import com.daderpduck.hallucinocraft.network.DrugCapSync;
@@ -36,6 +37,7 @@ public class PlayerDrugs {
         private final Map<Drug, Float> active = new HashMap<>();
         private final List<DrugInstance> sources = new ArrayList<>();
         private final Map<Drug, Integer> abuseTimers = new HashMap<>();
+        private final DrugEffects drugEffects = new DrugEffects();
 
         @Override
         public void addDrugSource(DrugInstance drug) {
@@ -119,6 +121,11 @@ public class PlayerDrugs {
         @Override
         public Map<Drug, Integer> getDrugAbuseMap() {
             return abuseTimers;
+        }
+
+        @Override
+        public DrugEffects getDrugEffects() {
+            return drugEffects;
         }
     }
 

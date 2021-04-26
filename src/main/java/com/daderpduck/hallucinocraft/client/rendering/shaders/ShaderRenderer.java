@@ -1,6 +1,7 @@
 package com.daderpduck.hallucinocraft.client.rendering.shaders;
 
 import com.daderpduck.hallucinocraft.Hallucinocraft;
+import com.daderpduck.hallucinocraft.drugs.Drug;
 import com.daderpduck.hallucinocraft.drugs.DrugEffects;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
@@ -58,6 +59,7 @@ public class ShaderRenderer {
         if (activeShader) return;
         activeShader = true;
 
+        DrugEffects drugEffects = Drug.getDrugEffects();
         shaderWorld.clear();
 
         shaderWorld.safeGetUniform("modelViewMat").setMatrix(GlobalUniforms.modelView);
@@ -65,10 +67,10 @@ public class ShaderRenderer {
         shaderWorld.safeGetUniform("timePassed").setFloat(GlobalUniforms.timePassed);
         shaderWorld.safeGetUniform("fogMode").setInt(GlobalUniforms.fogMode);
 
-        shaderWorld.safeGetUniform("smallWaves").setFloat(DrugEffects.SMALL_WAVES.getClamped());
-        shaderWorld.safeGetUniform("bigWaves").setFloat(DrugEffects.BIG_WAVES.getClamped());
-        shaderWorld.safeGetUniform("wiggleWaves").setFloat(DrugEffects.WIGGLE_WAVES.getClamped());
-        shaderWorld.safeGetUniform("distantWorldDeformation").setFloat(DrugEffects.WORLD_DEFORMATION.getValue());
+        shaderWorld.safeGetUniform("smallWaves").setFloat(drugEffects.SMALL_WAVES.getClamped());
+        shaderWorld.safeGetUniform("bigWaves").setFloat(drugEffects.BIG_WAVES.getClamped());
+        shaderWorld.safeGetUniform("wiggleWaves").setFloat(drugEffects.WIGGLE_WAVES.getClamped());
+        shaderWorld.safeGetUniform("distantWorldDeformation").setFloat(drugEffects.WORLD_DEFORMATION.getValue());
 
         shaderWorld.apply();
     }

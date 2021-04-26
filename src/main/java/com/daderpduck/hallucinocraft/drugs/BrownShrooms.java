@@ -6,17 +6,16 @@ public class BrownShrooms extends Drug {
     }
 
     @Override
-    public void renderTick(float effect) {
-        DrugEffects.BIG_WAVES.addValue(effect*0.3F);
-        DrugEffects.SMALL_WAVES.addValue(effect*0.4F);
-        DrugEffects.WIGGLE_WAVES.addValue(effect*0.4F);
-        DrugEffects.WORLD_DEFORMATION.addValue(effect*0.7F);
-        DrugEffects.SATURATION.addValue(effect*2.0F);
-        DrugEffects.HUE_AMPLITUDE.addValue(effect*0.4F);
-        DrugEffects.CAMERA_TREMBLE.addValue(effect*0.5F);
+    public void renderTick(DrugEffects drugEffects, float effect) {
+        drugEffects.BIG_WAVES.addValue(effect*0.3F);
+        drugEffects.SMALL_WAVES.addValue(effect*0.4F);
+        drugEffects.WIGGLE_WAVES.addValue(effect*0.4F);
+        drugEffects.WORLD_DEFORMATION.addValue(effect*0.7F);
+        drugEffects.SATURATION.addValue(effect*2.0F);
+        drugEffects.HUE_AMPLITUDE.addValue(effect*0.4F);
+        drugEffects.CAMERA_TREMBLE.addValue(effect*0.5F);
         if (effect > 0.7) {
-            DrugEffects.RECURSION.addValue((effect - 0.7F)*15.0F);
+            drugEffects.RECURSION.addValue((effect - 0.7F)*15.0F);
         }
-        super.renderTick(effect);
     }
 }

@@ -8,16 +8,14 @@ public class Cocaine extends Drug {
     }
 
     @Override
-    public void renderTick(float effect) {
-        DrugEffects.SATURATION.addValue(effect*-0.5F);
-        DrugEffects.CAMERA_TREMBLE.addValue(effect*5F);
-        DrugEffects.BUMPY.addValue(effect*320.0F);
-        super.renderTick(effect);
+    public void renderTick(DrugEffects drugEffects, float effect) {
+        drugEffects.SATURATION.addValue(effect*-0.5F);
+        drugEffects.CAMERA_TREMBLE.addValue(effect*5F);
+        drugEffects.BUMPY.addValue(effect*320.0F);
     }
 
     @Override
-    public void effectTick(PlayerEntity player, float effect) {
-        DrugEffects.MOVEMENT_SPEED.addValue(effect*1.1F);
-        super.effectTick(player, effect);
+    public void effectTick(PlayerEntity player, DrugEffects drugEffects, float effect) {
+        drugEffects.MOVEMENT_SPEED.addValue(effect*1.1F);
     }
 }

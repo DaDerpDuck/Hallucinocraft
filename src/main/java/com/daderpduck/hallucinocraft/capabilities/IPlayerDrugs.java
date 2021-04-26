@@ -1,6 +1,7 @@
 package com.daderpduck.hallucinocraft.capabilities;
 
 import com.daderpduck.hallucinocraft.drugs.Drug;
+import com.daderpduck.hallucinocraft.drugs.DrugEffects;
 import com.daderpduck.hallucinocraft.drugs.DrugInstance;
 
 import javax.annotation.Nullable;
@@ -38,4 +39,6 @@ public interface IPlayerDrugs {
     void setDrugAbuseMap(Map<Drug, Integer> drugAbuseMap);
 
     Map<Drug, Integer> getDrugAbuseMap();
+
+    DrugEffects getDrugEffects();
 }

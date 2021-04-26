@@ -5,7 +5,6 @@ import com.daderpduck.hallucinocraft.client.rendering.shaders.PostShaders;
 import com.daderpduck.hallucinocraft.client.rendering.shaders.RenderUtil;
 import com.daderpduck.hallucinocraft.client.rendering.shaders.ShaderRenderer;
 import com.daderpduck.hallucinocraft.drugs.Drug;
-import com.daderpduck.hallucinocraft.drugs.DrugEffects;
 import com.daderpduck.hallucinocraft.events.hooks.BobHurtEvent;
 import com.daderpduck.hallucinocraft.events.hooks.RenderEvent;
 import com.daderpduck.hallucinocraft.mixin.client.InvokerConfigOF;
@@ -44,21 +43,19 @@ public class DrugRenderer {
             Map<Drug, Float> activeDrugs = Drug.getActiveDrugs(mc.player);
 
             activeDrugs.forEach((drug, effect) -> {
-                if (effect > 0) drug.renderTick(effect);
+                if (effect > 0) drug.renderTick(Drug.getDrugEffects(), effect);
             });
 
-            MouseSmootherEffect.INSTANCE.setAmplifier(DrugEffects.CAMERA_INERTIA.getClamped());
+            MouseSmootherEffect.INSTANCE.setAmplifier(Drug.getDrugEffects().CAMERA_INERTIA.getClamped());
         } else {
-            for (DrugEffects effect : DrugEffects.values()) {
-                if (effect.isClientOnly()) effect.resetValue();
-            }
+            Drug.getDrugEffects().reset(true);
         }
     }
 
     private static final CameraTrembleEffect trembleEffect = new CameraTrembleEffect();
     @SubscribeEvent
     public static void onBobHurt(BobHurtEvent event) {
-        trembleEffect.setAmplitude(DrugEffects.CAMERA_TREMBLE.getValue());
+        trembleEffect.setAmplitude(Drug.getDrugEffects().CAMERA_TREMBLE.getValue());
         trembleEffect.tick(event.matrixStack);
     }
 

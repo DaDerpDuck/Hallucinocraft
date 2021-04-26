@@ -1,6 +1,7 @@
 package com.daderpduck.hallucinocraft.client.rendering.shaders;
 
 import com.daderpduck.hallucinocraft.Hallucinocraft;
+import com.daderpduck.hallucinocraft.drugs.Drug;
 import com.daderpduck.hallucinocraft.drugs.DrugEffects;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
@@ -26,45 +27,51 @@ public class PostShaders {
 
     public static void setup() {
         register(new ResourceLocation(Hallucinocraft.MOD_ID, "shaders/post/depth.json"),
-            () -> DrugEffects.HUE_AMPLITUDE.getValue() > EPSILON,
+            () -> Drug.getDrugEffects().HUE_AMPLITUDE.getValue() > EPSILON,
             (shader, partialTicks) -> {
-                shader.setUniform("Amplitude", DrugEffects.HUE_AMPLITUDE.getClamped());
+                DrugEffects drugEffects = Drug.getDrugEffects();
+                shader.setUniform("Amplitude", drugEffects.HUE_AMPLITUDE.getClamped());
                 shader.setUniform("TimePassed", GlobalUniforms.timePassed);
                 shader.process(partialTicks);
             });
         register(new ResourceLocation(Hallucinocraft.MOD_ID, "shaders/post/color.json"),
-            () -> DrugEffects.SATURATION.getValue() != 0 || DrugEffects.BRIGHTNESS.getValue() != 0,
+            () -> Drug.getDrugEffects().SATURATION.getValue() != 0 || Drug.getDrugEffects().BRIGHTNESS.getValue() != 0,
             (shader, partialTicks) -> {
-                shader.setUniform("Saturation", MathHelper.clamp(DrugEffects.SATURATION.getValue() + 1F, 0F, 3F));
-                shader.setUniform("Brightness", DrugEffects.BRIGHTNESS.getValue());
+                DrugEffects drugEffects = Drug.getDrugEffects();
+                shader.setUniform("Saturation", MathHelper.clamp(drugEffects.SATURATION.getValue() + 1F, 0F, 3F));
+                shader.setUniform("Brightness", drugEffects.BRIGHTNESS.getValue());
                 shader.process(partialTicks);
             });
         register(new ResourceLocation(Hallucinocraft.MOD_ID, "shaders/post/bumpy.json"),
-            () -> DrugEffects.BUMPY.getValue() > EPSILON,
+            () -> Drug.getDrugEffects().BUMPY.getValue() > EPSILON,
             (shader, partialTicks) -> {
-                shader.setUniform("Intensity", DrugEffects.BUMPY.getValue());
+                DrugEffects drugEffects = Drug.getDrugEffects();
+                shader.setUniform("Intensity", drugEffects.BUMPY.getValue());
                 shader.process(partialTicks);
             });
         register(new ResourceLocation(Hallucinocraft.MOD_ID, "shaders/post/recursion.json"),
-                () -> DrugEffects.RECURSION.getValue() > EPSILON,
-                (shader, partialTicks) -> {
-                    shader.setUniform("Extend", DrugEffects.RECURSION.getValue());
-                    shader.setUniform("TimePassed", GlobalUniforms.timePassed);
-                    shader.process(partialTicks);
-                });
-        register(new ResourceLocation(Hallucinocraft.MOD_ID, "shaders/post/kaleidoscope.json"),
-            () -> DrugEffects.KALEIDOSCOPE_INTENSITY.getValue() > EPSILON,
+            () -> Drug.getDrugEffects().RECURSION.getValue() > EPSILON,
             (shader, partialTicks) -> {
-                shader.setUniform("Extend", DrugEffects.KALEIDOSCOPE_INTENSITY.getValue());
+                DrugEffects drugEffects = Drug.getDrugEffects();
+                shader.setUniform("Extend", drugEffects.RECURSION.getValue());
+                shader.setUniform("TimePassed", GlobalUniforms.timePassed);
+                shader.process(partialTicks);
+            });
+        register(new ResourceLocation(Hallucinocraft.MOD_ID, "shaders/post/kaleidoscope.json"),
+            () -> Drug.getDrugEffects().KALEIDOSCOPE_INTENSITY.getValue() > EPSILON,
+            (shader, partialTicks) -> {
+                DrugEffects drugEffects = Drug.getDrugEffects();
+                shader.setUniform("Extend", drugEffects.KALEIDOSCOPE_INTENSITY.getValue());
                 shader.setUniform("TimePassed", GlobalUniforms.timePassed);
                 shader.setUniform("TimePassedSin", GlobalUniforms.timePassedSin);
                 shader.process(partialTicks);
             });
         register(new ResourceLocation(Hallucinocraft.MOD_ID, "shaders/post/bloom.json"),
-            () -> DrugEffects.BLOOM_RADIUS.getValue() > EPSILON,
+            () -> Drug.getDrugEffects().BLOOM_RADIUS.getValue() > EPSILON,
             (shader, partialTicks) -> {
-                shader.setUniform("Radius", DrugEffects.BLOOM_RADIUS.getValue());
-                shader.setUniform("Threshold", 1F - DrugEffects.BLOOM_THRESHOLD.getValue());
+                DrugEffects drugEffects = Drug.getDrugEffects();
+                shader.setUniform("Radius", drugEffects.BLOOM_RADIUS.getValue());
+                shader.setUniform("Threshold", 1F - drugEffects.BLOOM_THRESHOLD.getValue());
                 shader.process(partialTicks);
             });
 

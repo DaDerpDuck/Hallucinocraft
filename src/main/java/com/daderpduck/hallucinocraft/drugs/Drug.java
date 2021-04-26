@@ -3,6 +3,7 @@ package com.daderpduck.hallucinocraft.drugs;
 import com.daderpduck.hallucinocraft.Hallucinocraft;
 import com.daderpduck.hallucinocraft.capabilities.IPlayerDrugs;
 import com.daderpduck.hallucinocraft.capabilities.PlayerProperties;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
@@ -58,6 +59,16 @@ public class Drug extends ForgeRegistryEntry<Drug> {
         PlayerProperties.getPlayerDrugs(player).addDrugAbuse(drug, ticks);
     }
 
+    public static DrugEffects getDrugEffects(PlayerEntity playerEntity) {
+        return PlayerProperties.getPlayerDrugs(playerEntity).getDrugEffects();
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    public static DrugEffects getDrugEffects() {
+        assert Minecraft.getInstance().player != null;
+        return PlayerProperties.getPlayerDrugs(Minecraft.getInstance().player).getDrugEffects();
+    }
+
     public static void tick(PlayerEntity player) {
         IPlayerDrugs playerDrugs = PlayerProperties.getPlayerDrugs(player);
         Map<Drug, Float> map = playerDrugs.getActiveDrugs();
@@ -93,15 +104,15 @@ public class Drug extends ForgeRegistryEntry<Drug> {
             float clamped = MathHelper.clamp(entry.getValue(), 0F, 1F);
             if (clamped < 1E-6F) continue;
             entry.setValue(clamped);
-            entry.getKey().effectTick(player, clamped);
+            entry.getKey().effectTick(player, getDrugEffects(player), clamped);
         }
     }
 
-    public void effectTick(PlayerEntity player, float effect) {
+    public void effectTick(PlayerEntity player, DrugEffects drugEffects, float effect) {
     }
 
     @OnlyIn(Dist.CLIENT)
-    public void renderTick(float effect) {
+    public void renderTick(DrugEffects drugEffects, float effect) {
     }
 
     public int getAbuse(PlayerEntity playerEntity) {

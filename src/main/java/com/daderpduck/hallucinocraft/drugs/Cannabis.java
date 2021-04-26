@@ -8,18 +8,16 @@ public class Cannabis extends Drug {
     }
 
     @Override
-    public void renderTick(float effect) {
-        DrugEffects.SATURATION.addValue(effect*2F);
-        DrugEffects.BLOOM_RADIUS.addValue(effect*15.0F);
-        DrugEffects.BLOOM_THRESHOLD.addValue(effect);
-        DrugEffects.CAMERA_INERTIA.addValue(effect);
-        super.renderTick(effect);
+    public void renderTick(DrugEffects drugEffects, float effect) {
+        drugEffects.SATURATION.addValue(effect*2F);
+        drugEffects.BLOOM_RADIUS.addValue(effect*15.0F);
+        drugEffects.BLOOM_THRESHOLD.addValue(effect);
+        drugEffects.CAMERA_INERTIA.addValue(effect);
     }
 
     @Override
-    public void effectTick(PlayerEntity player, float effect) {
-        DrugEffects.MOVEMENT_SPEED.addValue(effect*-0.2F);
-        DrugEffects.DIG_SPEED.addValue(effect*-0.2F);
-        super.effectTick(player, effect);
+    public void effectTick(PlayerEntity player, DrugEffects drugEffects, float effect) {
+        drugEffects.MOVEMENT_SPEED.addValue(effect*-0.2F);
+        drugEffects.DIG_SPEED.addValue(effect*-0.2F);
     }
 }

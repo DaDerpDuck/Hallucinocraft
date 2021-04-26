@@ -20,10 +20,17 @@ public class DrugHandler {
     @SubscribeEvent
     public static void playerTick(TickEvent.PlayerTickEvent event) {
         PlayerEntity player = event.player;
-        Drug.tick(player);
+        DrugEffects drugEffects = Drug.getDrugEffects(player);
+        if (event.phase == TickEvent.Phase.START) {
+            Drug.tick(player);
 
-        modifyAttribute(player, Attributes.MOVEMENT_SPEED, "Drug movement speed", Math.max(DrugEffects.MOVEMENT_SPEED.getValue(), -0.5F), AttributeModifier.Operation.MULTIPLY_TOTAL);
-        modifyAttribute(player, Attributes.ATTACK_SPEED, "Drug attack speed", Math.max(DrugEffects.DIG_SPEED.getValue(), -0.5F), AttributeModifier.Operation.MULTIPLY_TOTAL);
+            modifyAttribute(player, Attributes.MOVEMENT_SPEED, "Drug movement speed", Math.max(drugEffects.MOVEMENT_SPEED.getValue(), -0.5F), AttributeModifier.Operation.MULTIPLY_TOTAL);
+            modifyAttribute(player, Attributes.ATTACK_SPEED, "Drug attack speed", Math.max(drugEffects.DIG_SPEED.getValue(), -0.5F), AttributeModifier.Operation.MULTIPLY_TOTAL);
+        } else {
+            drugEffects.reset(false);
+        }
+    }
+
 
         for (DrugEffects effect : DrugEffects.values()) {
             if (!effect.isClientOnly()) effect.resetValue();
