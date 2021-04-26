@@ -5,7 +5,7 @@
   "refmap": "hallucinocraft.refmap.json",
   "package": "com.daderpduck.hallucinocraft.mixin",
   "mixins": [
-
+    "MixinLivingEntity"
   ],
   "client": [
     "client.AccessorRenderTypeBuffer",
