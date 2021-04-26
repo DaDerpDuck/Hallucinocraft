@@ -186,7 +186,7 @@ public class PlayerDrugs {
             CompoundNBT drugAbuse = new CompoundNBT();
             instance.getDrugAbuseMap().forEach((drug, tick) -> {
                 if (tick > 0)
-                    drugAbuse.putInt(Objects.requireNonNull(drug.getRegistryName()).getPath(), tick);
+                    drugAbuse.putInt(Drug.toName(drug), tick);
             });
             nbt.put("abuse", drugAbuse);
 
@@ -203,11 +203,21 @@ public class PlayerDrugs {
                     CompoundNBT drugProperties = (CompoundNBT) drugSource;
                     Drug drug = Drug.byName(drugProperties.getString("id"));
                     if (drug == null) {
-                        Hallucinocraft.LOGGER.warn("Tried to read non-existent registry {}, ignoring", drugProperties.getString("id"));
+                        Hallucinocraft.LOGGER.warn("Tried to read non-existent registry {} from sources, ignoring", drugProperties.getString("id"));
                         continue;
                     }
                     DrugInstance drugInstance = new DrugInstance(drug, drugProperties.getInt("delay"), drugProperties.getFloat("potency"), drugProperties.getInt("duration"), drugProperties.getInt("timeActive"));
                     instance.addDrugSource(drugInstance);
+                }
+
+                CompoundNBT drugAbuse = nbt.getCompound("abuse");
+                for (String drugKey : drugAbuse.getAllKeys()) {
+                    Drug drug = Drug.byName(drugKey);
+                    if (drug == null) {
+                        Hallucinocraft.LOGGER.warn("Tried to read non-existent registry {} from abuse map, ignoring", drugKey);
+                        continue;
+                    }
+                    instance.addDrugAbuse(drug, drugAbuse.getInt(drugKey));
                 }
             }
         }

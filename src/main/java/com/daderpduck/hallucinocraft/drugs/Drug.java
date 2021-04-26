@@ -1,6 +1,5 @@
 package com.daderpduck.hallucinocraft.drugs;
 
-import com.daderpduck.hallucinocraft.Hallucinocraft;
 import com.daderpduck.hallucinocraft.capabilities.IPlayerDrugs;
 import com.daderpduck.hallucinocraft.capabilities.PlayerProperties;
 import net.minecraft.client.Minecraft;
@@ -27,12 +26,12 @@ public class Drug extends ForgeRegistryEntry<Drug> {
     }
 
     @Nullable
-    public static Drug byName(String name) {
-        return DrugRegistry.DRUGS.getValue(new ResourceLocation(Hallucinocraft.MOD_ID, name));
+    public static Drug byName(String resource) {
+        return DrugRegistry.DRUGS.getValue(new ResourceLocation(resource));
     }
 
     public static String toName(Drug drug) {
-        return Objects.requireNonNull(DrugRegistry.DRUGS.getKey(drug)).getPath();
+        return Objects.requireNonNull(DrugRegistry.DRUGS.getKey(drug)).toString();
     }
 
     public static void addDrug(PlayerEntity player, DrugInstance drugInstance) {
@@ -92,7 +91,6 @@ public class Drug extends ForgeRegistryEntry<Drug> {
                 }
 
                 map.put(drug, map.get(drug) + effect);
-                if (drug.getAbuseAdder() > 0) addAbuse(player, drug, drug.getAbuseAdder());
             }
         }
 
@@ -104,15 +102,22 @@ public class Drug extends ForgeRegistryEntry<Drug> {
             float clamped = MathHelper.clamp(entry.getValue(), 0F, 1F);
             if (clamped < 1E-6F) continue;
             entry.setValue(clamped);
-            entry.getKey().effectTick(player, getDrugEffects(player), clamped);
+            Drug drug = entry.getKey();
+            drug.effectTick(player, getDrugEffects(player), clamped);
+            if (drug.getAbuseAdder() > 0) addAbuse(player, drug, drug.getAbuseAdder());
         }
+
+        playerDrugs.getDrugAbuseMap().forEach((drug, abuse) -> drug.abuseTick(player, getDrugEffects(player), abuse));
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    public void renderTick(DrugEffects drugEffects, float effect) {
     }
 
     public void effectTick(PlayerEntity player, DrugEffects drugEffects, float effect) {
     }
 
-    @OnlyIn(Dist.CLIENT)
-    public void renderTick(DrugEffects drugEffects, float effect) {
+    public void abuseTick(PlayerEntity player, DrugEffects drugEffects, int abuse) {
     }
 
     public int getAbuse(PlayerEntity playerEntity) {
