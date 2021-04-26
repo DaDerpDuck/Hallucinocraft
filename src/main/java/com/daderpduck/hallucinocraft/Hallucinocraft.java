@@ -75,6 +75,7 @@ public class Hallucinocraft {
         PlayerProperties.register();
         CompostRegistry.register();
         BongRegistry.register();
+        SetDrugCommand.registerSerializer();
     }
 
     private void doClientStuff(final FMLClientSetupEvent event) {

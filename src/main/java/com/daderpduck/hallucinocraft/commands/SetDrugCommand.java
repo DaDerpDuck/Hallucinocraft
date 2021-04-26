@@ -8,6 +8,8 @@ import com.mojang.brigadier.arguments.FloatArgumentType;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;
+import net.minecraft.command.arguments.ArgumentSerializer;
+import net.minecraft.command.arguments.ArgumentTypes;
 import net.minecraft.command.arguments.EntityArgument;
 import net.minecraft.entity.player.ServerPlayerEntity;
 
@@ -21,7 +23,7 @@ public class SetDrugCommand {
                 Commands.literal("drug").requires(source -> source.hasPermission(2))
                     .then(Commands.literal("give")
                         .then(Commands.argument("players", EntityArgument.players())
-                            .then(Commands.argument("drug", new DrugArgument())
+                            .then(Commands.argument("drug", DrugArgument.drug())
                                 .executes(context -> setDrugValue(context.getSource(), EntityArgument.getPlayers(context, "players"), DrugArgument.getDrug(context, "drug"), 0.5F, 1200))
                                 .then(Commands.argument("potency", FloatArgumentType.floatArg(0, 1))
                                     .executes(context -> setDrugValue(context.getSource(), EntityArgument.getPlayers(context, "players"), DrugArgument.getDrug(context, "drug"), FloatArgumentType.getFloat(context, "potency"), 1200))
@@ -31,6 +33,10 @@ public class SetDrugCommand {
                         .then(Commands.argument("players", EntityArgument.players())
                             .executes(context -> clearDrug(context.getSource(), EntityArgument.getPlayers(context, "players")))))
         );
+    }
+
+    public static void registerSerializer() {
+        ArgumentTypes.register("hallucinocraft:drug", DrugArgument.class, new ArgumentSerializer<>(DrugArgument::drug));
     }
 
     private static int setDrugValue(CommandSource source, Collection<ServerPlayerEntity> players, Drug drug, float potency, int duration) {

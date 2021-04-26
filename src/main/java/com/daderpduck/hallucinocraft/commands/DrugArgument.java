@@ -14,10 +14,17 @@ import net.minecraft.command.ISuggestionProvider;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TranslationTextComponent;
 
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.concurrent.CompletableFuture;
 
 public class DrugArgument implements ArgumentType<Drug> {
+    private static final Collection<String> EXAMPLES = Arrays.asList("hallucinocraft:brown_shrooms", "hallucinocraft:cannabis");
     public static final DynamicCommandExceptionType ERROR_UNKNOWN_DRUG = new DynamicCommandExceptionType(function -> new TranslationTextComponent("hallucinocraft.drug.drugNotFound", function));
+
+    public static DrugArgument drug() {
+        return new DrugArgument();
+    }
 
     @Override
     public Drug parse(StringReader reader) throws CommandSyntaxException {
@@ -33,6 +40,11 @@ public class DrugArgument implements ArgumentType<Drug> {
     @Override
     public <S> CompletableFuture<Suggestions> listSuggestions(final CommandContext<S> context, final SuggestionsBuilder builder) {
         return ISuggestionProvider.suggestResource(DrugRegistry.DRUGS.getKeys(), builder);
+    }
+
+    @Override
+    public Collection<String> getExamples() {
+        return EXAMPLES;
     }
 
     public static Drug getDrug(CommandContext<CommandSource> context, String name) {
