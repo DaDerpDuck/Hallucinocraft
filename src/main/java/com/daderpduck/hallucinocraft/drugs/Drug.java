@@ -92,7 +92,7 @@ public class Drug extends ForgeRegistryEntry<Drug> {
                 }
 
                 map.put(drug, map.get(drug) + effect);
-                addAbuse(player, drug, drug.getAbuseAdder());
+                if (drug.getAbuseAdder() > 0) addAbuse(player, drug, drug.getAbuseAdder());
             }
         }
 
