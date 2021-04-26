@@ -19,4 +19,14 @@ public class Cocaine extends Drug {
         drugEffects.MOVEMENT_SPEED.addValue(effect*1.1F);
         if (effect == 1.0) drugEffects.DROWN_RATE.addValue(1F);
     }
+
+    @Override
+    public void abuseTick(PlayerEntity player, DrugEffects drugEffects, int abuse) {
+        if (abuse > 8000) {
+            drugEffects.MOVEMENT_SPEED.addValue(-0.001F*(float)(abuse - 8000));
+        }
+        if (abuse > 12000) {
+            drugEffects.DROWN_RATE.addValue(1F);
+        }
+    }
 }
