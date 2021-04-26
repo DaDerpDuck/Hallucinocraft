@@ -18,7 +18,7 @@ public class ModBlocks {
     public static final RegistryObject<TallCropsBlock> CANNABIS_BLOCK = register("cannabis", () -> new CannabisBlock(AbstractBlock.Properties.of(Material.PLANT).strength(0F).noCollission().randomTicks().sound(SoundType.CROP)));
     public static final RegistryObject<CokeCakeBlock> COKE_CAKE_BLOCK = register("coke_cake", () -> new CokeCakeBlock(AbstractBlock.Properties.of(Material.CAKE).strength(0.5F).sound(SoundType.WOOL)));
 
-    public static <T extends Block> RegistryObject<T> register(String name, Supplier<T> supplier) {
+    private static <T extends Block> RegistryObject<T> register(String name, Supplier<T> supplier) {
         return Hallucinocraft.BLOCKS.register(name, supplier);
     }
 

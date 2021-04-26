@@ -48,11 +48,11 @@ public class ModItems {
     public static final RegistryObject<Item> BONG = registerItem("bong", () -> new BongItem(new Item.Properties().durability(8).setNoRepair().tab(Hallucinocraft.TAB)));
 
 
-    public static RegistryObject<DrugItem> registerDrug(String name, DrugChain drugChain) {
+    private static RegistryObject<DrugItem> registerDrug(String name, DrugChain drugChain) {
         return registerDrug(name, drugChain, UseAction.EAT, 64);
     }
 
-    public static RegistryObject<DrugItem> registerDrug(String name, DrugChain drugChain, UseAction useAction, int stackSize) {
+    private static RegistryObject<DrugItem> registerDrug(String name, DrugChain drugChain, UseAction useAction, int stackSize) {
         DrugItem.Properties itemProperties = new DrugItem.Properties();
         for (DrugEffectProperty property : drugChain.list) {
             itemProperties.addDrug(property.drug, property.delayTicks, property.potencyPercentage, property.duration);
@@ -60,7 +60,7 @@ public class ModItems {
         return registerItem(name, () -> new DrugItem(itemProperties.useAction(useAction).stacksTo(stackSize).tab(Hallucinocraft.TAB)));
     }
 
-    public static RegistryObject<SyringeItem> registerSyringe(String name, DrugChain drugChain, int color) {
+    private static RegistryObject<SyringeItem> registerSyringe(String name, DrugChain drugChain, int color) {
         SyringeItem.Properties itemProperties = new SyringeItem.Properties().color(color);
         for (DrugEffectProperty property : drugChain.list) {
             itemProperties.addDrug(property.drug, property.delayTicks, property.potencyPercentage, property.duration);
@@ -68,7 +68,7 @@ public class ModItems {
         return registerItem(name, () -> new SyringeItem(itemProperties.tab(Hallucinocraft.TAB).stacksTo(1)));
     }
 
-    public static RegistryObject<JointItem> registerJoint(String name, DrugChain drugChain) {
+    private static RegistryObject<JointItem> registerJoint(String name, DrugChain drugChain) {
         DrugItem.Properties itemProperties = new DrugItem.Properties();
         for (DrugEffectProperty property : drugChain.list) {
             itemProperties.addDrug(property.drug, property.delayTicks, property.potencyPercentage, property.duration);
@@ -76,31 +76,31 @@ public class ModItems {
         return registerItem(name, () -> new JointItem(itemProperties.useAction(UseAction.BOW).stacksTo(16).tab(Hallucinocraft.TAB)));
     }
 
-    public static <T extends Block> RegistryObject<Item> registerBlock(String name, RegistryObject<T> block) {
+    private static <T extends Block> RegistryObject<Item> registerBlock(String name, RegistryObject<T> block) {
         return registerBlock(name, block, 64);
     }
 
-    public static <T extends Block> RegistryObject<Item> registerBlock(String name, RegistryObject<T> block, int stackSize) {
+    private static <T extends Block> RegistryObject<Item> registerBlock(String name, RegistryObject<T> block, int stackSize) {
         return registerItem(name, () -> new BlockItem(block.get(), new Item.Properties().tab(Hallucinocraft.TAB).stacksTo(stackSize)));
     }
 
-    public static <T extends Block> RegistryObject<Item> registerBlockNamed(String name, RegistryObject<T> block) {
+    private static <T extends Block> RegistryObject<Item> registerBlockNamed(String name, RegistryObject<T> block) {
         return registerBlockNamed(name, block, 64);
     }
 
-    public static <T extends Block> RegistryObject<Item> registerBlockNamed(String name, RegistryObject<T> block, int stackSize) {
+    private static <T extends Block> RegistryObject<Item> registerBlockNamed(String name, RegistryObject<T> block, int stackSize) {
         return registerItem(name, () -> new BlockNamedItem(block.get(), new Item.Properties().tab(Hallucinocraft.TAB).stacksTo(stackSize)));
     }
 
-    public static RegistryObject<Item> registerItem(String name) {
+    private static RegistryObject<Item> registerItem(String name) {
         return registerItem(name, () -> new Item(new Item.Properties().tab(Hallucinocraft.TAB)));
     }
 
-    public static RegistryObject<Item> registerItem(String name, int stackSize) {
+    private static RegistryObject<Item> registerItem(String name, int stackSize) {
         return registerItem(name, () -> new Item(new Item.Properties().tab(Hallucinocraft.TAB).stacksTo(stackSize)));
     }
 
-    public static <T extends Item> RegistryObject<T> registerItem(String name, Supplier<T> supplier) {
+    private static <T extends Item> RegistryObject<T> registerItem(String name, Supplier<T> supplier) {
         return Hallucinocraft.ITEMS.register(name, supplier);
     }
 
