@@ -38,6 +38,7 @@ public class PlayerDrugs {
         private final List<DrugInstance> sources = new ArrayList<>();
         private final Map<Drug, Integer> abuseTimers = new HashMap<>();
         private final DrugEffects drugEffects = new DrugEffects();
+        private int smokeTick = 0;
 
         @Override
         public void addDrugSource(DrugInstance drug) {
@@ -126,6 +127,16 @@ public class PlayerDrugs {
         @Override
         public DrugEffects getDrugEffects() {
             return drugEffects;
+        }
+
+        @Override
+        public void setSmokeTicks(int ticks) {
+            smokeTick = ticks;
+        }
+
+        @Override
+        public int getSmokeTicks() {
+            return smokeTick;
         }
     }
 

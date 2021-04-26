@@ -1,6 +1,8 @@
 package com.daderpduck.hallucinocraft.drugs;
 
 import com.daderpduck.hallucinocraft.Hallucinocraft;
+import com.daderpduck.hallucinocraft.capabilities.IPlayerDrugs;
+import com.daderpduck.hallucinocraft.capabilities.PlayerProperties;
 import com.daderpduck.hallucinocraft.events.hooks.IncreaseAirSupplyEvent;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.attributes.Attribute;
@@ -8,8 +10,12 @@ import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.attributes.ModifiableAttributeInstance;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.particles.ParticleTypes;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -51,6 +57,20 @@ public class DrugHandler {
         }
     }
 
+    @SubscribeEvent
+    public static void worldTick(TickEvent.WorldTickEvent event) {
+        if (event.world.isClientSide) return;
+
+        ServerWorld serverWorld = (ServerWorld) event.world;
+        for (ServerPlayerEntity player : serverWorld.players()) {
+            IPlayerDrugs playerDrugs = PlayerProperties.getPlayerDrugs(player);
+            if (playerDrugs.getSmokeTicks() > 0) {
+                playerDrugs.setSmokeTicks(playerDrugs.getSmokeTicks() - 1);
+                Vector3d lookVector = player.getLookAngle();
+                serverWorld.sendParticles(ParticleTypes.SMOKE, player.getX(), player.getY() + player.getEyeHeight(), player.getZ(), 0, lookVector.x, lookVector.y, lookVector.z, 0.1);
+            }
+        }
+    }
 
     @SubscribeEvent
     public static void breatheEvent(IncreaseAirSupplyEvent event) {

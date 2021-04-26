@@ -41,4 +41,8 @@ public interface IPlayerDrugs {
     Map<Drug, Integer> getDrugAbuseMap();
 
     DrugEffects getDrugEffects();
+
+    void setSmokeTicks(int ticks);
+
+    int getSmokeTicks();
 }

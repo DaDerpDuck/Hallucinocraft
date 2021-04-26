@@ -1,13 +1,12 @@
 package com.daderpduck.hallucinocraft.items;
 
+import com.daderpduck.hallucinocraft.capabilities.PlayerProperties;
 import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.particles.ParticleTypes;
-import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
@@ -20,9 +19,8 @@ public class JointItem extends DrugItem {
 
     @Override
     public ItemStack finishUsingItem(ItemStack itemStack, World world, LivingEntity entity) {
-        if (!world.isClientSide) {
-            Vector3d lookVector = entity.getLookAngle();
-            ((ServerWorld)world).sendParticles(ParticleTypes.SMOKE, entity.getX(), entity.getY() + entity.getEyeHeight(), entity.getZ(), 0, lookVector.x, lookVector.y, lookVector.z, 0.1);
+        if (entity instanceof PlayerEntity) {
+            PlayerProperties.getPlayerDrugs((PlayerEntity) entity).setSmokeTicks(4);
         }
 
         return super.finishUsingItem(itemStack, world, entity);
