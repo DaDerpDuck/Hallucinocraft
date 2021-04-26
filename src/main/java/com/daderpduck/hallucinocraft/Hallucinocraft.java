@@ -9,10 +9,12 @@ import com.daderpduck.hallucinocraft.items.BongRegistry;
 import com.daderpduck.hallucinocraft.items.CompostRegistry;
 import com.daderpduck.hallucinocraft.items.ModItems;
 import com.daderpduck.hallucinocraft.network.PacketHandler;
+import com.daderpduck.hallucinocraft.sounds.ModSounds;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.SoundEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -44,6 +46,7 @@ public class Hallucinocraft {
 
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, MOD_ID);
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, MOD_ID);
+    public static final DeferredRegister<SoundEvent> SOUNDS = DeferredRegister.create(ForgeRegistries.SOUND_EVENTS, MOD_ID);
     public static final DeferredRegister<Drug> DRUGS = DeferredRegister.create(Drug.class, MOD_ID);
 
     public Hallucinocraft() {
@@ -51,10 +54,12 @@ public class Hallucinocraft {
 
         ITEMS.register(modEventBus);
         BLOCKS.register(modEventBus);
+        SOUNDS.register(modEventBus);
         DRUGS.register(modEventBus);
 
         ModItems.init(modEventBus);
         ModBlocks.init();
+        ModSounds.init();
 
         PacketHandler.init();
 

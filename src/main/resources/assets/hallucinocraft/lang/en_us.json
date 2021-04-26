@@ -1,5 +1,6 @@
 {
   "itemGroup.creativetab": "Hallucinocraft",
+
   "item.hallucinocraft.red_shrooms": "Red Shrooms",
   "item.hallucinocraft.dried_red_mushroom": "Dried Red Mushroom",
   "item.hallucinocraft.brown_shrooms": "Brown Shrooms",
@@ -21,6 +22,10 @@
   "item.hallucinocraft.coke_cake": "Coke",
   "item.hallucinocraft.cigarette": "Cigarette",
   "item.hallucinocraft.bong": "Bong",
+
+  "item.bong_hit": "Bong hit",
+  "item.bong_hit.sub": "Bong hit",
+
   "block.hallucinocraft.coca": "Coca",
   "block.hallucinocraft.cannabis": "Cannabis",
   "block.hallucinocraft.coke_cake": "Coke"

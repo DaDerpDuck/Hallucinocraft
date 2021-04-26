@@ -2,6 +2,7 @@ package com.daderpduck.hallucinocraft.items;
 
 import com.daderpduck.hallucinocraft.drugs.Drug;
 import com.daderpduck.hallucinocraft.drugs.DrugInstance;
+import com.daderpduck.hallucinocraft.sounds.ModSounds;
 import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.enchantment.IVanishable;
 import net.minecraft.entity.LivingEntity;
@@ -13,6 +14,7 @@ import net.minecraft.item.UseAction;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.NonNullList;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.world.World;
 
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -71,6 +73,8 @@ public class BongItem extends Item implements IVanishable {
                 itemStack.setDamageValue(itemStack.getDamageValue() + 1);
                 offhandItem.shrink(1);
             }
+
+            world.playSound(playerEntity, playerEntity.blockPosition(), ModSounds.BONG_HIT.get(), SoundCategory.PLAYERS, 1F, 1F);
         }
 
         return itemStack;
