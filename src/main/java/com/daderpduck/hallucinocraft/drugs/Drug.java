@@ -107,7 +107,8 @@ public class Drug extends ForgeRegistryEntry<Drug> {
             if (drug.getAbuseAdder() > 0) addAbuse(player, drug, drug.getAbuseAdder());
         }
 
-        playerDrugs.getDrugAbuseMap().forEach((drug, abuse) -> drug.abuseTick(player, getDrugEffects(player), abuse));
+        if (!player.level.isClientSide) // abuse map isn't synced, so to fix spasms, this is here
+            playerDrugs.getDrugAbuseMap().forEach((drug, abuse) -> drug.abuseTick(player, getDrugEffects(player), abuse));
     }
 
     @OnlyIn(Dist.CLIENT)
