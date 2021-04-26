@@ -37,6 +37,9 @@ public class DrugHandler {
                     player.hurt(DamageSource.DROWN, 2F);
                 }
             }
+            if (drugEffects.HUNGER_RATE.getValue() > 0) {
+                player.causeFoodExhaustion(0.005F*drugEffects.HUNGER_RATE.getValue());
+            }
         } else {
             drugEffects.reset(false);
         }

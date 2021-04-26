@@ -19,5 +19,6 @@ public class Cannabis extends Drug {
     public void effectTick(PlayerEntity player, DrugEffects drugEffects, float effect) {
         drugEffects.MOVEMENT_SPEED.addValue(effect*-0.2F);
         drugEffects.DIG_SPEED.addValue(effect*-0.2F);
+        drugEffects.HUNGER_RATE.addValue(effect);
     }
 }
