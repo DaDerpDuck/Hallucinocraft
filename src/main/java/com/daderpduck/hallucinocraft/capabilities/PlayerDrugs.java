@@ -106,7 +106,8 @@ public class PlayerDrugs {
 
         @Override
         public void tickDrugAbuse() {
-            abuseTimers.replaceAll((drug, tick) -> --tick <= 0 ? null : tick);
+            abuseTimers.replaceAll((drug, tick) -> tick - 1);
+            abuseTimers.values().removeIf(tick -> tick <= 0);
         }
 
         @Override
