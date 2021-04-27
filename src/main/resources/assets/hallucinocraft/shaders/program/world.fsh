@@ -13,21 +13,22 @@ uniform int fogMode;
 uniform int fogEnabled;
 uniform float timePassed;
 
-varying vec4 texCoord;
-varying vec4 lmCoord;
+varying vec2 texCoord;
+varying vec2 lmCoord;
 varying vec3 normalVector;
+varying vec4 color;
 
 const int GL_LINEAR = 9729;
 const int GL_EXP = 2048;
 const int GL_EXP2 = 2049;
 
 void main() {
-    gl_FragColor = texture2D(texture, texCoord.st) * gl_Color;
+    gl_FragColor = texture2D(texture, texCoord) * color;
 
     gl_FragColor.rgb = mix(gl_FragColor.rgb, entityColor.rgb, entityColor.a);
 
     if (lightmapEnabled == 1) {
-        gl_FragColor *= texture2D(lightMap, lmCoord.st);
+        gl_FragColor *= texture2D(lightMap, lmCoord);
     }
 
     if (lightEnabled == 1) {

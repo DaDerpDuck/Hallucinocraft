@@ -1,8 +1,9 @@
 #version 120
 
-varying vec4 texCoord;
-varying vec4 lmCoord;
+varying vec2 texCoord;
+varying vec2 lmCoord;
 varying vec3 normalVector;
+varying vec4 color;
 
 uniform mat4 modelViewMat;
 uniform mat4 modelViewInverseMat;
@@ -14,8 +15,9 @@ uniform float timePassed;
 
 void main(){
     normalVector = normalize(gl_NormalMatrix * gl_Normal);
-    texCoord = gl_TextureMatrix[0] * gl_MultiTexCoord0;
-    lmCoord = gl_TextureMatrix[2] * gl_MultiTexCoord2;
+    texCoord = (gl_TextureMatrix[0] * gl_MultiTexCoord0).st;
+    lmCoord = (gl_TextureMatrix[2] * gl_MultiTexCoord2).st;
+    color = gl_Color;
 
     float ticksPassed = timePassed*20.0;
 
