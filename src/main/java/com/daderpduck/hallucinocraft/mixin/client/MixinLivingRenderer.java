@@ -32,16 +32,16 @@ public abstract class MixinLivingRenderer<T extends LivingEntity, M extends Enti
         float swellingColor = getWhiteOverlayProgress(entity, partialTicks);
 
         if (entity.hurtTime > 0 || entity.deathTime > 0) {
-            MinecraftForge.EVENT_BUS.post(new EntityColorEvent(entity, 1F, 0F, 0F, 0.3F));
+            MinecraftForge.EVENT_BUS.post(new EntityColorEvent(1F, 0F, 0F, 0.3F));
         }
 
         if (swellingColor > 0) {
-            MinecraftForge.EVENT_BUS.post(new EntityColorEvent(entity, swellingColor, swellingColor, swellingColor, 0.5F));
+            MinecraftForge.EVENT_BUS.post(new EntityColorEvent(swellingColor, swellingColor, swellingColor, 0.5F));
         }
     }
 
     @Inject(at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/matrix/MatrixStack;popPose()V"), method = "render")
     private void entityColorEnd(T entity, float entityYaw, float partialTicks, MatrixStack matrixStack, IRenderTypeBuffer buffer, int light, CallbackInfo ci) {
-        MinecraftForge.EVENT_BUS.post(new EntityColorEvent(entity, 0F, 0F, 0F, 0F));
+        MinecraftForge.EVENT_BUS.post(new EntityColorEvent(0F, 0F, 0F, 0F));
     }
 }
