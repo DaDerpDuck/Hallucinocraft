@@ -1,6 +1,7 @@
 package com.daderpduck.hallucinocraft.events.hooks;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
+import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -47,10 +48,12 @@ public class RenderEvent extends Event {
         }
     }
 
-    // TODO: Hook this
     public static class RenderBlockOutlineEvent extends RenderEvent {
-        public RenderBlockOutlineEvent(Phase phase) {
+        public final IRenderTypeBuffer.Impl buffer;
+
+        public RenderBlockOutlineEvent(Phase phase, IRenderTypeBuffer.Impl buffer) {
             super(phase);
+            this.buffer = buffer;
         }
     }
 
