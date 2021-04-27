@@ -5,10 +5,12 @@ import com.daderpduck.hallucinocraft.mixin.client.InvokerRenderUtilsOF;
 import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL30;
 
 @OnlyIn(Dist.CLIENT)
 public class RenderUtil {
@@ -43,38 +45,40 @@ public class RenderUtil {
     }
 
     private static long lastErrorTime = System.currentTimeMillis();
-    public static void checkGlErrors() {
+    public static void checkGlErrors(String location) {
         int i = GlStateManager._getError();
         if (i != GL11.GL_NO_ERROR) {
-            String e = "";
-            switch (i) {
-                case GL11.GL_INVALID_ENUM:
-                    e = "invalid enum";
-                    break;
-                case GL11.GL_INVALID_VALUE:
-                    e = "invalid value";
-                    break;
-                case GL11.GL_INVALID_OPERATION:
-                    e = "invalid operation";
-                    break;
-                case GL11.GL_STACK_OVERFLOW:
-                    e = "stack overflow";
-                    break;
-                case GL11.GL_STACK_UNDERFLOW:
-                    e = "stack underflow";
-                    break;
-                case GL11.GL_OUT_OF_MEMORY:
-                    e = "out of memory";
-                    break;
-                default:
-                    e = "unknown";
-                    break;
-            }
+            String e = getGlErrorString(i);
             if ((System.currentTimeMillis() - lastErrorTime) > 10000L) {
                 lastErrorTime = System.currentTimeMillis();
-                Hallucinocraft.LOGGER.error("Shader error: {}", e);
-                Minecraft.getInstance().gui.getChat().addMessage(new StringTextComponent("Hallucinocraft Shader Error: " + e));
+                Hallucinocraft.LOGGER.error("OpenGL error: {} ({}) at: {}", e, i, location);
+
+                String chatMessage = I18n.get("hallucinocraft.message.glError", e, i, location);
+                Minecraft.getInstance().gui.getChat().addMessage(new StringTextComponent(chatMessage));
             }
+        }
+    }
+
+    public static String getGlErrorString(int i) {
+        switch (i) {
+            case GL11.GL_NO_ERROR:
+                return "No error";
+            case GL11.GL_INVALID_ENUM:
+                return "Invalid enum";
+            case GL11.GL_INVALID_VALUE:
+                return "Invalid value";
+            case GL11.GL_INVALID_OPERATION:
+                return "Invalid operation";
+            case GL11.GL_STACK_OVERFLOW:
+                return "Stack overflow";
+            case GL11.GL_STACK_UNDERFLOW:
+                return "Stack underflow";
+            case GL11.GL_OUT_OF_MEMORY:
+                return "Out of memory";
+            case GL30.GL_INVALID_FRAMEBUFFER_OPERATION:
+                return "Invalid framebuffer operation";
+            default:
+                return "Unknown";
         }
     }
 }

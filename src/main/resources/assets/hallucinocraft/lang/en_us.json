@@ -28,5 +28,7 @@
 
   "block.hallucinocraft.coca": "Coca",
   "block.hallucinocraft.cannabis": "Cannabis",
-  "block.hallucinocraft.coke_cake": "Coke"
+  "block.hallucinocraft.coke_cake": "Coke",
+
+  "hallucinocraft.message.glError": "§eHallucinocraft GL Error§f: %s (%s) at %s"
 }
