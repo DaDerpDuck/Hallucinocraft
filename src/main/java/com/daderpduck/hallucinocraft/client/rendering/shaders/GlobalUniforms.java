@@ -105,7 +105,7 @@ public class GlobalUniforms {
         if (event.name.equals("crumbling")) {
             ShaderRenderer.startRenderPass();
         } else if (event.resourceLocation != null && event.resourceLocation.equals(ItemRenderer.ENCHANT_GLINT_LOCATION)) {
-
+            ShaderRenderer.startRenderPass();
         }
     }
 
@@ -113,6 +113,8 @@ public class GlobalUniforms {
     public static void postDraw(BufferDrawEvent.Post event) {
         if (!ShaderRenderer.useShader) return;
         if (event.name.equals("crumbling")) {
+            ShaderRenderer.endRenderPass();
+        } else if (event.resourceLocation != null && event.resourceLocation.equals(ItemRenderer.ENCHANT_GLINT_LOCATION)) {
             ShaderRenderer.endRenderPass();
         }
     }
