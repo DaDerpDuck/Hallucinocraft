@@ -3,6 +3,8 @@ package com.daderpduck.hallucinocraft.items;
 import com.daderpduck.hallucinocraft.drugs.Drug;
 import com.daderpduck.hallucinocraft.drugs.DrugInstance;
 import com.daderpduck.hallucinocraft.sounds.ModSounds;
+import it.unimi.dsi.fastutil.objects.Object2ObjectFunction;
+import it.unimi.dsi.fastutil.objects.Object2ObjectLinkedOpenHashMap;
 import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.enchantment.IVanishable;
 import net.minecraft.entity.LivingEntity;
@@ -18,12 +20,11 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.world.World;
 
 import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.HashMap;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 public class BongItem extends Item implements IVanishable {
-    public static final HashMap<Item, ModItems.DrugChain> BONGABLES = new HashMap<>();
+    public static final Object2ObjectFunction<Item, ModItems.DrugChain> BONGABLES = new Object2ObjectLinkedOpenHashMap<>();
 
     public BongItem(Properties properties) {
         super(properties);
@@ -45,7 +46,7 @@ public class BongItem extends Item implements IVanishable {
         if (hand == Hand.MAIN_HAND && !itemStack.isEmpty() && itemStack.getDamageValue() < getMaxDamage(itemStack)) {
             ItemStack offhandItem = playerEntity.getItemInHand(Hand.OFF_HAND);
             if (!offhandItem.isEmpty()) {
-                if (BONGABLES.keySet().stream().anyMatch((item -> item.equals(offhandItem.getItem())))) {
+                if (BONGABLES.containsKey(offhandItem.getItem())) {
                     playerEntity.startUsingItem(hand);
                     return ActionResult.consume(itemStack);
                 } else {
