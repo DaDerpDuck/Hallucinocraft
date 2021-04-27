@@ -8,7 +8,9 @@
     "MixinLivingEntity"
   ],
   "client": [
+    "client.InvokerRenderStateTexture",
     "client.AccessorRenderTypeBuffer",
+    "client.AccessorRenderTypeState",
     "client.AccessorShaderGroup",
     "client.InvokerRenderUtilsOF",
     "client.InvokerConfigOF",
@@ -19,7 +21,9 @@
     "client.MixinLivingRenderer",
     "client.MixinMouseHelper",
     "client.MixinRenderHelper",
+    "client.MixinRenderType",
     "client.MixinRenderTypeBuffer",
+    "client.MixinRenderTypeType",
     "client.MixinTNTMinecartRenderer",
     "client.MixinWorldRenderer"
   ],
