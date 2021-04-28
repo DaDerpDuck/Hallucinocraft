@@ -52,6 +52,12 @@ public class MixinWorldRenderer {
         MinecraftForge.EVENT_BUS.post(new RenderEvent.RenderBlockEntityEvent(RenderEvent.Phase.START, matrixStack));
     }
 
+    @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/RenderTypeBuffers;outlineBufferSource()Lnet/minecraft/client/renderer/OutlineLayerBuffer;", ordinal = 1), method = "renderLevel")
+    private void drawBanner(CallbackInfo ci) {
+        if (!RenderUtil.hasOptifine) // Optifine already does this
+            renderBuffers.bufferSource().endBatch(Atlases.bannerSheet());
+    }
+
     @Inject(at = @At(value = "INVOKE_STRING", target = "Lnet/minecraft/profiler/IProfiler;popPush(Ljava/lang/String;)V", args = {"ldc=destroyProgress"}), method = "renderLevel")
     private void renderPostBlockEntity(MatrixStack matrixStack, float partialTicks, long finishTimeNano, boolean drawBlockOutline, ActiveRenderInfo activeRenderInfoIn, GameRenderer gameRendererIn, LightTexture lightmapIn, Matrix4f projectionIn, CallbackInfo ci) {
         MinecraftForge.EVENT_BUS.post(new RenderEvent.RenderBlockEntityEvent(RenderEvent.Phase.END, matrixStack));
