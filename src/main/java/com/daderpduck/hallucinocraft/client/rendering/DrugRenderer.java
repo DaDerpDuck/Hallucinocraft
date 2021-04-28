@@ -6,9 +6,13 @@ import com.daderpduck.hallucinocraft.client.rendering.shaders.RenderUtil;
 import com.daderpduck.hallucinocraft.client.rendering.shaders.ShaderRenderer;
 import com.daderpduck.hallucinocraft.drugs.Drug;
 import com.daderpduck.hallucinocraft.events.hooks.BobHurtEvent;
+import com.daderpduck.hallucinocraft.events.hooks.BufferDrawEvent;
 import com.daderpduck.hallucinocraft.events.hooks.RenderEvent;
 import com.daderpduck.hallucinocraft.mixin.client.InvokerConfigOF;
+import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.ItemRenderer;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
@@ -62,17 +66,83 @@ public class DrugRenderer {
     // Shader stuff
 
     @SubscribeEvent
-    public static void onRender(RenderEvent event) {
-        if (!ShaderRenderer.useShader) return;
-
+    public static void onTerrain(RenderEvent.RenderTerrainEvent event) {
         if (event.phase == RenderEvent.Phase.START) {
-            if (event instanceof RenderEvent.RenderTerrainEvent) ShaderRenderer.getWorldShader().safeGetUniform("lightmapEnabled").setInt(1);
-            ShaderRenderer.startRenderPass();
+            ShaderRenderer.getWorldShader().safeGetUniform("lightmapEnabled").setInt(1);
+            ShaderRenderer.startRenderPass(ShaderRenderer.getWorldShader());
         } else {
             ShaderRenderer.endRenderPass();
         }
 
-        RenderUtil.checkGlErrors();
+        RenderUtil.checkGlErrors("Terrain");
+    }
+
+    @SubscribeEvent
+    public static void onEntity(RenderEvent.RenderEntityEvent event) {
+        if (event.phase == RenderEvent.Phase.START) {
+            ShaderRenderer.startRenderPass(ShaderRenderer.getWorldShader());
+        } else {
+            ShaderRenderer.endRenderPass();
+        }
+
+        RenderUtil.checkGlErrors("Entity");
+    }
+
+    @SubscribeEvent
+    public static void onTileEntity(RenderEvent.RenderBlockEntityEvent event) {
+        if (event.phase == RenderEvent.Phase.START) {
+            ShaderRenderer.startRenderPass(ShaderRenderer.getWorldShader());
+        } else {
+            ShaderRenderer.endRenderPass();
+        }
+
+        RenderUtil.checkGlErrors("Block entity");
+    }
+
+    @SubscribeEvent
+    public static void onBlockOutline(RenderEvent.RenderBlockOutlineEvent event) {
+        if (event.phase == RenderEvent.Phase.START) {
+            ShaderRenderer.startRenderPass(ShaderRenderer.getWorldOutlineShader());
+        } else {
+            event.buffer.endBatch(RenderType.LINES);
+            GlStateManager._getError(); //FIXME: Random error here
+            ShaderRenderer.endRenderPass();
+        }
+
+        RenderUtil.checkGlErrors("Block outline");
+    }
+
+    @SubscribeEvent
+    public static void onParticle(RenderEvent.RenderParticlesEvent event) {
+        if (event.phase == RenderEvent.Phase.START) {
+            ShaderRenderer.startRenderPass(ShaderRenderer.getWorldShader());
+        } else {
+            ShaderRenderer.endRenderPass();
+        }
+
+        RenderUtil.checkGlErrors("Particles");
+    }
+
+    @SubscribeEvent
+    public static void preDraw(BufferDrawEvent.Pre event) {
+        if (!ShaderRenderer.useShader) return;
+        if (event.name.equals("crumbling")) {
+            ShaderRenderer.startRenderPass(ShaderRenderer.getWorldShader());
+        } else if (event.resourceLocation != null && event.resourceLocation.equals(ItemRenderer.ENCHANT_GLINT_LOCATION)) {
+            ShaderRenderer.startRenderPass(ShaderRenderer.getWorldShader());
+        }
+    }
+
+    @SubscribeEvent
+    public static void postDraw(BufferDrawEvent.Post event) {
+        if (!ShaderRenderer.useShader) return;
+        if (event.name.equals("crumbling")) {
+            ShaderRenderer.endRenderPass();
+            RenderUtil.checkGlErrors("Block damage");
+        } else if (event.resourceLocation != null && event.resourceLocation.equals(ItemRenderer.ENCHANT_GLINT_LOCATION)) {
+            ShaderRenderer.endRenderPass();
+            RenderUtil.checkGlErrors("Armor glint");
+        }
     }
 
     @SubscribeEvent

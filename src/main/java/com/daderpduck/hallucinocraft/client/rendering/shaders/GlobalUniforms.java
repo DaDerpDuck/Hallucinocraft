@@ -3,7 +3,6 @@ package com.daderpduck.hallucinocraft.client.rendering.shaders;
 import com.daderpduck.hallucinocraft.Hallucinocraft;
 import com.daderpduck.hallucinocraft.events.hooks.*;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.util.math.vector.Matrix4f;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -97,26 +96,6 @@ public class GlobalUniforms {
     @SubscribeEvent
     public static void onFogMode(FogModeEvent event) {
         fogMode = event.mode;
-    }
-
-    @SubscribeEvent
-    public static void preDraw(BufferDrawEvent.Pre event) {
-        if (!ShaderRenderer.useShader) return;
-        if (event.name.equals("crumbling")) {
-            ShaderRenderer.startRenderPass();
-        } else if (event.resourceLocation != null && event.resourceLocation.equals(ItemRenderer.ENCHANT_GLINT_LOCATION)) {
-            ShaderRenderer.startRenderPass();
-        }
-    }
-
-    @SubscribeEvent
-    public static void postDraw(BufferDrawEvent.Post event) {
-        if (!ShaderRenderer.useShader) return;
-        if (event.name.equals("crumbling")) {
-            ShaderRenderer.endRenderPass();
-        } else if (event.resourceLocation != null && event.resourceLocation.equals(ItemRenderer.ENCHANT_GLINT_LOCATION)) {
-            ShaderRenderer.endRenderPass();
-        }
     }
 
     /*@SubscribeEvent

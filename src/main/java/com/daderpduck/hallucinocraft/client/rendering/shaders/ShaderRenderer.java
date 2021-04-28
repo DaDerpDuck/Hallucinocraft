@@ -11,16 +11,18 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.common.Mod;
 import org.lwjgl.opengl.GL11;
 
+import javax.annotation.Nullable;
 import java.io.IOException;
 
 @SuppressWarnings("deprecation")
 @OnlyIn(Dist.CLIENT)
 @Mod.EventBusSubscriber(value = Dist.CLIENT, modid = Hallucinocraft.MOD_ID)
 public class ShaderRenderer {
-    private static final float EPSILON = 1E-6F;
-    private static WorldShader shaderWorld;
-    private static boolean activeShader = false;
     public static boolean useShader = false;
+    private static WorldShader shaderWorld;
+    private static WorldShader shaderOutlineBox;
+    @Nullable
+    private static WorldShader activeShader = null;
 
     public static void setup() {
         if (!RenderSystem.isOnRenderThread()) {
@@ -36,6 +38,9 @@ public class ShaderRenderer {
             shaderWorld = new WorldShader(mc.getResourceManager(), "hallucinocraft:world");
             shaderWorld.setSampler("texture", () -> 0);
             shaderWorld.setSampler("lightMap", () -> 2);
+
+            shaderOutlineBox = new WorldShader(mc.getResourceManager(), "hallucinocraft:world_outline");
+
             useShader = true;
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -49,43 +54,43 @@ public class ShaderRenderer {
         }
 
         useShader = false;
+        activeShader = null;
+
         if (clearPostShaders) PostShaders.cleanup();
+
         if (shaderWorld != null) shaderWorld.close();
         shaderWorld = null;
+
+        if (shaderOutlineBox != null) shaderOutlineBox.close();
+        shaderOutlineBox = null;
     }
 
-    public static void startRenderPass() {
+    public static void startRenderPass(WorldShader shader) {
         if (!useShader) return;
-        if (activeShader) return;
-        activeShader = true;
+        if (activeShader == shader) return;
+        activeShader = shader;
 
         DrugEffects drugEffects = Drug.getDrugEffects();
-        shaderWorld.clear();
+        shader.clear();
 
-        shaderWorld.safeGetUniform("modelViewMat").setMatrix(GlobalUniforms.modelView);
-        shaderWorld.safeGetUniform("modelViewInverseMat").setMatrix(GlobalUniforms.modelViewInverse);
-        shaderWorld.safeGetUniform("timePassed").setFloat(GlobalUniforms.timePassed);
-        shaderWorld.safeGetUniform("fogMode").setInt(GlobalUniforms.fogMode);
+        shader.safeGetUniform("modelViewMat").setMatrix(GlobalUniforms.modelView);
+        shader.safeGetUniform("modelViewInverseMat").setMatrix(GlobalUniforms.modelViewInverse);
+        shader.safeGetUniform("timePassed").setFloat(GlobalUniforms.timePassed);
+        shader.safeGetUniform("fogMode").setInt(GlobalUniforms.fogMode);
 
-        shaderWorld.safeGetUniform("smallWaves").setFloat(drugEffects.SMALL_WAVES.getClamped());
-        shaderWorld.safeGetUniform("bigWaves").setFloat(drugEffects.BIG_WAVES.getClamped());
-        shaderWorld.safeGetUniform("wiggleWaves").setFloat(drugEffects.WIGGLE_WAVES.getClamped());
-        shaderWorld.safeGetUniform("distantWorldDeformation").setFloat(drugEffects.WORLD_DEFORMATION.getValue());
+        shader.safeGetUniform("smallWaves").setFloat(drugEffects.SMALL_WAVES.getClamped());
+        shader.safeGetUniform("bigWaves").setFloat(drugEffects.BIG_WAVES.getClamped());
+        shader.safeGetUniform("wiggleWaves").setFloat(drugEffects.WIGGLE_WAVES.getClamped());
+        shader.safeGetUniform("distantWorldDeformation").setFloat(drugEffects.WORLD_DEFORMATION.getValue());
 
-        shaderWorld.apply();
+        shader.apply();
     }
 
     public static void endRenderPass() {
-        if (activeShader && !useShader) {
-            shaderWorld.clear();
-            activeShader = false;
-            return;
+        if (activeShader != null) {
+            activeShader.clear();
+            activeShader = null;
         }
-
-        if (!activeShader) return;
-        activeShader = false;
-
-        shaderWorld.clear();
     }
 
     public static void processPostShaders(float partialTicks) {
@@ -110,7 +115,16 @@ public class ShaderRenderer {
         return shaderWorld;
     }
 
+    public static WorldShader getWorldOutlineShader() {
+        return shaderOutlineBox;
+    }
+
     public static boolean isActive() {
+        return activeShader != null;
+    }
+
+    @Nullable
+    public static WorldShader getActiveShader() {
         return activeShader;
     }
 }
