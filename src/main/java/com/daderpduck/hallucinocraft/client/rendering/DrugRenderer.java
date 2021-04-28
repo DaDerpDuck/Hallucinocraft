@@ -11,7 +11,6 @@ import com.daderpduck.hallucinocraft.events.hooks.RenderEvent;
 import com.daderpduck.hallucinocraft.mixin.client.InvokerConfigOF;
 import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -128,7 +127,7 @@ public class DrugRenderer {
         if (!ShaderRenderer.useShader) return;
         if (event.name.equals("crumbling")) {
             ShaderRenderer.startRenderPass(ShaderRenderer.getWorldShader());
-        } else if (event.resourceLocation != null && event.resourceLocation.equals(ItemRenderer.ENCHANT_GLINT_LOCATION)) {
+        } else if (event.name.equals("armor_glint") || event.name.equals("armor_entity_glint") || event.name.equals("entity_glint") || event.name.equals("entity_glint_direct")) {
             ShaderRenderer.startRenderPass(ShaderRenderer.getWorldShader());
         }
     }
@@ -139,7 +138,7 @@ public class DrugRenderer {
         if (event.name.equals("crumbling")) {
             ShaderRenderer.endRenderPass();
             RenderUtil.checkGlErrors("Block damage");
-        } else if (event.resourceLocation != null && event.resourceLocation.equals(ItemRenderer.ENCHANT_GLINT_LOCATION)) {
+        } else if (event.name.equals("armor_glint") || event.name.equals("armor_entity_glint") || event.name.equals("entity_glint") || event.name.equals("entity_glint_direct")) {
             ShaderRenderer.endRenderPass();
             RenderUtil.checkGlErrors("Armor glint");
         }
