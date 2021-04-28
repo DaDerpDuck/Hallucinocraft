@@ -21,6 +21,7 @@ import java.util.Deque;
 @Mod.EventBusSubscriber(value = Dist.CLIENT, modid = Hallucinocraft.MOD_ID)
 public class ShaderRenderer {
     public static boolean useShader = false;
+    public static boolean isRenderingWorld = false;
     private static final Deque<WorldShader> shaderStack = new ArrayDeque<>();
     private static WorldShader shaderWorld;
     private static WorldShader shaderOutlineBox;
@@ -57,6 +58,7 @@ public class ShaderRenderer {
         }
 
         useShader = false;
+        isRenderingWorld = false;
         activeShader = null;
         shaderStack.clear();
 

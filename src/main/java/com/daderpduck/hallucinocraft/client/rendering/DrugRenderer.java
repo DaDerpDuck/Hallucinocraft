@@ -66,6 +66,7 @@ public class DrugRenderer {
     @SubscribeEvent
     public static void onTerrain(RenderEvent.RenderTerrainEvent event) {
         if (event.phase == RenderEvent.Phase.START) {
+            ShaderRenderer.isRenderingWorld = true;
             ShaderRenderer.getWorldShader().safeGetUniform("lightmapEnabled").setInt(1);
             ShaderRenderer.startRenderPass(ShaderRenderer.getWorldShader());
         } else {
@@ -115,6 +116,7 @@ public class DrugRenderer {
             ShaderRenderer.startRenderPass(ShaderRenderer.getWorldShader());
         } else {
             ShaderRenderer.endRenderPass();
+            ShaderRenderer.isRenderingWorld = false;
         }
 
         RenderUtil.checkGlErrors("Particles");
@@ -123,6 +125,7 @@ public class DrugRenderer {
     @SubscribeEvent
     public static void preDraw(BufferDrawEvent.Pre event) {
         if (!ShaderRenderer.useShader) return;
+        if (!ShaderRenderer.isRenderingWorld) return;
         if (event.name.equals("crumbling")) {
             ShaderRenderer.pushShader();
             ShaderRenderer.startRenderPass(ShaderRenderer.getWorldShader());
