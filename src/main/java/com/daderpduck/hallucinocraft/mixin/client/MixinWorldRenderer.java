@@ -63,7 +63,7 @@ public class MixinWorldRenderer {
         MinecraftForge.EVENT_BUS.post(new RenderEvent.RenderBlockEntityEvent(RenderEvent.Phase.END, matrixStack));
     }
 
-    @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/RenderType;lines()Lnet/minecraft/client/renderer/RenderType;", ordinal = 0), method = "renderLevel")
+    @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/WorldRenderer;renderHitOutline(Lcom/mojang/blaze3d/matrix/MatrixStack;Lcom/mojang/blaze3d/vertex/IVertexBuilder;Lnet/minecraft/entity/Entity;DDDLnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/BlockState;)V"), method = "renderLevel")
     private void renderPreBlockOutline(MatrixStack matrixStack, float partialTicks, long finishTimeNano, boolean drawBlockOutline, ActiveRenderInfo activeRenderInfoIn, GameRenderer gameRendererIn, LightTexture lightmapIn, Matrix4f projectionIn, CallbackInfo ci) {
         MinecraftForge.EVENT_BUS.post(new RenderEvent.RenderBlockOutlineEvent(RenderEvent.Phase.START, renderBuffers.bufferSource()));
     }
