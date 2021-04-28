@@ -46,6 +46,11 @@ public class MixinWorldRenderer {
         MinecraftForge.EVENT_BUS.post(new RenderEvent.RenderEntityEvent(RenderEvent.Phase.START, matrixStack));
     }
 
+    @Inject(at = @At("HEAD"), method = "renderEntity")
+    private void flushEntity(CallbackInfo ci) {
+        if (ShaderRenderer.useShader) RenderUtil.flushRenderBuffer();
+    }
+
     @Inject(at = @At(value = "INVOKE_STRING", target = "Lnet/minecraft/profiler/IProfiler;popPush(Ljava/lang/String;)V", args = {"ldc=blockentities"}), method = "renderLevel")
     private void renderPreBlockEntity(MatrixStack matrixStack, float partialTicks, long finishTimeNano, boolean drawBlockOutline, ActiveRenderInfo activeRenderInfoIn, GameRenderer gameRendererIn, LightTexture lightmapIn, Matrix4f projectionIn, CallbackInfo ci) {
         MinecraftForge.EVENT_BUS.post(new RenderEvent.RenderEntityEvent(RenderEvent.Phase.END, matrixStack));
