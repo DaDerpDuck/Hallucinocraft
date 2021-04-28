@@ -13,12 +13,15 @@ import org.lwjgl.opengl.GL11;
 
 import javax.annotation.Nullable;
 import java.io.IOException;
+import java.util.ArrayDeque;
+import java.util.Deque;
 
 @SuppressWarnings("deprecation")
 @OnlyIn(Dist.CLIENT)
 @Mod.EventBusSubscriber(value = Dist.CLIENT, modid = Hallucinocraft.MOD_ID)
 public class ShaderRenderer {
     public static boolean useShader = false;
+    private static final Deque<WorldShader> shaderStack = new ArrayDeque<>();
     private static WorldShader shaderWorld;
     private static WorldShader shaderOutlineBox;
     @Nullable
@@ -55,6 +58,7 @@ public class ShaderRenderer {
 
         useShader = false;
         activeShader = null;
+        shaderStack.clear();
 
         if (clearPostShaders) PostShaders.cleanup();
 
@@ -117,6 +121,19 @@ public class ShaderRenderer {
 
     public static WorldShader getWorldOutlineShader() {
         return shaderOutlineBox;
+    }
+
+    public static void pushShader() {
+        if (isActive()) {
+            shaderStack.addLast(activeShader);
+            endRenderPass();
+        }
+    }
+
+    public static void popShader() {
+        if (shaderStack.isEmpty()) return;
+        WorldShader shader = shaderStack.pollLast();
+        startRenderPass(shader);
     }
 
     public static boolean isActive() {
