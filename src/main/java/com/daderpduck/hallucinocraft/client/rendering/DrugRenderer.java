@@ -65,12 +65,14 @@ public class DrugRenderer {
 
     @SubscribeEvent
     public static void onTerrain(RenderEvent.RenderTerrainEvent event) {
+        boolean flag = event.blockLayer == RenderType.translucent();
         if (event.phase == RenderEvent.Phase.START) {
+            ShaderRenderer.lightmapEnable = !flag;
             ShaderRenderer.isRenderingWorld = true;
             ShaderRenderer.getWorldShader().safeGetUniform("lightmapEnabled").setInt(1);
             ShaderRenderer.startRenderPass(ShaderRenderer.getWorldShader());
         } else {
-            ShaderRenderer.endRenderPass();
+            ShaderRenderer.lightmapEnable = flag;
         }
 
         RenderUtil.checkGlErrors("Terrain");
@@ -80,8 +82,6 @@ public class DrugRenderer {
     public static void onEntity(RenderEvent.RenderEntityEvent event) {
         if (event.phase == RenderEvent.Phase.START) {
             ShaderRenderer.startRenderPass(ShaderRenderer.getWorldShader());
-        } else {
-            ShaderRenderer.endRenderPass();
         }
 
         RenderUtil.checkGlErrors("Entity");
@@ -91,8 +91,6 @@ public class DrugRenderer {
     public static void onTileEntity(RenderEvent.RenderBlockEntityEvent event) {
         if (event.phase == RenderEvent.Phase.START) {
             ShaderRenderer.startRenderPass(ShaderRenderer.getWorldShader());
-        } else {
-            ShaderRenderer.endRenderPass();
         }
 
         RenderUtil.checkGlErrors("Block entity");
@@ -104,7 +102,6 @@ public class DrugRenderer {
             ShaderRenderer.startRenderPass(ShaderRenderer.getWorldOutlineShader());
         } else {
             event.buffer.endBatch(RenderType.LINES);
-            ShaderRenderer.endRenderPass();
         }
 
         RenderUtil.checkGlErrors("Block outline");
@@ -115,7 +112,7 @@ public class DrugRenderer {
         if (event.phase == RenderEvent.Phase.START) {
             ShaderRenderer.startRenderPass(ShaderRenderer.getWorldShader());
         } else {
-            ShaderRenderer.endRenderPass();
+            ShaderRenderer.startRenderPass(null);
             ShaderRenderer.isRenderingWorld = false;
         }
 
@@ -139,11 +136,9 @@ public class DrugRenderer {
     public static void postDraw(BufferDrawEvent.Post event) {
         if (!ShaderRenderer.useShader) return;
         if (event.name.equals("crumbling")) {
-            ShaderRenderer.endRenderPass();
             RenderUtil.checkGlErrors("Block damage");
             ShaderRenderer.popShader();
         } else if (event.name.equals("armor_glint") || event.name.equals("armor_entity_glint") || event.name.equals("entity_glint") || event.name.equals("entity_glint_direct")) {
-            ShaderRenderer.endRenderPass();
             RenderUtil.checkGlErrors("Armor glint");
             ShaderRenderer.popShader();
         }

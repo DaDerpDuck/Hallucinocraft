@@ -68,7 +68,7 @@ public class GlobalUniforms {
         if (lightMapEnabled != event.enabled) {
             lightMapEnabled = event.enabled;
 
-            if (!ShaderRenderer.useShader || !ShaderRenderer.isActive()) return;
+            if (!ShaderRenderer.useShader || !ShaderRenderer.isActive() || !ShaderRenderer.lightmapEnable) return;
 
             WorldShaderUniform uniform = ShaderRenderer.getWorldShader().getUniform("lightmapEnabled");
             if (uniform != null) {

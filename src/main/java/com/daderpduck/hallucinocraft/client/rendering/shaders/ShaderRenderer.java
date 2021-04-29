@@ -22,6 +22,7 @@ import java.util.Deque;
 public class ShaderRenderer {
     public static boolean useShader = false;
     public static boolean isRenderingWorld = false;
+    public static boolean lightmapEnable = true;
     private static final Deque<WorldShader> shaderStack = new ArrayDeque<>();
     private static WorldShader shaderWorld;
     private static WorldShader shaderOutlineBox;
@@ -71,10 +72,15 @@ public class ShaderRenderer {
         shaderOutlineBox = null;
     }
 
-    public static void startRenderPass(WorldShader shader) {
+    public static void startRenderPass(@Nullable WorldShader shader) {
         if (!useShader) return;
         if (activeShader == shader) return;
+        if (activeShader != null) {
+            RenderUtil.flushRenderBuffer();
+            activeShader.clear();
+        }
         activeShader = shader;
+        if (shader == null) return;
 
         DrugEffects drugEffects = Drug.getDrugEffects();
         shader.clear();
@@ -90,13 +96,6 @@ public class ShaderRenderer {
         shader.safeGetUniform("distantWorldDeformation").setFloat(drugEffects.WORLD_DEFORMATION.getValue());
 
         shader.apply();
-    }
-
-    public static void endRenderPass() {
-        if (activeShader != null) {
-            activeShader.clear();
-            activeShader = null;
-        }
     }
 
     public static void processPostShaders(float partialTicks) {
@@ -126,10 +125,7 @@ public class ShaderRenderer {
     }
 
     public static void pushShader() {
-        if (isActive()) {
-            shaderStack.addLast(activeShader);
-            endRenderPass();
-        }
+        if (isActive()) shaderStack.addLast(activeShader);
     }
 
     public static void popShader() {
