@@ -5,10 +5,7 @@ import com.daderpduck.hallucinocraft.blocks.ModBlocks;
 import com.daderpduck.hallucinocraft.drugs.Drug;
 import com.daderpduck.hallucinocraft.drugs.DrugRegistry;
 import net.minecraft.block.Block;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.BlockNamedItem;
-import net.minecraft.item.Item;
-import net.minecraft.item.UseAction;
+import net.minecraft.item.*;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.ColorHandlerEvent;
@@ -48,6 +45,21 @@ public class ModItems {
     public static final RegistryObject<SyringeItem> COCAINE_SYRINGE = registerSyringe("cocaine_syringe", new DrugChain().add(DrugRegistry.COCAINE, 0, 0.47F, 4800), 0xFFFFFFFF);
 
     public static final RegistryObject<Item> BONG = registerItem("bong", () -> new BongItem(new Item.Properties().durability(8).setNoRepair().tab(Hallucinocraft.TAB)));
+
+    public static final RegistryObject<Item> OPIUM_BOTTLE_0 = registerItem("opium_bottle_0", 16);
+    public static final RegistryObject<Item> OPIUM_BOTTLE_1 = registerItem("opium_bottle_1", 16);
+    public static final RegistryObject<Item> OPIUM_BOTTLE_2 = registerItem("opium_bottle_2", 16);
+    public static final RegistryObject<Item> OPIUM_BOTTLE_3 = registerItem("opium_bottle_3", () -> new Item(new Item.Properties().stacksTo(16).tab(Hallucinocraft.TAB)) {
+        @Override
+        public boolean hasContainerItem(ItemStack itemStack) {
+            return true;
+        }
+
+        @Override
+        public ItemStack getContainerItem(ItemStack itemStack) {
+            return Items.GLASS_BOTTLE.getDefaultInstance();
+        }
+    });
 
 
     private static RegistryObject<DrugItem> registerDrug(String name, DrugChain drugChain) {
