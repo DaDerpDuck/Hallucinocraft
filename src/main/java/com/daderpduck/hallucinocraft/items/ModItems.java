@@ -43,13 +43,11 @@ public class ModItems {
 
     public static final RegistryObject<Item> EMPTY_SYRINGE = registerItem("syringe", 16);
     public static final RegistryObject<SyringeItem> COCAINE_SYRINGE = registerSyringe("cocaine_syringe", new DrugChain().add(DrugRegistry.COCAINE, 0, 0.47F, 4800), 0xFFFFFFFF);
+    public static final RegistryObject<SyringeItem> MORPHINE_SYRINGE = registerSyringe("morphine_syringe", new DrugChain().add(DrugRegistry.MORPHINE, 0, 0.6F, 4800), 0xFF885038);
 
     public static final RegistryObject<Item> BONG = registerItem("bong", () -> new BongItem(new Item.Properties().durability(8).setNoRepair().tab(Hallucinocraft.TAB)));
 
-    public static final RegistryObject<Item> OPIUM_BOTTLE_0 = registerItem("opium_bottle_0", 16);
-    public static final RegistryObject<Item> OPIUM_BOTTLE_1 = registerItem("opium_bottle_1", 16);
-    public static final RegistryObject<Item> OPIUM_BOTTLE_2 = registerItem("opium_bottle_2", 16);
-    public static final RegistryObject<Item> OPIUM_BOTTLE_3 = registerItem("opium_bottle_3", () -> new Item(new Item.Properties().stacksTo(16).tab(Hallucinocraft.TAB)) {
+    public static final RegistryObject<Item> MORPHINE_BOTTLE = registerItem("morphine_bottle", () -> new Item(new Item.Properties().stacksTo(16).tab(Hallucinocraft.TAB)) {
         @Override
         public boolean hasContainerItem(ItemStack itemStack) {
             return true;
@@ -60,6 +58,10 @@ public class ModItems {
             return Items.GLASS_BOTTLE.getDefaultInstance();
         }
     });
+    public static final RegistryObject<Item> OPIUM_BOTTLE_0 = registerItem("opium_bottle_0", 16);
+    public static final RegistryObject<Item> OPIUM_BOTTLE_1 = registerItem("opium_bottle_1", 16);
+    public static final RegistryObject<Item> OPIUM_BOTTLE_2 = registerItem("opium_bottle_2", 16);
+    public static final RegistryObject<Item> OPIUM_BOTTLE_3 = registerItem("opium_bottle_3", 16);
 
 
     private static RegistryObject<DrugItem> registerDrug(String name, DrugChain drugChain) {
@@ -144,7 +146,7 @@ public class ModItems {
     @SubscribeEvent
     @OnlyIn(Dist.CLIENT)
     public static void registerItemColors(ColorHandlerEvent.Item event) {
-        event.getItemColors().register(new SyringeItem.Color(), COCAINE_SYRINGE.get());
+        event.getItemColors().register(new SyringeItem.Color(), COCAINE_SYRINGE.get(), MORPHINE_SYRINGE.get());
     }
 
     public static void init(IEventBus modBus) {

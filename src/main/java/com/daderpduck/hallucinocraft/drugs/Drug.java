@@ -35,6 +35,7 @@ public class Drug extends ForgeRegistryEntry<Drug> {
     }
 
     public static void addDrug(PlayerEntity player, DrugInstance drugInstance) {
+        drugInstance.getDrug().startUse(player);
         PlayerProperties.getPlayerDrugs(player).addDrugSource(drugInstance);
     }
 
@@ -109,6 +110,9 @@ public class Drug extends ForgeRegistryEntry<Drug> {
 
         if (!player.level.isClientSide) // abuse map isn't synced, so to fix spasms, this is here
             playerDrugs.getDrugAbuseMap().forEach((drug, abuse) -> drug.abuseTick(player, getDrugEffects(player), abuse));
+    }
+
+    public void startUse(PlayerEntity player) {
     }
 
     @OnlyIn(Dist.CLIENT)
