@@ -55,19 +55,10 @@ public class DrugItem extends Item {
     }
 
     @Override
-    public boolean isEdible() {
-        return true;
-    }
-
-    @Override
     public ActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {
-        if (isEdible()) {
-            ItemStack itemstack = player.getItemInHand(hand);
-            player.startUsingItem(hand);
-            return ActionResult.consume(itemstack);
-        } else {
-            return ActionResult.pass(player.getItemInHand(hand));
-        }
+        ItemStack itemstack = player.getItemInHand(hand);
+        player.startUsingItem(hand);
+        return ActionResult.consume(itemstack);
     }
 
     @Override

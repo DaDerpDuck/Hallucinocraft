@@ -45,11 +45,6 @@ public class SyringeItem extends DrugItem {
         return UseAction.BOW;
     }
 
-    @Override
-    public boolean isEdible() {
-        return true;
-    }
-
     public int getColor() {
         return color;
     }
