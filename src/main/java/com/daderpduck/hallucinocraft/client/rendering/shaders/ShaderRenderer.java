@@ -1,14 +1,17 @@
 package com.daderpduck.hallucinocraft.client.rendering.shaders;
 
-import com.daderpduck.hallucinocraft.Hallucinocraft;
 import com.daderpduck.hallucinocraft.drugs.Drug;
 import com.daderpduck.hallucinocraft.drugs.DrugEffects;
+import com.daderpduck.hallucinocraft.events.hooks.BufferDrawEvent;
+import com.daderpduck.hallucinocraft.events.hooks.RenderEvent;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.shader.Framebuffer;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.lwjgl.opengl.GL11;
 
 import javax.annotation.Nullable;
@@ -16,9 +19,7 @@ import java.io.IOException;
 import java.util.ArrayDeque;
 import java.util.Deque;
 
-@SuppressWarnings("deprecation")
 @OnlyIn(Dist.CLIENT)
-@Mod.EventBusSubscriber(value = Dist.CLIENT, modid = Hallucinocraft.MOD_ID)
 public class ShaderRenderer {
     public static boolean useShader = false;
     public static boolean isRenderingWorld = false;
@@ -37,6 +38,10 @@ public class ShaderRenderer {
 
         Minecraft mc = Minecraft.getInstance();
         clear(true);
+
+        MinecraftForge.EVENT_BUS.register(GlobalUniforms.EventHandler.class);
+        MinecraftForge.EVENT_BUS.register(ShaderRenderer.EventHandler.class);
+
         PostShaders.setup();
 
         try {
@@ -58,6 +63,9 @@ public class ShaderRenderer {
             return;
         }
 
+        MinecraftForge.EVENT_BUS.unregister(GlobalUniforms.EventHandler.class);
+        MinecraftForge.EVENT_BUS.unregister(ShaderRenderer.EventHandler.class);
+
         useShader = false;
         isRenderingWorld = false;
         activeShader = null;
@@ -73,7 +81,6 @@ public class ShaderRenderer {
     }
 
     public static void startRenderPass(@Nullable WorldShader shader) {
-        if (!useShader) return;
         if (activeShader == shader) return;
         if (activeShader != null) {
             RenderUtil.flushRenderBuffer();
@@ -98,6 +105,7 @@ public class ShaderRenderer {
         shader.apply();
     }
 
+    @SuppressWarnings("deprecation")
     public static void processPostShaders(float partialTicks) {
         Minecraft mc = Minecraft.getInstance();
         Framebuffer framebuffer = mc.getMainRenderTarget();
@@ -141,5 +149,87 @@ public class ShaderRenderer {
     @Nullable
     public static WorldShader getActiveShader() {
         return activeShader;
+    }
+
+
+    static class EventHandler {
+        @SubscribeEvent
+        public static void onTerrain(RenderEvent.RenderTerrainEvent event) {
+            boolean flag = event.blockLayer == RenderType.translucent();
+            if (event.phase == RenderEvent.Phase.START) {
+                ShaderRenderer.lightmapEnable = !flag;
+                ShaderRenderer.isRenderingWorld = true;
+                ShaderRenderer.getWorldShader().safeGetUniform("lightmapEnabled").setInt(1);
+                ShaderRenderer.startRenderPass(ShaderRenderer.getWorldShader());
+            } else {
+                ShaderRenderer.lightmapEnable = flag;
+            }
+
+            RenderUtil.checkGlErrors("Terrain");
+        }
+
+        @SubscribeEvent
+        public static void onEntity(RenderEvent.RenderEntityEvent event) {
+            if (event.phase == RenderEvent.Phase.START) {
+                ShaderRenderer.startRenderPass(ShaderRenderer.getWorldShader());
+            }
+
+            RenderUtil.checkGlErrors("Entity");
+        }
+
+        @SubscribeEvent
+        public static void onTileEntity(RenderEvent.RenderBlockEntityEvent event) {
+            if (event.phase == RenderEvent.Phase.START) {
+                ShaderRenderer.startRenderPass(ShaderRenderer.getWorldShader());
+            }
+
+            RenderUtil.checkGlErrors("Block entity");
+        }
+
+        @SubscribeEvent
+        public static void onBlockOutline(RenderEvent.RenderBlockOutlineEvent event) {
+            if (event.phase == RenderEvent.Phase.START) {
+                ShaderRenderer.startRenderPass(ShaderRenderer.getWorldOutlineShader());
+            } else {
+                event.buffer.endBatch(RenderType.LINES);
+            }
+
+            RenderUtil.checkGlErrors("Block outline");
+        }
+
+        @SubscribeEvent
+        public static void onParticle(RenderEvent.RenderParticlesEvent event) {
+            if (event.phase == RenderEvent.Phase.START) {
+                ShaderRenderer.startRenderPass(ShaderRenderer.getWorldShader());
+            } else {
+                ShaderRenderer.startRenderPass(null);
+                ShaderRenderer.isRenderingWorld = false;
+            }
+
+            RenderUtil.checkGlErrors("Particles");
+        }
+
+        @SubscribeEvent
+        public static void preDraw(BufferDrawEvent.Pre event) {
+            if (!ShaderRenderer.isRenderingWorld) return;
+            if (event.name.equals("crumbling")) {
+                ShaderRenderer.pushShader();
+                ShaderRenderer.startRenderPass(ShaderRenderer.getWorldShader());
+            } else if (event.name.equals("armor_glint") || event.name.equals("armor_entity_glint") || event.name.equals("entity_glint") || event.name.equals("entity_glint_direct")) {
+                ShaderRenderer.pushShader();
+                ShaderRenderer.startRenderPass(ShaderRenderer.getWorldShader());
+            }
+        }
+
+        @SubscribeEvent
+        public static void postDraw(BufferDrawEvent.Post event) {
+            if (event.name.equals("crumbling")) {
+                RenderUtil.checkGlErrors("Block damage");
+                ShaderRenderer.popShader();
+            } else if (event.name.equals("armor_glint") || event.name.equals("armor_entity_glint") || event.name.equals("entity_glint") || event.name.equals("entity_glint_direct")) {
+                RenderUtil.checkGlErrors("Armor glint");
+                ShaderRenderer.popShader();
+            }
+        }
     }
 }

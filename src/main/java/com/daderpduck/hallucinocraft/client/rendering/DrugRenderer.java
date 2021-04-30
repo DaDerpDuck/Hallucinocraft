@@ -6,14 +6,10 @@ import com.daderpduck.hallucinocraft.client.rendering.shaders.RenderUtil;
 import com.daderpduck.hallucinocraft.client.rendering.shaders.ShaderRenderer;
 import com.daderpduck.hallucinocraft.drugs.Drug;
 import com.daderpduck.hallucinocraft.events.hooks.BobHurtEvent;
-import com.daderpduck.hallucinocraft.events.hooks.BufferDrawEvent;
-import com.daderpduck.hallucinocraft.events.hooks.RenderEvent;
 import com.daderpduck.hallucinocraft.mixin.client.InvokerConfigOF;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -27,7 +23,7 @@ public class DrugRenderer {
     public static void onRenderTick(TickEvent.RenderTickEvent event) {
         Minecraft mc = Minecraft.getInstance();
 
-        if (RenderUtil.hasOptifine) {
+        if (RenderUtil.hasOptifine) { // Checks for optifine shaders
             if (InvokerConfigOF.callIsShaders() && ShaderRenderer.useShader) {
                 ShaderRenderer.clear(true);
                 ShaderRenderer.useShader = false;
@@ -59,94 +55,5 @@ public class DrugRenderer {
     public static void onBobHurt(BobHurtEvent event) {
         trembleEffect.setAmplitude(Drug.getDrugEffects().CAMERA_TREMBLE.getValue());
         trembleEffect.tick(event.matrixStack);
-    }
-
-    // Shader stuff
-
-    @SubscribeEvent
-    public static void onTerrain(RenderEvent.RenderTerrainEvent event) {
-        boolean flag = event.blockLayer == RenderType.translucent();
-        if (event.phase == RenderEvent.Phase.START) {
-            ShaderRenderer.lightmapEnable = !flag;
-            ShaderRenderer.isRenderingWorld = true;
-            ShaderRenderer.getWorldShader().safeGetUniform("lightmapEnabled").setInt(1);
-            ShaderRenderer.startRenderPass(ShaderRenderer.getWorldShader());
-        } else {
-            ShaderRenderer.lightmapEnable = flag;
-        }
-
-        RenderUtil.checkGlErrors("Terrain");
-    }
-
-    @SubscribeEvent
-    public static void onEntity(RenderEvent.RenderEntityEvent event) {
-        if (event.phase == RenderEvent.Phase.START) {
-            ShaderRenderer.startRenderPass(ShaderRenderer.getWorldShader());
-        }
-
-        RenderUtil.checkGlErrors("Entity");
-    }
-
-    @SubscribeEvent
-    public static void onTileEntity(RenderEvent.RenderBlockEntityEvent event) {
-        if (event.phase == RenderEvent.Phase.START) {
-            ShaderRenderer.startRenderPass(ShaderRenderer.getWorldShader());
-        }
-
-        RenderUtil.checkGlErrors("Block entity");
-    }
-
-    @SubscribeEvent
-    public static void onBlockOutline(RenderEvent.RenderBlockOutlineEvent event) {
-        if (event.phase == RenderEvent.Phase.START) {
-            ShaderRenderer.startRenderPass(ShaderRenderer.getWorldOutlineShader());
-        } else {
-            event.buffer.endBatch(RenderType.LINES);
-        }
-
-        RenderUtil.checkGlErrors("Block outline");
-    }
-
-    @SubscribeEvent
-    public static void onParticle(RenderEvent.RenderParticlesEvent event) {
-        if (event.phase == RenderEvent.Phase.START) {
-            ShaderRenderer.startRenderPass(ShaderRenderer.getWorldShader());
-        } else {
-            ShaderRenderer.startRenderPass(null);
-            ShaderRenderer.isRenderingWorld = false;
-        }
-
-        RenderUtil.checkGlErrors("Particles");
-    }
-
-    @SubscribeEvent
-    public static void preDraw(BufferDrawEvent.Pre event) {
-        if (!ShaderRenderer.useShader) return;
-        if (!ShaderRenderer.isRenderingWorld) return;
-        if (event.name.equals("crumbling")) {
-            ShaderRenderer.pushShader();
-            ShaderRenderer.startRenderPass(ShaderRenderer.getWorldShader());
-        } else if (event.name.equals("armor_glint") || event.name.equals("armor_entity_glint") || event.name.equals("entity_glint") || event.name.equals("entity_glint_direct")) {
-            ShaderRenderer.pushShader();
-            ShaderRenderer.startRenderPass(ShaderRenderer.getWorldShader());
-        }
-    }
-
-    @SubscribeEvent
-    public static void postDraw(BufferDrawEvent.Post event) {
-        if (!ShaderRenderer.useShader) return;
-        if (event.name.equals("crumbling")) {
-            RenderUtil.checkGlErrors("Block damage");
-            ShaderRenderer.popShader();
-        } else if (event.name.equals("armor_glint") || event.name.equals("armor_entity_glint") || event.name.equals("entity_glint") || event.name.equals("entity_glint_direct")) {
-            RenderUtil.checkGlErrors("Armor glint");
-            ShaderRenderer.popShader();
-        }
-    }
-
-    @SubscribeEvent
-    public static void renderPostWorld(RenderWorldLastEvent event) {
-        if (!PostShaders.useShaders) return;
-        ShaderRenderer.processPostShaders(event.getPartialTicks());
     }
 }

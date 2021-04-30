@@ -7,6 +7,9 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.client.event.RenderWorldLastEvent;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -75,6 +78,8 @@ public class PostShaders {
                 shader.process(partialTicks);
             });
 
+        MinecraftForge.EVENT_BUS.register(PostShaders.EventHandler.class);
+
         useShaders = true;
     }
 
@@ -85,6 +90,8 @@ public class PostShaders {
     }
 
     public static void cleanup() {
+        MinecraftForge.EVENT_BUS.unregister(PostShaders.EventHandler.class);
+
         useShaders = false;
 
         activeShaders.forEach((resourceLocation, shader) -> shader.close());
@@ -118,5 +125,12 @@ public class PostShaders {
 
     public static void dealloc(ResourceLocation resourceLocation) {
         if (activeShaders.containsKey(resourceLocation)) activeShaders.remove(resourceLocation).close();
+    }
+
+    static class EventHandler {
+        @SubscribeEvent
+        public static void renderPostWorld(RenderWorldLastEvent event) {
+            ShaderRenderer.processPostShaders(event.getPartialTicks());
+        }
     }
 }
