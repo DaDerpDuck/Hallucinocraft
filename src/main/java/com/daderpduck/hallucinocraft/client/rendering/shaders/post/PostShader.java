@@ -1,5 +1,7 @@
-package com.daderpduck.hallucinocraft.client.rendering.shaders;
+package com.daderpduck.hallucinocraft.client.rendering.shaders.post;
 
+import com.daderpduck.hallucinocraft.drugs.Drug;
+import com.daderpduck.hallucinocraft.drugs.DrugEffects;
 import com.daderpduck.hallucinocraft.mixin.client.AccessorShaderGroup;
 import com.google.gson.JsonSyntaxException;
 import net.minecraft.client.Minecraft;
@@ -17,6 +19,7 @@ import java.util.Map;
 
 @OnlyIn(Dist.CLIENT)
 public class PostShader extends ShaderGroup {
+    protected static final float EPSILON = 1E-6F;
     private final Map<String, float[]> uniformMap = new HashMap<>();
     private int width = 0;
     private int height = 0;
@@ -27,6 +30,17 @@ public class PostShader extends ShaderGroup {
 
     public List<Shader> getShaders() {
         return ((AccessorShaderGroup)this).getPasses();
+    }
+
+    public boolean shouldRender() {
+        return false;
+    }
+
+    public void render(float partialTicks) {
+    }
+
+    protected DrugEffects getDrugEffects() {
+        return Drug.getDrugEffects();
     }
 
     @Override

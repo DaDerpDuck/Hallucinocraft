@@ -1,5 +1,6 @@
 package com.daderpduck.hallucinocraft.client.rendering.shaders;
 
+import com.daderpduck.hallucinocraft.client.rendering.shaders.post.PostShaders;
 import com.daderpduck.hallucinocraft.drugs.Drug;
 import com.daderpduck.hallucinocraft.drugs.DrugEffects;
 import com.daderpduck.hallucinocraft.events.hooks.BufferDrawEvent;
@@ -42,9 +43,9 @@ public class ShaderRenderer {
         MinecraftForge.EVENT_BUS.register(GlobalUniforms.EventHandler.class);
         MinecraftForge.EVENT_BUS.register(ShaderRenderer.EventHandler.class);
 
-        PostShaders.setup();
-
         try {
+            PostShaders.setup();
+
             shaderWorld = new WorldShader(mc.getResourceManager(), "hallucinocraft:world");
             shaderWorld.setSampler("texture", () -> 0);
             shaderWorld.setSampler("lightMap", () -> 2);

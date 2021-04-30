@@ -1,7 +1,7 @@
 package com.daderpduck.hallucinocraft.client.rendering;
 
 import com.daderpduck.hallucinocraft.Hallucinocraft;
-import com.daderpduck.hallucinocraft.client.rendering.shaders.PostShaders;
+import com.daderpduck.hallucinocraft.client.rendering.shaders.post.PostShaders;
 import com.daderpduck.hallucinocraft.client.rendering.shaders.RenderUtil;
 import com.daderpduck.hallucinocraft.client.rendering.shaders.ShaderRenderer;
 import com.daderpduck.hallucinocraft.drugs.Drug;
