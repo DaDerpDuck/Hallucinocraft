@@ -15,6 +15,15 @@ public class Morphine extends Drug {
     }
 
     @Override
+    public void renderTick(DrugEffects drugEffects, float effect) {
+        if (effect > 0.5F) {
+            float f = effect - 0.5F;
+            drugEffects.WATER_DISTORT.addValue(Math.min(f*f, 0.01F));
+            drugEffects.SATURATION.addValue(f);
+        }
+    }
+
+    @Override
     public void effectTick(PlayerEntity player, DrugEffects drugEffects, float effect) {
         player.addEffect(new EffectInstance(Effects.DAMAGE_RESISTANCE, 35, 0, true, true));
         if (effect == 1F) drugEffects.DROWN_RATE.addValue(3F);
