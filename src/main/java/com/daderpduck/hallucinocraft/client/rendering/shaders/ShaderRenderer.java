@@ -213,23 +213,33 @@ public class ShaderRenderer {
         @SubscribeEvent
         public static void preDraw(BufferDrawEvent.Pre event) {
             if (!ShaderRenderer.isRenderingWorld) return;
-            if (event.name.equals("crumbling")) {
-                ShaderRenderer.pushShader();
-                ShaderRenderer.startRenderPass(ShaderRenderer.getWorldShader());
-            } else if (event.name.equals("armor_glint") || event.name.equals("armor_entity_glint") || event.name.equals("entity_glint") || event.name.equals("entity_glint_direct")) {
-                ShaderRenderer.pushShader();
-                ShaderRenderer.startRenderPass(ShaderRenderer.getWorldShader());
+            switch (event.name) {
+                case "crumbling":
+                case "armor_glint":
+                case "armor_entity_glint":
+                case "entity_glint":
+                case "entity_glint_direct":
+                    ShaderRenderer.pushShader();
+                    ShaderRenderer.startRenderPass(ShaderRenderer.getWorldShader());
+                    break;
             }
         }
 
         @SubscribeEvent
         public static void postDraw(BufferDrawEvent.Post event) {
-            if (event.name.equals("crumbling")) {
-                RenderUtil.checkGlErrors("Block damage");
-                ShaderRenderer.popShader();
-            } else if (event.name.equals("armor_glint") || event.name.equals("armor_entity_glint") || event.name.equals("entity_glint") || event.name.equals("entity_glint_direct")) {
-                RenderUtil.checkGlErrors("Armor glint");
-                ShaderRenderer.popShader();
+            if (!ShaderRenderer.isRenderingWorld) return;
+            switch (event.name) {
+                case "crumbling":
+                    RenderUtil.checkGlErrors("Block damage");
+                    ShaderRenderer.popShader();
+                    break;
+                case "armor_glint":
+                case "armor_entity_glint":
+                case "entity_glint":
+                case "entity_glint_direct":
+                    RenderUtil.checkGlErrors("Armor glint");
+                    ShaderRenderer.popShader();
+                    break;
             }
         }
     }
