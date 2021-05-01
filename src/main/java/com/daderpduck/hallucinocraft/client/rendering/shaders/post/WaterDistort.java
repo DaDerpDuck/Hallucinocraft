@@ -7,19 +7,19 @@ import net.minecraft.util.ResourceLocation;
 
 import java.io.IOException;
 
-public class Recursion extends PostShader {
-    public Recursion() throws IOException, JsonSyntaxException {
-        super(new ResourceLocation(Hallucinocraft.MOD_ID, "shaders/post/bumpy.json"));
+public class WaterDistort extends PostShader {
+    public WaterDistort() throws IOException, JsonSyntaxException {
+        super(new ResourceLocation(Hallucinocraft.MOD_ID, "shaders/post/water_distort.json"));
     }
 
     @Override
     public boolean shouldRender() {
-        return getDrugEffects().BUMPY.getValue() > EPSILON;
+        return getDrugEffects().WATER_DISTORT.getValue() > EPSILON;
     }
 
     @Override
     public void render(float partialTicks) {
-        setUniform("Intensity", getDrugEffects().BUMPY.getValue());
+        setUniform("Influence", getDrugEffects().WATER_DISTORT.getValue());
         setUniform("TimePassed", GlobalUniforms.timePassed);
         process(partialTicks);
     }

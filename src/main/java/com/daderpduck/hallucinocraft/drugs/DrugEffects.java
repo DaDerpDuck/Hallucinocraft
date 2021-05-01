@@ -23,6 +23,7 @@ public class DrugEffects {
     public final FloatDrugEffect BLOOM_RADIUS = registerClient();
     public final FloatDrugEffect BLOOM_THRESHOLD = registerClient();
     public final FloatDrugEffect RECURSION = registerClient();
+    public final FloatDrugEffect WATER_DISTORT = registerClient();
 
     public final FloatDrugEffect MOVEMENT_SPEED = register();
     public final FloatDrugEffect DIG_SPEED = register();
