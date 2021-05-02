@@ -223,6 +223,10 @@ public class ShaderRenderer {
                     ShaderRenderer.pushShader();
                     ShaderRenderer.startRenderPass(ShaderRenderer.getWorldShader());
                     break;
+                case "lightning": // TODO: Find why lightning is shy
+                    ShaderRenderer.pushShader();
+                    ShaderRenderer.startRenderPass(null);
+                    break;
             }
         }
 
@@ -239,6 +243,10 @@ public class ShaderRenderer {
                 case "entity_glint":
                 case "entity_glint_direct":
                     RenderUtil.checkGlErrors("Armor glint");
+                    ShaderRenderer.popShader();
+                    break;
+                case "lightning":
+                    RenderUtil.checkGlErrors("Lightning");
                     ShaderRenderer.popShader();
                     break;
             }
