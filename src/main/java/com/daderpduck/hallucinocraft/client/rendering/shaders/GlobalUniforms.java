@@ -17,7 +17,7 @@ public class GlobalUniforms {
     public static float timePassedSin = 0;
     public static boolean lightMapEnabled = false;
     public static boolean lightEnabled = false;
-    public static final float[] entityColor = new float[4];
+    public static boolean overlayEnabled = false;
     public static int fogMode = 9729;
 
     static {
@@ -44,19 +44,15 @@ public class GlobalUniforms {
         }
 
         @SubscribeEvent
-        public static void onEntityColor(EntityColorEvent event) {
-            if (entityColor[0] != event.r || entityColor[1] != event.g || entityColor[2] != event.b || entityColor[3] != event.a) {
-                entityColor[0] = event.r;
-                entityColor[1] = event.g;
-                entityColor[2] = event.b;
-                entityColor[3] = event.a;
+        public static void onOverlay(OverlayEvent event) {
+            if (overlayEnabled != event.enabled) {
+                overlayEnabled = event.enabled;
 
                 if (!ShaderRenderer.isActive()) return;
 
-                WorldShaderUniform uniform = ShaderRenderer.getWorldShader().getUniform("entityColor");
+                WorldShaderUniform uniform = ShaderRenderer.getWorldShader().getUniform("overlayEnabled");
                 if (uniform != null) {
-                    RenderUtil.flushRenderBuffer();
-                    uniform.setFloat(entityColor);
+                    uniform.setInt(overlayEnabled ? 1 : 0);
                     uniform.upload();
                 }
             }

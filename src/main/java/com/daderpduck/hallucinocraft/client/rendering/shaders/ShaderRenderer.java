@@ -48,6 +48,7 @@ public class ShaderRenderer {
 
             shaderWorld = new WorldShader(mc.getResourceManager(), "hallucinocraft:world");
             shaderWorld.setSampler("texture", () -> 0);
+            shaderWorld.setSampler("overlay", () -> 1);
             shaderWorld.setSampler("lightMap", () -> 2);
 
             shaderOutlineBox = new WorldShader(mc.getResourceManager(), "hallucinocraft:world_outline");

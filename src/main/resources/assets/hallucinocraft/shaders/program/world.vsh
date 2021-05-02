@@ -1,6 +1,7 @@
 #version 120
 
 varying vec2 texCoord;
+varying vec2 overlayCoord;
 varying vec2 lmCoord;
 varying vec3 normalVector;
 varying vec4 color;
@@ -16,6 +17,7 @@ uniform float timePassed;
 void main(){
     normalVector = normalize(gl_NormalMatrix * gl_Normal);
     texCoord = (gl_TextureMatrix[0] * gl_MultiTexCoord0).st;
+    overlayCoord = (gl_TextureMatrix[1] * gl_MultiTexCoord1).st;
     lmCoord = (gl_TextureMatrix[2] * gl_MultiTexCoord2).st;
     color = gl_Color;
 

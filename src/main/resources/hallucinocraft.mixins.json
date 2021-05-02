@@ -14,17 +14,14 @@
     "client.AccessorShaderGroup",
     "client.InvokerRenderUtilsOF",
     "client.InvokerConfigOF",
-    "client.MixinAbstractEyesLayer",
     "client.MixinGameRenderer",
     "client.MixinGlStateManager",
     "client.MixinLightTexture",
-    "client.MixinLivingRenderer",
     "client.MixinMouseHelper",
     "client.MixinRenderHelper",
     "client.MixinRenderType",
     "client.MixinRenderTypeBuffer",
     "client.MixinRenderTypeType",
-    "client.MixinTNTMinecartRenderer",
     "client.MixinWorldRenderer"
   ],
   "injectors": {

@@ -5,10 +5,10 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.eventbus.api.Event;
 
 @OnlyIn(Dist.CLIENT)
-public class RenderEyesEvent extends Event {
+public class OverlayEvent extends Event {
     public final boolean enabled;
 
-    public RenderEyesEvent(boolean enabled) {
+    public OverlayEvent(boolean enabled) {
         this.enabled = enabled;
     }
 }

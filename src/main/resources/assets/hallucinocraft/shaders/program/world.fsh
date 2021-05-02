@@ -4,9 +4,10 @@
 #define AMBIENT_LIGHT 0.4
 
 uniform sampler2D texture;
+uniform sampler2D overlay;
 uniform sampler2D lightMap;
 
-uniform vec4 entityColor;
+uniform int overlayEnabled;
 uniform int lightEnabled;
 uniform int lightmapEnabled;
 uniform int fogMode;
@@ -14,6 +15,7 @@ uniform int fogEnabled;
 uniform float timePassed;
 
 varying vec2 texCoord;
+varying vec2 overlayCoord;
 varying vec2 lmCoord;
 varying vec3 normalVector;
 varying vec4 color;
@@ -25,7 +27,10 @@ const int GL_EXP2 = 2049;
 void main() {
     gl_FragColor = texture2D(texture, texCoord) * color;
 
-    gl_FragColor.rgb = mix(gl_FragColor.rgb, entityColor.rgb, entityColor.a);
+    if (overlayEnabled == 1) {
+        vec4 overlayCol = texture2D(overlay, overlayCoord);
+        gl_FragColor.rgb = mix(overlayCol.rgb, gl_FragColor.rgb, overlayCol.a);
+    }
 
     if (lightmapEnabled == 1) {
         gl_FragColor *= texture2D(lightMap, lmCoord);

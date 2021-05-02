@@ -9,12 +9,13 @@
   "attributes": [],
   "samplers": [
     { "name": "texture" },
+    { "name": "overlay" },
     { "name": "lightMap" }
   ],
   "uniforms": [
     { "name": "modelViewMat",         "type": "matrix4x4", "count": 16, "values": [ 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0 ] },
     { "name": "modelViewInverseMat",  "type": "matrix4x4", "count": 16, "values": [ 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0 ] },
-    { "name": "entityColor",          "type": "float",     "count": 4,  "values": [ 0.0, 0.0, 0.0, 0.0] },
+    { "name": "overlayEnabled",       "type": "int",       "count": 1,  "values": [ 0 ] },
     { "name": "lightmapEnabled",      "type": "int",       "count": 1,  "values": [ 1 ]},
     { "name": "lightEnabled",         "type": "int",       "count": 1,  "values": [ 1 ]},
     { "name": "fogMode",              "type": "int",       "count": 1,  "values": [ 9729 ]},
