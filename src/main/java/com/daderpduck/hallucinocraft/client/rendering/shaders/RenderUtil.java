@@ -17,14 +17,14 @@ public class RenderUtil {
     public static final boolean hasOptifine;
 
     static {
-        boolean hasOptifine1;
+        boolean flag;
         try {
-            Class.forName("optifine.Utils");
-            hasOptifine1 = true;
+            Class.forName("optifine.Utils", false, Thread.currentThread().getContextClassLoader());
+            flag = true;
         } catch (ClassNotFoundException e) {
-            hasOptifine1 = false;
+            flag = false;
         }
-        hasOptifine = hasOptifine1;
+        hasOptifine = flag;
     }
 
     public static void flushRenderBuffer() {
