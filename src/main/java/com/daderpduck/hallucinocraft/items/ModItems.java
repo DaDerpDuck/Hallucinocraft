@@ -32,6 +32,7 @@ public class ModItems {
     public static final RegistryObject<Item> COCA_LEAF = registerItem("coca_leaf");
     public static final RegistryObject<Item> COCA_SEEDS = registerBlockNamed("coca_seeds", ModBlocks.COCA_BLOCK);
 
+    public static final RegistryObject<Item> HASH_MUFFIN = registerItem("hash_muffin", () -> new DrugItem(new DrugItem.Properties().addDrug(DrugRegistry.CANNABIS, 800, 0.12F, 3200).food(ModFoods.HASH_MUFFIN).tab(ItemGroup.TAB_FOOD)));
     public static final RegistryObject<JointItem> CANNABIS_JOINT = registerJoint("cannabis_joint", new DrugChain().add(DrugRegistry.CANNABIS, 0, 0.12F, 3200));
     public static final RegistryObject<Item> DRIED_CANNABIS_LEAF = registerItem("dried_cannabis_leaf");
     public static final RegistryObject<Item> CANNABIS_LEAF = registerItem("cannabis_leaf");

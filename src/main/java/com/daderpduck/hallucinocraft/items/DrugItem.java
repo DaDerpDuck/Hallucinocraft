@@ -46,7 +46,12 @@ public class DrugItem extends Item {
     public ItemStack finishUsingItem(ItemStack itemStack, World world, LivingEntity entity) {
         if (entity instanceof PlayerEntity) {
             PlayerEntity playerEntity = (PlayerEntity) entity;
-            if (!playerEntity.abilities.instabuild) itemStack.shrink(1);
+
+            if (isEdible()) {
+                playerEntity.eat(world, itemStack);
+            } else if (!playerEntity.abilities.instabuild) {
+                itemStack.shrink(1);
+            }
 
             addDrugs(playerEntity);
         }
@@ -56,19 +61,23 @@ public class DrugItem extends Item {
 
     @Override
     public ActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {
-        ItemStack itemstack = player.getItemInHand(hand);
-        player.startUsingItem(hand);
-        return ActionResult.consume(itemstack);
+        if (isEdible()) {
+            return super.use(world, player, hand);
+        } else {
+            ItemStack itemstack = player.getItemInHand(hand);
+            player.startUsingItem(hand);
+            return ActionResult.consume(itemstack);
+        }
     }
 
     @Override
     public UseAction getUseAnimation(ItemStack itemStack) {
-        return useAction;
+        return isEdible() ? super.getUseAnimation(itemStack) : useAction;
     }
 
     @Override
     public int getUseDuration(ItemStack itemStack) {
-        return 32;
+        return isEdible() ? super.getUseDuration(itemStack) : 32;
     }
 
     public static class Properties extends Item.Properties {
