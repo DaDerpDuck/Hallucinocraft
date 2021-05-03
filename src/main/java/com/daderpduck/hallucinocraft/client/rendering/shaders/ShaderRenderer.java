@@ -223,8 +223,11 @@ public class ShaderRenderer {
                     ShaderRenderer.pushShader();
                     ShaderRenderer.startRenderPass(ShaderRenderer.getWorldShader());
                     break;
+                case "lightning":
+                    ShaderRenderer.pushShader();
+                    ShaderRenderer.startRenderPass(ShaderRenderer.getWorldOutlineShader());
+                    break;
                 case "end_portal":
-                case "lightning": // TODO: Find why lightning is shy
                     ShaderRenderer.pushShader();
                     ShaderRenderer.startRenderPass(null);
                     break;
@@ -246,9 +249,12 @@ public class ShaderRenderer {
                     RenderUtil.checkGlErrors("Armor glint");
                     ShaderRenderer.popShader();
                     break;
-                case "end_portal":
                 case "lightning":
                     RenderUtil.checkGlErrors("Lightning");
+                    ShaderRenderer.popShader();
+                    break;
+                case "end_portal":
+                    RenderUtil.checkGlErrors("End portal");
                     ShaderRenderer.popShader();
                     break;
             }
