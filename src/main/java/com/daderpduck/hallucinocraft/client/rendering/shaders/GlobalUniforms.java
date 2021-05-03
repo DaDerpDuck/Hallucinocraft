@@ -50,11 +50,9 @@ public class GlobalUniforms {
 
                 if (!ShaderRenderer.isActive()) return;
 
-                WorldShaderUniform uniform = ShaderRenderer.getWorldShader().getUniform("overlayEnabled");
-                if (uniform != null) {
-                    uniform.setInt(overlayEnabled ? 1 : 0);
-                    uniform.upload();
-                }
+                WorldShaderDefault uniform = ShaderRenderer.getWorldShader().safeGetUniform("overlayEnabled");
+                uniform.setInt(overlayEnabled ? 1 : 0);
+                uniform.upload();
             }
         }
 
@@ -66,11 +64,9 @@ public class GlobalUniforms {
 
                 if (!ShaderRenderer.isActive() || !ShaderRenderer.lightmapEnable) return;
 
-                WorldShaderUniform uniform = ShaderRenderer.getWorldShader().getUniform("lightmapEnabled");
-                if (uniform != null) {
-                    uniform.setInt(lightMapEnabled ? 1 : 0);
-                    uniform.upload();
-                }
+                WorldShaderDefault uniform = ShaderRenderer.getWorldShader().safeGetUniform("lightmapEnabled");
+                uniform.setInt(lightMapEnabled ? 1 : 0);
+                uniform.upload();
             }
         }
 
@@ -81,11 +77,9 @@ public class GlobalUniforms {
 
                 if (!ShaderRenderer.isActive()) return;
 
-                WorldShaderUniform uniform = ShaderRenderer.getWorldShader().getUniform("lightEnabled");
-                if (uniform != null) {
-                    uniform.setInt(lightEnabled ? 1 : 0);
-                    uniform.upload();
-                }
+                WorldShaderDefault uniform = ShaderRenderer.getWorldShader().safeGetUniform("lightEnabled");
+                uniform.setInt(lightEnabled ? 1 : 0);
+                uniform.upload();
             }
         }
 

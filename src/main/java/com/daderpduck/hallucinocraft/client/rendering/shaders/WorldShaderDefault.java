@@ -44,4 +44,7 @@ public class WorldShaderDefault {
 
     public void setMatrix(Matrix4f matrix) {
     }
+
+    public void upload() {
+    }
 }

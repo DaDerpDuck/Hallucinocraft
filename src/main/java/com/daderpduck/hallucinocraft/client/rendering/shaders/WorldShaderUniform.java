@@ -231,6 +231,7 @@ public class WorldShaderUniform extends WorldShaderDefault implements AutoClosea
         this.markDirty();
     }
 
+    @Override
     public void upload() {
         /*if (!this.dirty) {
         }*/
