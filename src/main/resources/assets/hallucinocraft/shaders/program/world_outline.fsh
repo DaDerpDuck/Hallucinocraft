@@ -1,8 +1,8 @@
 #version 120
 
-varying vec4 color;
-
 uniform int fogMode;
+
+varying vec4 color;
 
 const int GL_LINEAR = 9729;
 const int GL_EXP = 2048;
