@@ -1,5 +1,6 @@
 package com.daderpduck.hallucinocraft.mixin.client;
 
+import com.daderpduck.hallucinocraft.events.hooks.EnableLightEvent;
 import com.daderpduck.hallucinocraft.events.hooks.FogModeEvent;
 import com.daderpduck.hallucinocraft.events.hooks.OverlayEvent;
 import com.mojang.blaze3d.platform.GlStateManager;
@@ -24,5 +25,15 @@ public class MixinGlStateManager {
     @Inject(at = @At("TAIL"), method = "teardownOverlayColor")
     private static void teardownOverlay(CallbackInfo ci) {
         MinecraftForge.EVENT_BUS.post(new OverlayEvent(false));
+    }
+
+    @Inject(at = @At("TAIL"), method = "_enableLighting")
+    private static void enableLighting(CallbackInfo ci) {
+        MinecraftForge.EVENT_BUS.post(new EnableLightEvent(true));
+    }
+
+    @Inject(at = @At("TAIL"), method = "_disableLighting")
+    private static void disableLighting(CallbackInfo ci) {
+        MinecraftForge.EVENT_BUS.post(new EnableLightEvent(false));
     }
 }
