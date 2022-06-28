@@ -1,8 +1,8 @@
 package com.daderpduck.hallucinocraft.drugs;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.potion.EffectInstance;
-import net.minecraft.potion.Effects;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.player.Player;
 
 public class Morphine extends Drug {
     public Morphine(DrugProperties properties) {
@@ -10,8 +10,8 @@ public class Morphine extends Drug {
     }
 
     @Override
-    public void startUse(PlayerEntity player) {
-        Effects.HEAL.applyInstantenousEffect(player, player, player, 2, 1D);
+    public void startUse(Player player) {
+        MobEffects.HEAL.applyInstantenousEffect(player, player, player, 2, 1D);
     }
 
     @Override
@@ -24,8 +24,8 @@ public class Morphine extends Drug {
     }
 
     @Override
-    public void effectTick(PlayerEntity player, DrugEffects drugEffects, float effect) {
-        player.addEffect(new EffectInstance(Effects.DAMAGE_RESISTANCE, 35, 0, true, true));
+    public void effectTick(Player player, DrugEffects drugEffects, float effect) {
+        player.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 35, 0, true, true));
         if (effect == 1F) drugEffects.DROWN_RATE.addValue(3F);
     }
 }

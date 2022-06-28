@@ -5,7 +5,7 @@ import com.google.gson.JsonSyntaxException;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.event.RenderWorldLastEvent;
+import net.minecraftforge.client.event.RenderLevelLastEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
@@ -88,8 +88,8 @@ public class PostShaders {
 
     static class EventHandler {
         @SubscribeEvent
-        public static void renderPostWorld(RenderWorldLastEvent event) {
-            ShaderRenderer.processPostShaders(event.getPartialTicks());
+        public static void renderPostWorld(RenderLevelLastEvent event) {
+            ShaderRenderer.processPostShaders(event.getPartialTick());
         }
     }
 }

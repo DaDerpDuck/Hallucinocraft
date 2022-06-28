@@ -1,6 +1,6 @@
 package com.daderpduck.hallucinocraft.items;
 
-import net.minecraft.block.ComposterBlock;
+import net.minecraft.world.level.block.ComposterBlock;
 
 public class CompostRegistry {
     public static void register() {

@@ -4,14 +4,14 @@ import com.daderpduck.hallucinocraft.Hallucinocraft;
 import com.daderpduck.hallucinocraft.blocks.ModBlocks;
 import com.daderpduck.hallucinocraft.drugs.Drug;
 import com.daderpduck.hallucinocraft.drugs.DrugRegistry;
-import net.minecraft.block.Block;
-import net.minecraft.item.*;
+import net.minecraft.world.item.*;
+import net.minecraft.world.level.block.Block;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.ColorHandlerEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.RegistryObject;
+import net.minecraftforge.registries.RegistryObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,13 +26,13 @@ public class ModItems {
 
     public static final RegistryObject<Item> COKE_CAKE = registerBlock("coke_cake", ModBlocks.COKE_CAKE_BLOCK, 1);
     public static final RegistryObject<Item> COCAINE_ROCK = registerItem("cocaine_rock");
-    public static final RegistryObject<DrugItem> COCAINE_POWDER = registerDrug("cocaine_powder", new DrugChain().add(DrugRegistry.COCAINE, 100, 0.3F, 3200), UseAction.BOW, 64);
-    public static final RegistryObject<DrugItem> COCAINE_DUST = registerDrug("cocaine_dust", new DrugChain().add(DrugRegistry.COCAINE, 100, 0.05F, 1000), UseAction.BOW, 64);
+    public static final RegistryObject<DrugItem> COCAINE_POWDER = registerDrug("cocaine_powder", new DrugChain().add(DrugRegistry.COCAINE, 100, 0.3F, 3200), UseAnim.BOW, 64);
+    public static final RegistryObject<DrugItem> COCAINE_DUST = registerDrug("cocaine_dust", new DrugChain().add(DrugRegistry.COCAINE, 100, 0.05F, 1000), UseAnim.BOW, 64);
     public static final RegistryObject<Item> COCA_MULCH = registerItem("coca_mulch");
     public static final RegistryObject<Item> COCA_LEAF = registerItem("coca_leaf");
     public static final RegistryObject<Item> COCA_SEEDS = registerBlockNamed("coca_seeds", ModBlocks.COCA_BLOCK);
 
-    public static final RegistryObject<Item> HASH_MUFFIN = registerItem("hash_muffin", () -> new DrugItem(new DrugItem.Properties().addDrug(DrugRegistry.CANNABIS, 800, 0.12F, 3200).food(ModFoods.HASH_MUFFIN).tab(ItemGroup.TAB_FOOD)));
+    public static final RegistryObject<Item> HASH_MUFFIN = registerItem("hash_muffin", () -> new DrugItem(new DrugItem.Properties().addDrug(DrugRegistry.CANNABIS, 800, 0.12F, 3200).food(ModFoods.HASH_MUFFIN).tab(CreativeModeTab.TAB_FOOD)));
     public static final RegistryObject<JointItem> CANNABIS_JOINT = registerJoint("cannabis_joint", new DrugChain().add(DrugRegistry.CANNABIS, 0, 0.12F, 3200));
     public static final RegistryObject<Item> DRIED_CANNABIS_LEAF = registerItem("dried_cannabis_leaf");
     public static final RegistryObject<Item> CANNABIS_LEAF = registerItem("cannabis_leaf");
@@ -66,10 +66,10 @@ public class ModItems {
 
 
     private static RegistryObject<DrugItem> registerDrug(String name, DrugChain drugChain) {
-        return registerDrug(name, drugChain, UseAction.EAT, 64);
+        return registerDrug(name, drugChain, UseAnim.EAT, 64);
     }
 
-    private static RegistryObject<DrugItem> registerDrug(String name, DrugChain drugChain, UseAction useAction, int stackSize) {
+    private static RegistryObject<DrugItem> registerDrug(String name, DrugChain drugChain, UseAnim useAction, int stackSize) {
         DrugItem.Properties itemProperties = new DrugItem.Properties();
         for (DrugEffectProperty property : drugChain.list) {
             itemProperties.addDrug(property.drug, property.delayTicks, property.potencyPercentage, property.duration);
@@ -90,7 +90,7 @@ public class ModItems {
         for (DrugEffectProperty property : drugChain.list) {
             itemProperties.addDrug(property.drug, property.delayTicks, property.potencyPercentage, property.duration);
         }
-        return registerItem(name, () -> new JointItem(itemProperties.useAction(UseAction.BOW).stacksTo(16).tab(Hallucinocraft.TAB)));
+        return registerItem(name, () -> new JointItem(itemProperties.useAction(UseAnim.BOW).stacksTo(16).tab(Hallucinocraft.TAB)));
     }
 
     private static <T extends Block> RegistryObject<Item> registerBlock(String name, RegistryObject<T> block) {
@@ -106,7 +106,7 @@ public class ModItems {
     }
 
     private static <T extends Block> RegistryObject<Item> registerBlockNamed(String name, RegistryObject<T> block, int stackSize) {
-        return registerItem(name, () -> new BlockNamedItem(block.get(), new Item.Properties().tab(Hallucinocraft.TAB).stacksTo(stackSize)));
+        return registerItem(name, () -> new BlockItem(block.get(), new Item.Properties().tab(Hallucinocraft.TAB).stacksTo(stackSize)));
     }
 
     private static RegistryObject<Item> registerItem(String name) {
@@ -130,18 +130,7 @@ public class ModItems {
         }
     }
 
-    public static class DrugEffectProperty {
-        public final RegistryObject<Drug> drug;
-        public final int delayTicks;
-        public final float potencyPercentage;
-        public final int duration;
-
-        public DrugEffectProperty(RegistryObject<Drug> drug, int delayTicks, float potencyPercentage, int duration) {
-            this.drug = drug;
-            this.delayTicks = delayTicks;
-            this.potencyPercentage = potencyPercentage;
-            this.duration = duration;
-        }
+    public record DrugEffectProperty(RegistryObject<Drug> drug, int delayTicks, float potencyPercentage, int duration) {
     }
 
     @SubscribeEvent

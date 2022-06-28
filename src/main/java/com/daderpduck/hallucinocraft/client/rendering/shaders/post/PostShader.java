@@ -4,11 +4,11 @@ import com.daderpduck.hallucinocraft.drugs.Drug;
 import com.daderpduck.hallucinocraft.drugs.DrugEffects;
 import com.daderpduck.hallucinocraft.mixin.client.AccessorShaderGroup;
 import com.google.gson.JsonSyntaxException;
+import com.mojang.blaze3d.pipeline.RenderTarget;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.shader.Framebuffer;
-import net.minecraft.client.shader.Shader;
-import net.minecraft.client.shader.ShaderGroup;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.client.renderer.PostChain;
+import net.minecraft.client.renderer.PostPass;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 @OnlyIn(Dist.CLIENT)
-public class PostShader extends ShaderGroup {
+public class PostShader extends PostChain {
     protected static final float EPSILON = 1E-6F;
     private final Map<String, float[]> uniformMap = new HashMap<>();
     private int width = 0;
@@ -28,7 +28,7 @@ public class PostShader extends ShaderGroup {
         super(Minecraft.getInstance().getTextureManager(), Minecraft.getInstance().getResourceManager(), Minecraft.getInstance().getMainRenderTarget(), resourceLocation);
     }
 
-    public List<Shader> getShaders() {
+    public List<PostPass> getShaders() {
         return ((AccessorShaderGroup)this).getPasses();
     }
 
@@ -45,7 +45,7 @@ public class PostShader extends ShaderGroup {
 
     @Override
     public void process(float partialTicks) {
-        Framebuffer framebuffer = Minecraft.getInstance().getMainRenderTarget();
+        RenderTarget framebuffer = Minecraft.getInstance().getMainRenderTarget();
 
         if (width != framebuffer.viewWidth || height != framebuffer.viewHeight) {
             this.resize(width = framebuffer.viewWidth, height = framebuffer.viewHeight);
@@ -54,22 +54,22 @@ public class PostShader extends ShaderGroup {
         uniformMap.forEach((name, floats) -> {
             switch (floats.length) {
                 case 1:
-                    for (Shader shader : getShaders()) {
+                    for (PostPass shader : getShaders()) {
                         shader.getEffect().safeGetUniform(name).set(floats[0]);
                     }
                     break;
                 case 2:
-                    for (Shader shader : getShaders()) {
+                    for (PostPass shader : getShaders()) {
                         shader.getEffect().safeGetUniform(name).set(floats[0], floats[1]);
                     }
                     break;
                 case 3:
-                    for (Shader shader : getShaders()) {
+                    for (PostPass shader : getShaders()) {
                         shader.getEffect().safeGetUniform(name).set(floats[0], floats[1], floats[2]);
                     }
                     break;
                 case 4:
-                    for (Shader shader : getShaders()) {
+                    for (PostPass shader : getShaders()) {
                         shader.getEffect().safeGetUniform(name).set(floats[0], floats[1], floats[2], floats[3]);
                     }
                     break;

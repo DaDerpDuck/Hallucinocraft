@@ -1,8 +1,8 @@
 package com.daderpduck.hallucinocraft.events.hooks;
 
-import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.entity.Entity;
+import net.minecraft.world.entity.Entity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.eventbus.api.Event;
@@ -48,9 +48,9 @@ public class RenderEvent extends Event {
     }
 
     public static class RenderBlockOutlineEvent extends RenderEvent {
-        public final IRenderTypeBuffer.Impl buffer;
+        public final MultiBufferSource.BufferSource buffer;
 
-        public RenderBlockOutlineEvent(Phase phase, IRenderTypeBuffer.Impl buffer) {
+        public RenderBlockOutlineEvent(Phase phase, MultiBufferSource.BufferSource buffer) {
             super(phase);
             this.buffer = buffer;
         }

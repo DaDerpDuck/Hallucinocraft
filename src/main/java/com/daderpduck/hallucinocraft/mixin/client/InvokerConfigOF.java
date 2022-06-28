@@ -8,5 +8,5 @@ import org.spongepowered.asm.mixin.gen.Invoker;
 @Mixin(targets = "net.optifine.Config", remap = false)
 public interface InvokerConfigOF {
     @Invoker
-    static boolean callIsShaders() { return false; };
+    static boolean callIsShaders() { return false; }
 }

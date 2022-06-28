@@ -1,8 +1,8 @@
 package com.daderpduck.hallucinocraft.client.rendering;
 
 import com.daderpduck.hallucinocraft.client.rendering.shaders.GlobalUniforms;
-import com.mojang.blaze3d.matrix.MatrixStack;
-import net.minecraft.util.math.MathHelper;
+import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.util.Mth;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -17,13 +17,13 @@ public class CameraTrembleEffect {
         amplitude = amplitudeIn;
     }
 
-    public void tick(MatrixStack cameraMatrixStack) {
+    public void tick(PoseStack cameraMatrixStack) {
         /*double shiftX = random.nextDouble() - 0.5D;
         double shiftY = MathHelper.sin(GlobalUniforms.timePassed * 7.0F);
 
         cameraMatrixStack.translate(shiftX*amplitude*0.05D, shiftY*shiftY*amplitude*0.1D, 0);*/
 
-        double shiftY = MathHelper.sin(GlobalUniforms.timePassed * 7.0F);
+        double shiftY = Mth.sin(GlobalUniforms.timePassed * 7.0F);
         cameraMatrixStack.translate(0, shiftY*shiftY*amplitude*0.1D, 0);
     }
 }

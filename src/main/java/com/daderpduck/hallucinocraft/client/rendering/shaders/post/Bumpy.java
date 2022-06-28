@@ -2,7 +2,7 @@ package com.daderpduck.hallucinocraft.client.rendering.shaders.post;
 
 import com.daderpduck.hallucinocraft.Hallucinocraft;
 import com.google.gson.JsonSyntaxException;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
 
 import java.io.IOException;
 

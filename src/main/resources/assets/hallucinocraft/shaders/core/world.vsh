@@ -1,4 +1,4 @@
-#version 120
+#version 150
 
 varying vec2 texCoord;
 varying vec2 overlayCoord;

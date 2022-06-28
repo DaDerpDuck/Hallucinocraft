@@ -1,4 +1,4 @@
-#version 120
+#version 150
 
 #define MAX_LIGHTS 3
 #define AMBIENT_LIGHT 0.4

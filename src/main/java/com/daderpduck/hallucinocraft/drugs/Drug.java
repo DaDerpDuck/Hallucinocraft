@@ -1,11 +1,10 @@
 package com.daderpduck.hallucinocraft.drugs;
 
-import com.daderpduck.hallucinocraft.capabilities.IPlayerDrugs;
-import com.daderpduck.hallucinocraft.capabilities.PlayerProperties;
+import com.daderpduck.hallucinocraft.capabilities.PlayerDrugs;
 import net.minecraft.client.Minecraft;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
+import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.registries.ForgeRegistryEntry;
@@ -34,43 +33,43 @@ public class Drug extends ForgeRegistryEntry<Drug> {
         return Objects.requireNonNull(DrugRegistry.DRUGS.getKey(drug)).toString();
     }
 
-    public static void addDrug(PlayerEntity player, DrugInstance drugInstance) {
+    public static void addDrug(Player player, DrugInstance drugInstance) {
         drugInstance.getDrug().startUse(player);
-        PlayerProperties.getPlayerDrugs(player).addDrugSource(drugInstance);
+        PlayerDrugs.getPlayerDrugs(player).addDrugSource(drugInstance);
     }
 
-    public static void clearDrugs(PlayerEntity player) {
-        PlayerProperties.getPlayerDrugs(player).clearDrugSources();
+    public static void clearDrugs(Player player) {
+        PlayerDrugs.getPlayerDrugs(player).clearDrugSources();
     }
 
-    public static List<DrugInstance> getDrugSources(PlayerEntity player) {
-        return PlayerProperties.getPlayerDrugs(player).getDrugSources();
+    public static List<DrugInstance> getDrugSources(Player player) {
+        return PlayerDrugs.getPlayerDrugs(player).getDrugSources();
     }
 
-    public static Map<Drug, Float> getActiveDrugs(PlayerEntity player) {
-        return PlayerProperties.getPlayerDrugs(player).getActiveDrugs();
+    public static Map<Drug, Float> getActiveDrugs(Player player) {
+        return PlayerDrugs.getPlayerDrugs(player).getActiveDrugs();
     }
 
-    public static int getAbuse(PlayerEntity player, Drug drug) {
-        return PlayerProperties.getPlayerDrugs(player).getDrugAbuse(drug);
+    public static int getAbuse(Player player, Drug drug) {
+        return PlayerDrugs.getPlayerDrugs(player).getDrugAbuse(drug);
     }
 
-    public static void addAbuse(PlayerEntity player, Drug drug, int ticks) {
-        PlayerProperties.getPlayerDrugs(player).addDrugAbuse(drug, ticks);
+    public static void addAbuse(Player player, Drug drug, int ticks) {
+        PlayerDrugs.getPlayerDrugs(player).addDrugAbuse(drug, ticks);
     }
 
-    public static DrugEffects getDrugEffects(PlayerEntity playerEntity) {
-        return PlayerProperties.getPlayerDrugs(playerEntity).getDrugEffects();
+    public static DrugEffects getDrugEffects(Player playerEntity) {
+        return PlayerDrugs.getPlayerDrugs(playerEntity).getDrugEffects();
     }
 
     @OnlyIn(Dist.CLIENT)
     public static DrugEffects getDrugEffects() {
         assert Minecraft.getInstance().player != null;
-        return PlayerProperties.getPlayerDrugs(Minecraft.getInstance().player).getDrugEffects();
+        return PlayerDrugs.getPlayerDrugs(Minecraft.getInstance().player).getDrugEffects();
     }
 
-    public static void tick(PlayerEntity player) {
-        IPlayerDrugs playerDrugs = PlayerProperties.getPlayerDrugs(player);
+    public static void tick(Player player) {
+        PlayerDrugs playerDrugs = PlayerDrugs.getPlayerDrugs(player);
         Map<Drug, Float> map = playerDrugs.getActiveDrugs();
         List<DrugInstance> toRemove = new ArrayList<>();
 
@@ -100,7 +99,7 @@ public class Drug extends ForgeRegistryEntry<Drug> {
         }
 
         for (Map.Entry<Drug, Float> entry : map.entrySet()) {
-            float clamped = MathHelper.clamp(entry.getValue(), 0F, 1F);
+            float clamped = Mth.clamp(entry.getValue(), 0F, 1F);
             if (clamped < 1E-6F) continue;
             entry.setValue(clamped);
             Drug drug = entry.getKey();
@@ -112,20 +111,20 @@ public class Drug extends ForgeRegistryEntry<Drug> {
             playerDrugs.getDrugAbuseMap().forEach((drug, abuse) -> drug.abuseTick(player, getDrugEffects(player), abuse));
     }
 
-    public void startUse(PlayerEntity player) {
+    public void startUse(Player player) {
     }
 
     @OnlyIn(Dist.CLIENT)
     public void renderTick(DrugEffects drugEffects, float effect) {
     }
 
-    public void effectTick(PlayerEntity player, DrugEffects drugEffects, float effect) {
+    public void effectTick(Player player, DrugEffects drugEffects, float effect) {
     }
 
-    public void abuseTick(PlayerEntity player, DrugEffects drugEffects, int abuse) {
+    public void abuseTick(Player player, DrugEffects drugEffects, int abuse) {
     }
 
-    public int getAbuse(PlayerEntity playerEntity) {
+    public int getAbuse(Player playerEntity) {
         return Drug.getAbuse(playerEntity, this);
     }
 
@@ -175,16 +174,16 @@ public class Drug extends ForgeRegistryEntry<Drug> {
 
         private float getRisingLevel(float timeRising) {
             if (timeRising < attack) {
-                return lerp(0F, 1F, (float) MathHelper.smoothstep(timeRising/attack));
+                return lerp(0F, 1F, (float) Mth.smoothstep(timeRising/attack));
             } else if (timeRising < attack + decay) {
-                return lerp(1F, sustain, (float) MathHelper.smoothstep((timeRising - attack)/decay));
+                return lerp(1F, sustain, (float) Mth.smoothstep((timeRising - attack)/decay));
             } else {
                 return sustain;
             }
         }
 
         private float getDecayingLevel(float timeDecaying) {
-            return lerp(sustain, 0F, (float) MathHelper.smoothstep(timeDecaying/release));
+            return lerp(sustain, 0F, (float) Mth.smoothstep(timeDecaying/release));
         }
 
         private float lerp(float a, float b, float t) {

@@ -4,9 +4,9 @@ import com.daderpduck.hallucinocraft.Hallucinocraft;
 import com.daderpduck.hallucinocraft.mixin.client.InvokerRenderUtilsOF;
 import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.client.resources.I18n;
-import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.resources.language.I18n;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.lwjgl.opengl.GL11;
@@ -39,7 +39,7 @@ public class RenderUtil {
         }
     }
 
-    private static void flushRenderBuffer(IRenderTypeBuffer.Impl buffer) {
+    private static void flushRenderBuffer(MultiBufferSource.BufferSource buffer) {
         RenderTypeBufferExt bufferExt = (RenderTypeBufferExt) buffer;
         bufferExt.flushRenderBuffers();
     }
@@ -54,31 +54,22 @@ public class RenderUtil {
                 Hallucinocraft.LOGGER.error("OpenGL error: {} ({}) at: {}", e, i, location);
 
                 String chatMessage = I18n.get("hallucinocraft.message.glError", e, i, location);
-                Minecraft.getInstance().gui.getChat().addMessage(new StringTextComponent(chatMessage));
+                Minecraft.getInstance().gui.getChat().addMessage(new TextComponent(chatMessage));
             }
         }
     }
 
     public static String getGlErrorString(int i) {
-        switch (i) {
-            case GL11.GL_NO_ERROR:
-                return "No error";
-            case GL11.GL_INVALID_ENUM:
-                return "Invalid enum";
-            case GL11.GL_INVALID_VALUE:
-                return "Invalid value";
-            case GL11.GL_INVALID_OPERATION:
-                return "Invalid operation";
-            case GL11.GL_STACK_OVERFLOW:
-                return "Stack overflow";
-            case GL11.GL_STACK_UNDERFLOW:
-                return "Stack underflow";
-            case GL11.GL_OUT_OF_MEMORY:
-                return "Out of memory";
-            case GL30.GL_INVALID_FRAMEBUFFER_OPERATION:
-                return "Invalid framebuffer operation";
-            default:
-                return "Unknown";
-        }
+        return switch (i) {
+            case GL11.GL_NO_ERROR -> "No error";
+            case GL11.GL_INVALID_ENUM -> "Invalid enum";
+            case GL11.GL_INVALID_VALUE -> "Invalid value";
+            case GL11.GL_INVALID_OPERATION -> "Invalid operation";
+            case GL11.GL_STACK_OVERFLOW -> "Stack overflow";
+            case GL11.GL_STACK_UNDERFLOW -> "Stack underflow";
+            case GL11.GL_OUT_OF_MEMORY -> "Out of memory";
+            case GL30.GL_INVALID_FRAMEBUFFER_OPERATION -> "Invalid framebuffer operation";
+            default -> "Unknown";
+        };
     }
 }

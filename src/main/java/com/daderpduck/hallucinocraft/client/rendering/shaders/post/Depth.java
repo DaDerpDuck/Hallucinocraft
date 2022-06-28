@@ -3,7 +3,7 @@ package com.daderpduck.hallucinocraft.client.rendering.shaders.post;
 import com.daderpduck.hallucinocraft.Hallucinocraft;
 import com.daderpduck.hallucinocraft.client.rendering.shaders.GlobalUniforms;
 import com.google.gson.JsonSyntaxException;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 

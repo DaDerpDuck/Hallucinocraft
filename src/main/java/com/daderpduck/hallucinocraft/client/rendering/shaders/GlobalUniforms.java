@@ -1,9 +1,10 @@
 package com.daderpduck.hallucinocraft.client.rendering.shaders;
 
 import com.daderpduck.hallucinocraft.events.hooks.*;
+import com.mojang.blaze3d.shaders.Uniform;
+import com.mojang.math.Matrix4f;
 import net.minecraft.client.Minecraft;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.vector.Matrix4f;
+import net.minecraft.util.Mth;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.event.TickEvent;
@@ -31,16 +32,16 @@ public class GlobalUniforms {
         public static void onRenderStart(TickEvent.RenderTickEvent event) {
             if (event.phase == TickEvent.Phase.START) {
                 timePassed = (event.renderTickTime + Minecraft.getInstance().gui.getGuiTicks())*0.05F;
-                timePassedSin = MathHelper.sin(timePassed);
+                timePassedSin = Mth.sin(timePassed);
             }
         }
 
         @SubscribeEvent
         public static void onCameraPostSetup(SetCameraEvent event) {
             Matrix4f matrix4f = event.matrixStack.last().pose().copy();
-            modelView.set(matrix4f);
+            modelView.load(matrix4f);
             matrix4f.invert();
-            modelViewInverse.set(matrix4f);
+            modelViewInverse.load(matrix4f);
         }
 
         @SubscribeEvent
@@ -50,8 +51,9 @@ public class GlobalUniforms {
 
                 if (!ShaderRenderer.isActive()) return;
 
-                WorldShaderDefault uniform = ShaderRenderer.getWorldShader().safeGetUniform("overlayEnabled");
-                uniform.setInt(overlayEnabled ? 1 : 0);
+                Uniform uniform = ShaderRenderer.getWorldShader().getUniform("overlayEnabled");
+                assert uniform != null;
+                uniform.set(overlayEnabled ? 1 : 0);
                 uniform.upload();
             }
         }
@@ -64,8 +66,9 @@ public class GlobalUniforms {
 
                 if (!ShaderRenderer.isActive() || !ShaderRenderer.lightmapEnable) return;
 
-                WorldShaderDefault uniform = ShaderRenderer.getWorldShader().safeGetUniform("lightmapEnabled");
-                uniform.setInt(lightMapEnabled ? 1 : 0);
+                Uniform uniform = ShaderRenderer.getWorldShader().getUniform("lightmapEnabled");
+                assert uniform != null;
+                uniform.set(lightMapEnabled ? 1 : 0);
                 uniform.upload();
             }
         }
@@ -77,8 +80,9 @@ public class GlobalUniforms {
 
                 if (!ShaderRenderer.isActive()) return;
 
-                WorldShaderDefault uniform = ShaderRenderer.getWorldShader().safeGetUniform("lightEnabled");
-                uniform.setInt(lightEnabled ? 1 : 0);
+                Uniform uniform = ShaderRenderer.getWorldShader().getUniform("lightEnabled");
+                assert uniform != null;
+                uniform.set(lightEnabled ? 1 : 0);
                 uniform.upload();
             }
         }

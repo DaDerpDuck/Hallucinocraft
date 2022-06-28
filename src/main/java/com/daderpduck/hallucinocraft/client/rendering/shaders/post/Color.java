@@ -2,8 +2,8 @@ package com.daderpduck.hallucinocraft.client.rendering.shaders.post;
 
 import com.daderpduck.hallucinocraft.Hallucinocraft;
 import com.google.gson.JsonSyntaxException;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -22,7 +22,7 @@ public class Color extends PostShader {
 
     @Override
     public void render(float partialTicks) {
-        setUniform("Saturation", MathHelper.clamp(getDrugEffects().SATURATION.getValue() + 1F, 0F, 3F));
+        setUniform("Saturation", Mth.clamp(getDrugEffects().SATURATION.getValue() + 1F, 0F, 3F));
         setUniform("Brightness", getDrugEffects().BRIGHTNESS.getValue());
         process(partialTicks);
     }

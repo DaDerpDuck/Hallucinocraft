@@ -1,27 +1,30 @@
 package com.daderpduck.hallucinocraft.blocks;
 
 import com.daderpduck.hallucinocraft.items.ModItems;
-import mcp.MethodsReturnNonnullByDefault;
-import net.minecraft.block.*;
-import net.minecraft.state.BooleanProperty;
-import net.minecraft.state.IntegerProperty;
-import net.minecraft.state.StateContainer;
-import net.minecraft.state.properties.BlockStateProperties;
-import net.minecraft.util.IItemProvider;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.shapes.ISelectionContext;
-import net.minecraft.util.math.shapes.VoxelShape;
-import net.minecraft.world.IBlockReader;
-import net.minecraft.world.IWorldReader;
-import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.MethodsReturnNonnullByDefault;
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.ItemLike;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.CropBlock;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.block.state.properties.IntegerProperty;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.VoxelShape;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Random;
 
 @MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
-public class TallCropsBlock extends CropsBlock {
+public class TallCropsBlock extends CropBlock {
     public static final IntegerProperty AGE = BlockStateProperties.AGE_3;
     public static final IntegerProperty HEIGHT = IntegerProperty.create("height",0,2);
     public static final BooleanProperty CROP = BooleanProperty.create("crop");
@@ -32,7 +35,7 @@ public class TallCropsBlock extends CropsBlock {
     }
 
     @Override
-    protected IItemProvider getBaseSeedId() {
+    protected ItemLike getBaseSeedId() {
         return ModItems.COCA_SEEDS.get();
     }
 
@@ -42,7 +45,7 @@ public class TallCropsBlock extends CropsBlock {
     }
 
     @Override
-    public void randomTick(BlockState blockState, ServerWorld world, BlockPos blockPos, Random random) {
+    public void randomTick(BlockState blockState, ServerLevel world, BlockPos blockPos, Random random) {
         if (!world.isAreaLoaded(blockPos, 1)) return;
         if (world.getRawBrightness(blockPos, 0) >= 9) {
             int age = getAge(blockState);
@@ -99,17 +102,17 @@ public class TallCropsBlock extends CropsBlock {
     }
 
     @Override
-    protected int getBonemealAgeIncrease(World world) {
+    protected int getBonemealAgeIncrease(Level world) {
         return super.getBonemealAgeIncrease(world)/3;
     }
 
     @Override
-    public boolean isValidBonemealTarget(IBlockReader blockReader, BlockPos blockPos, BlockState blockState, boolean isClient) {
+    public boolean isValidBonemealTarget(BlockGetter blockReader, BlockPos blockPos, BlockState blockState, boolean isClient) {
         return !isMaxAge(blockState) || (!isMaxHeight(blockState) && !blockReader.getBlockState(blockPos.above()).getBlock().equals(this));
     }
 
     @Override
-    public boolean canSurvive(BlockState blockState, IWorldReader worldReader, BlockPos blockPos) {
+    public boolean canSurvive(BlockState blockState, LevelReader worldReader, BlockPos blockPos) {
         if (getHeight(blockState) > 0) {
             BlockState belowState = worldReader.getBlockState(blockPos.below());
             return belowState.getBlock().equals(this) && getHeight(belowState) < getHeight(blockState);
@@ -121,7 +124,7 @@ public class TallCropsBlock extends CropsBlock {
     }
 
     @Override
-    public void growCrops(World world, BlockPos blockPos, BlockState blockState) {
+    public void growCrops(Level world, BlockPos blockPos, BlockState blockState) {
         if (getAge(blockState) < getMaxAge()) {
             int i = getAge(blockState) + getBonemealAgeIncrease(world);
             int j = getMaxAge();
@@ -136,14 +139,14 @@ public class TallCropsBlock extends CropsBlock {
     }
 
     @Override
-    protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(AGE);
         builder.add(HEIGHT);
         builder.add(CROP);
     }
 
     @Override
-    public VoxelShape getShape(BlockState blockState, IBlockReader blockReader, BlockPos blockPos, ISelectionContext context) {
+    public VoxelShape getShape(BlockState blockState, BlockGetter blockReader, BlockPos blockPos, CollisionContext context) {
         return SHAPE_BY_AGE[blockState.getValue(getAgeProperty())];
     }
 }

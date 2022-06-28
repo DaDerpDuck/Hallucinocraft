@@ -3,10 +3,11 @@ package com.daderpduck.hallucinocraft.client.rendering.shaders.post;
 import com.daderpduck.hallucinocraft.Hallucinocraft;
 import com.daderpduck.hallucinocraft.client.rendering.shaders.GlobalUniforms;
 import com.google.gson.JsonSyntaxException;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
 
 import java.io.IOException;
 
+// TODO: Make this work again
 public class Kaleidoscope extends PostShader {
     public Kaleidoscope() throws IOException, JsonSyntaxException {
         super(new ResourceLocation(Hallucinocraft.MOD_ID, "shaders/post/kaleidoscope.json"));

@@ -1,7 +1,7 @@
 package com.daderpduck.hallucinocraft.mixin.client;
 
 import com.daderpduck.hallucinocraft.events.hooks.BobHurtEvent;
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraftforge.common.MinecraftForge;
 import org.spongepowered.asm.mixin.Mixin;
@@ -11,8 +11,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(GameRenderer.class)
 public class MixinGameRenderer {
-    @Inject(at = @At("HEAD"), method = "bobHurt(Lcom/mojang/blaze3d/matrix/MatrixStack;F)V")
-    private void onCamera(MatrixStack matrixStack, float partialTicks, CallbackInfo ci) {
-        MinecraftForge.EVENT_BUS.post(new BobHurtEvent(matrixStack, partialTicks));
+    @Inject(at = @At("HEAD"), method = "bobHurt(Lcom/mojang/blaze3d/vertex/PoseStack;F)V")
+    private void onCamera(PoseStack pMatrixStack, float pPartialTicks, CallbackInfo ci) {
+        MinecraftForge.EVENT_BUS.post(new BobHurtEvent(pMatrixStack, pPartialTicks));
     }
 }

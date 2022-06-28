@@ -1,19 +1,22 @@
 package com.daderpduck.hallucinocraft.client.rendering.shaders;
 
+import com.daderpduck.hallucinocraft.Hallucinocraft;
 import com.daderpduck.hallucinocraft.client.rendering.shaders.post.PostShaders;
 import com.daderpduck.hallucinocraft.drugs.Drug;
 import com.daderpduck.hallucinocraft.drugs.DrugEffects;
 import com.daderpduck.hallucinocraft.events.hooks.BufferDrawEvent;
 import com.daderpduck.hallucinocraft.events.hooks.RenderEvent;
+import com.mojang.blaze3d.pipeline.RenderTarget;
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.shader.Framebuffer;
+import net.minecraft.client.renderer.ShaderInstance;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import org.lwjgl.opengl.GL11;
 
 import javax.annotation.Nullable;
 import java.io.IOException;
@@ -25,11 +28,11 @@ public class ShaderRenderer {
     public static boolean useShader = false;
     public static boolean isRenderingWorld = false;
     public static boolean lightmapEnable = true;
-    private static final Deque<WorldShader> shaderStack = new ArrayDeque<>();
-    private static WorldShader shaderWorld;
-    private static WorldShader shaderOutlineBox;
+    private static final Deque<ShaderInstance> shaderStack = new ArrayDeque<>();
+    private static ShaderInstance shaderWorld;
+    private static ShaderInstance shaderOutlineBox;
     @Nullable
-    private static WorldShader activeShader = null;
+    private static ShaderInstance activeShader = null;
 
     public static void setup() {
         if (!RenderSystem.isOnRenderThread()) {
@@ -46,12 +49,13 @@ public class ShaderRenderer {
         try {
             PostShaders.setup();
 
-            shaderWorld = new WorldShader(mc.getResourceManager(), "hallucinocraft:world");
-            shaderWorld.setSampler("texture", () -> 0);
-            shaderWorld.setSampler("overlay", () -> 1);
-            shaderWorld.setSampler("lightMap", () -> 2);
+            // TODO: Fix world shaders
+            shaderWorld = new ShaderInstance(mc.getResourceManager(), new ResourceLocation(Hallucinocraft.MOD_ID, "world"), DefaultVertexFormat.BLOCK);
+            shaderWorld.setSampler("texture", 0);
+            shaderWorld.setSampler("overlay", 1);
+            shaderWorld.setSampler("lightMap", 2);
 
-            shaderOutlineBox = new WorldShader(mc.getResourceManager(), "hallucinocraft:world_outline");
+            shaderOutlineBox = new ShaderInstance(mc.getResourceManager(), new ResourceLocation(Hallucinocraft.MOD_ID, "world_outline"), DefaultVertexFormat.BLOCK);
 
             useShader = true;
         } catch (IOException e) {
@@ -82,7 +86,7 @@ public class ShaderRenderer {
         shaderOutlineBox = null;
     }
 
-    public static void startRenderPass(@Nullable WorldShader shader) {
+    public static void startRenderPass(@Nullable ShaderInstance shader) {
         if (activeShader == shader) return;
         if (activeShader != null) {
             RenderUtil.flushRenderBuffer();
@@ -94,43 +98,38 @@ public class ShaderRenderer {
         DrugEffects drugEffects = Drug.getDrugEffects();
         shader.clear();
 
-        shader.safeGetUniform("modelViewMat").setMatrix(GlobalUniforms.modelView);
-        shader.safeGetUniform("modelViewInverseMat").setMatrix(GlobalUniforms.modelViewInverse);
-        shader.safeGetUniform("timePassed").setFloat(GlobalUniforms.timePassed);
-        shader.safeGetUniform("fogMode").setInt(GlobalUniforms.fogMode);
+        shader.safeGetUniform("modelViewMat").set(GlobalUniforms.modelView);
+        shader.safeGetUniform("modelViewInverseMat").set(GlobalUniforms.modelViewInverse);
+        shader.safeGetUniform("timePassed").set(GlobalUniforms.timePassed);
+        shader.safeGetUniform("fogMode").set(GlobalUniforms.fogMode);
 
-        shader.safeGetUniform("smallWaves").setFloat(drugEffects.SMALL_WAVES.getClamped());
-        shader.safeGetUniform("bigWaves").setFloat(drugEffects.BIG_WAVES.getClamped());
-        shader.safeGetUniform("wiggleWaves").setFloat(drugEffects.WIGGLE_WAVES.getClamped());
-        shader.safeGetUniform("distantWorldDeformation").setFloat(drugEffects.WORLD_DEFORMATION.getValue());
+        shader.safeGetUniform("smallWaves").set(drugEffects.SMALL_WAVES.getClamped());
+        shader.safeGetUniform("bigWaves").set(drugEffects.BIG_WAVES.getClamped());
+        shader.safeGetUniform("wiggleWaves").set(drugEffects.WIGGLE_WAVES.getClamped());
+        shader.safeGetUniform("distantWorldDeformation").set(drugEffects.WORLD_DEFORMATION.getValue());
 
         shader.apply();
     }
 
-    @SuppressWarnings("deprecation")
     public static void processPostShaders(float partialTicks) {
         Minecraft mc = Minecraft.getInstance();
-        Framebuffer framebuffer = mc.getMainRenderTarget();
+        RenderTarget framebuffer = mc.getMainRenderTarget();
 
         RenderSystem.disableBlend();
         RenderSystem.disableDepthTest();
-        RenderSystem.disableAlphaTest();
         RenderSystem.enableTexture();
-        RenderSystem.matrixMode(GL11.GL_TEXTURE);
-        RenderSystem.pushMatrix();
-        RenderSystem.loadIdentity();
+        RenderSystem.resetTextureMatrix();
         PostShaders.processShaders(partialTicks);
-        RenderSystem.popMatrix();
         RenderSystem.enableTexture();
 
         framebuffer.bindWrite(false);
     }
 
-    public static WorldShader getWorldShader() {
+    public static ShaderInstance getWorldShader() {
         return shaderWorld;
     }
 
-    public static WorldShader getWorldOutlineShader() {
+    public static ShaderInstance getWorldOutlineShader() {
         return shaderOutlineBox;
     }
 
@@ -140,7 +139,7 @@ public class ShaderRenderer {
 
     public static void popShader() {
         if (shaderStack.isEmpty()) return;
-        WorldShader shader = shaderStack.pollLast();
+        ShaderInstance shader = shaderStack.pollLast();
         startRenderPass(shader);
     }
 
@@ -149,7 +148,7 @@ public class ShaderRenderer {
     }
 
     @Nullable
-    public static WorldShader getActiveShader() {
+    public static ShaderInstance getActiveShader() {
         return activeShader;
     }
 
@@ -161,7 +160,7 @@ public class ShaderRenderer {
             if (event.phase == RenderEvent.Phase.START) {
                 ShaderRenderer.lightmapEnable = !flag;
                 ShaderRenderer.isRenderingWorld = true;
-                ShaderRenderer.getWorldShader().safeGetUniform("lightmapEnabled").setInt(1);
+                ShaderRenderer.getWorldShader().safeGetUniform("lightmapEnabled").set(1);
                 ShaderRenderer.startRenderPass(ShaderRenderer.getWorldShader());
             } else {
                 ShaderRenderer.lightmapEnable = flag;
@@ -215,22 +214,18 @@ public class ShaderRenderer {
         public static void preDraw(BufferDrawEvent.Pre event) {
             if (!ShaderRenderer.isRenderingWorld) return;
             switch (event.name) {
-                case "crumbling":
-                case "armor_glint":
-                case "armor_entity_glint":
-                case "entity_glint":
-                case "entity_glint_direct":
+                case "crumbling", "armor_glint", "armor_entity_glint", "entity_glint", "entity_glint_direct" -> {
                     ShaderRenderer.pushShader();
                     ShaderRenderer.startRenderPass(ShaderRenderer.getWorldShader());
-                    break;
-                case "lightning":
+                }
+                case "lightning" -> {
                     ShaderRenderer.pushShader();
                     ShaderRenderer.startRenderPass(ShaderRenderer.getWorldOutlineShader());
-                    break;
-                case "end_portal":
+                }
+                case "end_portal" -> {
                     ShaderRenderer.pushShader();
                     ShaderRenderer.startRenderPass(null);
-                    break;
+                }
             }
         }
 
@@ -238,25 +233,22 @@ public class ShaderRenderer {
         public static void postDraw(BufferDrawEvent.Post event) {
             if (!ShaderRenderer.isRenderingWorld) return;
             switch (event.name) {
-                case "crumbling":
+                case "crumbling" -> {
                     RenderUtil.checkGlErrors("Block damage");
                     ShaderRenderer.popShader();
-                    break;
-                case "armor_glint":
-                case "armor_entity_glint":
-                case "entity_glint":
-                case "entity_glint_direct":
+                }
+                case "armor_glint", "armor_entity_glint", "entity_glint", "entity_glint_direct" -> {
                     RenderUtil.checkGlErrors("Armor glint");
                     ShaderRenderer.popShader();
-                    break;
-                case "lightning":
+                }
+                case "lightning" -> {
                     RenderUtil.checkGlErrors("Lightning");
                     ShaderRenderer.popShader();
-                    break;
-                case "end_portal":
+                }
+                case "end_portal" -> {
                     RenderUtil.checkGlErrors("End portal");
                     ShaderRenderer.popShader();
-                    break;
+                }
             }
         }
     }

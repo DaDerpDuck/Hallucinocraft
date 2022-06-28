@@ -2,10 +2,10 @@ package com.daderpduck.hallucinocraft.client.rendering.shaders;
 
 import com.daderpduck.hallucinocraft.Hallucinocraft;
 import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.shaders.Shader;
+import com.mojang.blaze3d.shaders.Uniform;
 import com.mojang.blaze3d.systems.RenderSystem;
-import net.minecraft.client.shader.IShaderManager;
-import net.minecraft.client.shader.ShaderUniform;
-import net.minecraft.util.math.vector.Matrix4f;
+import com.mojang.math.Matrix4f;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.apache.logging.log4j.Logger;
@@ -24,9 +24,9 @@ public class WorldShaderUniform extends WorldShaderDefault implements AutoClosea
     private final FloatBuffer floatValues;
     private final String name;
     private boolean dirty;
-    private final IShaderManager parent;
+    private final Shader parent;
 
-    public WorldShaderUniform(String name, int type, int count, IShaderManager parentShader) {
+    public WorldShaderUniform(String name, int type, int count, Shader parentShader) {
         this.name = name;
         this.count = count;
         this.type = type;
@@ -76,7 +76,7 @@ public class WorldShaderUniform extends WorldShaderDefault implements AutoClosea
     }
 
     public static int getTypeFromString(String typeName) {
-        return ShaderUniform.getTypeFromString(typeName);
+        return Uniform.getTypeFromString(typeName);
     }
 
     public void setLocation(int location) {
@@ -254,57 +254,36 @@ public class WorldShaderUniform extends WorldShaderDefault implements AutoClosea
 
     private void uploadAsInteger() {
         this.intValues.clear();
-        switch(this.type) {
-            case 0:
-                RenderSystem.glUniform1(this.location, this.intValues);
-                break;
-            case 1:
-                RenderSystem.glUniform2(this.location, this.intValues);
-                break;
-            case 2:
-                RenderSystem.glUniform3(this.location, this.intValues);
-                break;
-            case 3:
-                RenderSystem.glUniform4(this.location, this.intValues);
-                break;
-            default:
-                LOGGER.warn("Uniform.upload called, but count value ({}) is  not in the range of 1 to 4. Ignoring.", this.count);
+        switch (this.type) {
+            case 0 -> RenderSystem.glUniform1(this.location, this.intValues);
+            case 1 -> RenderSystem.glUniform2(this.location, this.intValues);
+            case 2 -> RenderSystem.glUniform3(this.location, this.intValues);
+            case 3 -> RenderSystem.glUniform4(this.location, this.intValues);
+            default ->
+                    LOGGER.warn("Uniform.upload called, but count value ({}) is  not in the range of 1 to 4. Ignoring.", this.count);
         }
 
     }
 
     private void uploadAsFloat() {
         this.floatValues.clear();
-        switch(this.type) {
-            case 4:
-                RenderSystem.glUniform1(this.location, this.floatValues);
-                break;
-            case 5:
-                RenderSystem.glUniform2(this.location, this.floatValues);
-                break;
-            case 6:
-                RenderSystem.glUniform3(this.location, this.floatValues);
-                break;
-            case 7:
-                RenderSystem.glUniform4(this.location, this.floatValues);
-                break;
-            default:
-                LOGGER.warn("Uniform.upload called, but count value ({}) is not in the range of 1 to 4. Ignoring.", this.count);
+        switch (this.type) {
+            case 4 -> RenderSystem.glUniform1(this.location, this.floatValues);
+            case 5 -> RenderSystem.glUniform2(this.location, this.floatValues);
+            case 6 -> RenderSystem.glUniform3(this.location, this.floatValues);
+            case 7 -> RenderSystem.glUniform4(this.location, this.floatValues);
+            default ->
+                    LOGGER.warn("Uniform.upload called, but count value ({}) is not in the range of 1 to 4. Ignoring.", this.count);
         }
 
     }
 
     private void uploadAsMatrix() {
         this.floatValues.clear();
-        switch(this.type) {
-            case 8:
-                RenderSystem.glUniformMatrix2(this.location, false, this.floatValues);
-                break;
-            case 9:
-                RenderSystem.glUniformMatrix3(this.location, false, this.floatValues);
-                break;
-            case 10:
-                RenderSystem.glUniformMatrix4(this.location, false, this.floatValues);
+        switch (this.type) {
+            case 8 -> RenderSystem.glUniformMatrix2(this.location, false, this.floatValues);
+            case 9 -> RenderSystem.glUniformMatrix3(this.location, false, this.floatValues);
+            case 10 -> RenderSystem.glUniformMatrix4(this.location, false, this.floatValues);
         }
 
     }

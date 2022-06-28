@@ -1,6 +1,6 @@
 package com.daderpduck.hallucinocraft.drugs;
 
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.world.entity.player.Player;
 
 public class Cannabis extends Drug {
     public Cannabis(DrugProperties properties) {
@@ -16,7 +16,7 @@ public class Cannabis extends Drug {
     }
 
     @Override
-    public void effectTick(PlayerEntity player, DrugEffects drugEffects, float effect) {
+    public void effectTick(Player player, DrugEffects drugEffects, float effect) {
         drugEffects.MOVEMENT_SPEED.addValue(effect*-0.2F);
         drugEffects.DIG_SPEED.addValue(effect*-0.2F);
         drugEffects.HUNGER_RATE.addValue(effect*1.3F);

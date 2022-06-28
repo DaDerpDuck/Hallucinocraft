@@ -1,11 +1,8 @@
 package com.daderpduck.hallucinocraft.worldgen;
 
 import com.daderpduck.hallucinocraft.Hallucinocraft;
-import net.minecraft.util.RegistryKey;
-import net.minecraft.util.registry.WorldGenRegistries;
-import net.minecraft.world.biome.Biome;
-import net.minecraft.world.gen.GenerationStage;
-import net.minecraft.world.gen.feature.ConfiguredFeature;
+import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -15,16 +12,12 @@ import net.minecraftforge.fml.common.Mod;
 public class WorldGen {
     @SubscribeEvent(priority = EventPriority.HIGH)
     public static void onBiomeLoad(BiomeLoadingEvent event) {
-        Biome.Category category = event.getCategory();
+        Biome.BiomeCategory category = event.getCategory();
 
-        if (category == Biome.Category.JUNGLE) {
-            event.getGeneration().addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, getFeature(ModConfiguredFeatures.COCA));
-        } else if (category == Biome.Category.SAVANNA) {
-            event.getGeneration().addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, getFeature(ModConfiguredFeatures.CANNABIS));
+        if (category == Biome.BiomeCategory.JUNGLE) {
+            event.getGeneration().addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, ModPlacedFeatures.COCA);
+        } else if (category == Biome.BiomeCategory.SAVANNA) {
+            event.getGeneration().addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, ModPlacedFeatures.CANNABIS);
         }
-    }
-
-    private static ConfiguredFeature<?, ?> getFeature(RegistryKey<ConfiguredFeature<?, ?>> key) {
-        return WorldGenRegistries.CONFIGURED_FEATURE.getOrThrow(key);
     }
 }

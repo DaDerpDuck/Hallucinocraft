@@ -1,20 +1,19 @@
 package com.daderpduck.hallucinocraft.drugs;
 
 import com.daderpduck.hallucinocraft.Hallucinocraft;
-import com.daderpduck.hallucinocraft.capabilities.IPlayerDrugs;
-import com.daderpduck.hallucinocraft.capabilities.PlayerProperties;
+import com.daderpduck.hallucinocraft.capabilities.PlayerDrugs;
 import com.daderpduck.hallucinocraft.events.hooks.IncreaseAirSupplyEvent;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.attributes.Attribute;
-import net.minecraft.entity.ai.attributes.AttributeModifier;
-import net.minecraft.entity.ai.attributes.Attributes;
-import net.minecraft.entity.ai.attributes.ModifiableAttributeInstance;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.particles.ParticleTypes;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -27,7 +26,7 @@ public class DrugHandler {
 
     @SubscribeEvent
     public static void playerTick(TickEvent.PlayerTickEvent event) {
-        PlayerEntity player = event.player;
+        Player player = event.player;
         DrugEffects drugEffects = Drug.getDrugEffects(player);
         if (event.phase == TickEvent.Phase.START) {
             Drug.tick(player);
@@ -60,12 +59,12 @@ public class DrugHandler {
     public static void worldTick(TickEvent.WorldTickEvent event) {
         if (event.world.isClientSide) return;
 
-        ServerWorld serverWorld = (ServerWorld) event.world;
-        for (ServerPlayerEntity player : serverWorld.players()) {
-            IPlayerDrugs playerDrugs = PlayerProperties.getPlayerDrugs(player);
+        ServerLevel serverWorld = (ServerLevel) event.world;
+        for (ServerPlayer player : serverWorld.players()) {
+            PlayerDrugs playerDrugs = PlayerDrugs.getPlayerDrugs(player);
             if (playerDrugs.getSmokeTicks() > 0) {
                 playerDrugs.setSmokeTicks(playerDrugs.getSmokeTicks() - 1);
-                Vector3d lookVector = player.getLookAngle();
+                Vec3 lookVector = player.getLookAngle();
                 serverWorld.sendParticles(ParticleTypes.SMOKE, player.getX(), player.getY() + player.getEyeHeight() - 0.15F, player.getZ(), 0, lookVector.x, lookVector.y, lookVector.z, 0.1);
             }
         }
@@ -73,15 +72,14 @@ public class DrugHandler {
 
     @SubscribeEvent
     public static void breatheEvent(IncreaseAirSupplyEvent event) {
-        if (event.livingEntity instanceof PlayerEntity) {
-            PlayerEntity player = (PlayerEntity) event.livingEntity;
+        if (event.livingEntity instanceof Player player) {
             DrugEffects drugEffects = Drug.getDrugEffects(player);
             if (drugEffects.DROWN_RATE.getValue() > 0) event.setCanceled(true);
         }
     }
 
     private static void modifyAttribute(LivingEntity entity, Attribute attribute, String name, double value, AttributeModifier.Operation op) {
-        ModifiableAttributeInstance attributeInstance = entity.getAttribute(attribute);
+        AttributeInstance attributeInstance = entity.getAttribute(attribute);
         if (attributeInstance == null) return;
         attributeInstance.removeModifier(uuid);
         attributeInstance.addTransientModifier(new AttributeModifier(uuid, name, value, op));

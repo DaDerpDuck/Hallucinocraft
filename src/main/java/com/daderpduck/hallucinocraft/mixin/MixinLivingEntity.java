@@ -1,7 +1,7 @@
 package com.daderpduck.hallucinocraft.mixin;
 
 import com.daderpduck.hallucinocraft.events.hooks.IncreaseAirSupplyEvent;
-import net.minecraft.entity.LivingEntity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraftforge.common.MinecraftForge;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

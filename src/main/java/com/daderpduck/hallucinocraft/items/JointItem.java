@@ -1,12 +1,12 @@
 package com.daderpduck.hallucinocraft.items;
 
-import com.daderpduck.hallucinocraft.capabilities.PlayerProperties;
-import mcp.MethodsReturnNonnullByDefault;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.world.World;
+import com.daderpduck.hallucinocraft.capabilities.PlayerDrugs;
+import net.minecraft.MethodsReturnNonnullByDefault;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
@@ -18,9 +18,9 @@ public class JointItem extends DrugItem {
     }
 
     @Override
-    public ItemStack finishUsingItem(ItemStack itemStack, World world, LivingEntity entity) {
-        if (entity instanceof PlayerEntity) {
-            PlayerProperties.getPlayerDrugs((PlayerEntity) entity).setSmokeTicks(4);
+    public ItemStack finishUsingItem(ItemStack itemStack, Level world, LivingEntity entity) {
+        if (entity instanceof Player playerEntity) {
+            PlayerDrugs.getPlayerDrugs(playerEntity).setSmokeTicks(4);
         }
 
         return super.finishUsingItem(itemStack, world, entity);

@@ -1,15 +1,14 @@
 package com.daderpduck.hallucinocraft.network;
 
-import com.daderpduck.hallucinocraft.capabilities.IPlayerDrugs;
-import com.daderpduck.hallucinocraft.capabilities.PlayerProperties;
+import com.daderpduck.hallucinocraft.capabilities.PlayerDrugs;
 import com.daderpduck.hallucinocraft.drugs.DrugInstance;
 import com.daderpduck.hallucinocraft.drugs.DrugRegistry;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.player.ClientPlayerEntity;
-import net.minecraft.network.PacketBuffer;
+import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.fml.network.NetworkEvent;
+import net.minecraftforge.network.NetworkEvent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +22,7 @@ public class DrugCapSync implements IMessage {
         list = drugInstances;
     }
 
-    public DrugCapSync(PacketBuffer buffer) {
+    public DrugCapSync(FriendlyByteBuf buffer) {
         int listSize = buffer.readInt();
         list = new ArrayList<>(listSize);
 
@@ -33,7 +32,7 @@ public class DrugCapSync implements IMessage {
     }
 
     @Override
-    public void encode(PacketBuffer packetBuffer) {
+    public void encode(FriendlyByteBuf packetBuffer) {
         packetBuffer.writeInt(list.size());
 
         for (DrugInstance drugInstance : list) {
@@ -49,9 +48,9 @@ public class DrugCapSync implements IMessage {
     @Override
     public void handle(Supplier<NetworkEvent.Context> ctx) {
         ctx.get().enqueueWork(() -> {
-            ClientPlayerEntity player = Minecraft.getInstance().player;
+            LocalPlayer player = Minecraft.getInstance().player;
             if (player == null) return;
-            IPlayerDrugs playerDrugs = PlayerProperties.getPlayerDrugs(player);
+            PlayerDrugs playerDrugs = PlayerDrugs.getPlayerDrugs(player);
             playerDrugs.setSources(list);
         });
         ctx.get().setPacketHandled(true);

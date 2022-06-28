@@ -1,6 +1,6 @@
 package com.daderpduck.hallucinocraft.drugs;
 
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.Mth;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -74,7 +74,7 @@ public class DrugEffects {
         }
 
         public float getClamped() {
-            return MathHelper.clamp(value, 0, 1);
+            return Mth.clamp(value, 0, 1);
         }
 
         @Override
