@@ -4,19 +4,15 @@ import com.daderpduck.hallucinocraft.Hallucinocraft;
 import com.daderpduck.hallucinocraft.client.rendering.shaders.post.PostShaders;
 import com.daderpduck.hallucinocraft.drugs.Drug;
 import com.daderpduck.hallucinocraft.drugs.DrugEffects;
-import com.daderpduck.hallucinocraft.events.hooks.BufferDrawEvent;
-import com.daderpduck.hallucinocraft.events.hooks.RenderEvent;
 import com.mojang.blaze3d.pipeline.RenderTarget;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 import javax.annotation.Nullable;
 import java.io.IOException;
@@ -153,103 +149,104 @@ public class ShaderRenderer {
     }
 
 
+    // TODO: Get this to work again ples
     static class EventHandler {
-        @SubscribeEvent
-        public static void onTerrain(RenderEvent.RenderTerrainEvent event) {
-            boolean flag = event.blockLayer == RenderType.translucent();
-            if (event.phase == RenderEvent.Phase.START) {
-                ShaderRenderer.lightmapEnable = !flag;
-                ShaderRenderer.isRenderingWorld = true;
-                ShaderRenderer.getWorldShader().safeGetUniform("lightmapEnabled").set(1);
-                ShaderRenderer.startRenderPass(ShaderRenderer.getWorldShader());
-            } else {
-                ShaderRenderer.lightmapEnable = flag;
-            }
-
-            RenderUtil.checkGlErrors("Terrain");
-        }
-
-        @SubscribeEvent
-        public static void onEntity(RenderEvent.RenderEntityEvent event) {
-            if (event.phase == RenderEvent.Phase.START) {
-                ShaderRenderer.startRenderPass(ShaderRenderer.getWorldShader());
-            }
-
-            RenderUtil.checkGlErrors("Entity");
-        }
-
-        @SubscribeEvent
-        public static void onTileEntity(RenderEvent.RenderBlockEntityEvent event) {
-            if (event.phase == RenderEvent.Phase.START) {
-                ShaderRenderer.startRenderPass(ShaderRenderer.getWorldShader());
-            }
-
-            RenderUtil.checkGlErrors("Block entity");
-        }
-
-        @SubscribeEvent
-        public static void onBlockOutline(RenderEvent.RenderBlockOutlineEvent event) {
-            if (event.phase == RenderEvent.Phase.START) {
-                ShaderRenderer.startRenderPass(ShaderRenderer.getWorldOutlineShader());
-            } else {
-                event.buffer.endBatch(RenderType.LINES);
-            }
-
-            RenderUtil.checkGlErrors("Block outline");
-        }
-
-        @SubscribeEvent
-        public static void onParticle(RenderEvent.RenderParticlesEvent event) {
-            if (event.phase == RenderEvent.Phase.START) {
-                ShaderRenderer.startRenderPass(ShaderRenderer.getWorldShader());
-            } else {
-                ShaderRenderer.startRenderPass(null);
-                ShaderRenderer.isRenderingWorld = false;
-            }
-
-            RenderUtil.checkGlErrors("Particles");
-        }
-
-        @SubscribeEvent
-        public static void preDraw(BufferDrawEvent.Pre event) {
-            if (!ShaderRenderer.isRenderingWorld) return;
-            switch (event.name) {
-                case "crumbling", "armor_glint", "armor_entity_glint", "entity_glint", "entity_glint_direct" -> {
-                    ShaderRenderer.pushShader();
-                    ShaderRenderer.startRenderPass(ShaderRenderer.getWorldShader());
-                }
-                case "lightning" -> {
-                    ShaderRenderer.pushShader();
-                    ShaderRenderer.startRenderPass(ShaderRenderer.getWorldOutlineShader());
-                }
-                case "end_portal" -> {
-                    ShaderRenderer.pushShader();
-                    ShaderRenderer.startRenderPass(null);
-                }
-            }
-        }
-
-        @SubscribeEvent
-        public static void postDraw(BufferDrawEvent.Post event) {
-            if (!ShaderRenderer.isRenderingWorld) return;
-            switch (event.name) {
-                case "crumbling" -> {
-                    RenderUtil.checkGlErrors("Block damage");
-                    ShaderRenderer.popShader();
-                }
-                case "armor_glint", "armor_entity_glint", "entity_glint", "entity_glint_direct" -> {
-                    RenderUtil.checkGlErrors("Armor glint");
-                    ShaderRenderer.popShader();
-                }
-                case "lightning" -> {
-                    RenderUtil.checkGlErrors("Lightning");
-                    ShaderRenderer.popShader();
-                }
-                case "end_portal" -> {
-                    RenderUtil.checkGlErrors("End portal");
-                    ShaderRenderer.popShader();
-                }
-            }
-        }
+//        @SubscribeEvent
+//        public static void onTerrain(RenderEvent.RenderTerrainEvent event) {
+//            boolean flag = event.blockLayer == RenderType.translucent();
+//            if (event.phase == RenderEvent.Phase.START) {
+//                ShaderRenderer.lightmapEnable = !flag;
+//                ShaderRenderer.isRenderingWorld = true;
+//                ShaderRenderer.getWorldShader().safeGetUniform("lightmapEnabled").set(1);
+//                ShaderRenderer.startRenderPass(ShaderRenderer.getWorldShader());
+//            } else {
+//                ShaderRenderer.lightmapEnable = flag;
+//            }
+//
+//            RenderUtil.checkGlErrors("Terrain");
+//        }
+//
+//        @SubscribeEvent
+//        public static void onEntity(RenderEvent.RenderEntityEvent event) {
+//            if (event.phase == RenderEvent.Phase.START) {
+//                ShaderRenderer.startRenderPass(ShaderRenderer.getWorldShader());
+//            }
+//
+//            RenderUtil.checkGlErrors("Entity");
+//        }
+//
+//        @SubscribeEvent
+//        public static void onTileEntity(RenderEvent.RenderBlockEntityEvent event) {
+//            if (event.phase == RenderEvent.Phase.START) {
+//                ShaderRenderer.startRenderPass(ShaderRenderer.getWorldShader());
+//            }
+//
+//            RenderUtil.checkGlErrors("Block entity");
+//        }
+//
+//        @SubscribeEvent
+//        public static void onBlockOutline(RenderEvent.RenderBlockOutlineEvent event) {
+//            if (event.phase == RenderEvent.Phase.START) {
+//                ShaderRenderer.startRenderPass(ShaderRenderer.getWorldOutlineShader());
+//            } else {
+//                event.buffer.endBatch(RenderType.LINES);
+//            }
+//
+//            RenderUtil.checkGlErrors("Block outline");
+//        }
+//
+//        @SubscribeEvent
+//        public static void onParticle(RenderEvent.RenderParticlesEvent event) {
+//            if (event.phase == RenderEvent.Phase.START) {
+//                ShaderRenderer.startRenderPass(ShaderRenderer.getWorldShader());
+//            } else {
+//                ShaderRenderer.startRenderPass(null);
+//                ShaderRenderer.isRenderingWorld = false;
+//            }
+//
+//            RenderUtil.checkGlErrors("Particles");
+//        }
+//
+//        @SubscribeEvent
+//        public static void preDraw(BufferDrawEvent.Pre event) {
+//            if (!ShaderRenderer.isRenderingWorld) return;
+//            switch (event.name) {
+//                case "crumbling", "armor_glint", "armor_entity_glint", "entity_glint", "entity_glint_direct" -> {
+//                    ShaderRenderer.pushShader();
+//                    ShaderRenderer.startRenderPass(ShaderRenderer.getWorldShader());
+//                }
+//                case "lightning" -> {
+//                    ShaderRenderer.pushShader();
+//                    ShaderRenderer.startRenderPass(ShaderRenderer.getWorldOutlineShader());
+//                }
+//                case "end_portal" -> {
+//                    ShaderRenderer.pushShader();
+//                    ShaderRenderer.startRenderPass(null);
+//                }
+//            }
+//        }
+//
+//        @SubscribeEvent
+//        public static void postDraw(BufferDrawEvent.Post event) {
+//            if (!ShaderRenderer.isRenderingWorld) return;
+//            switch (event.name) {
+//                case "crumbling" -> {
+//                    RenderUtil.checkGlErrors("Block damage");
+//                    ShaderRenderer.popShader();
+//                }
+//                case "armor_glint", "armor_entity_glint", "entity_glint", "entity_glint_direct" -> {
+//                    RenderUtil.checkGlErrors("Armor glint");
+//                    ShaderRenderer.popShader();
+//                }
+//                case "lightning" -> {
+//                    RenderUtil.checkGlErrors("Lightning");
+//                    ShaderRenderer.popShader();
+//                }
+//                case "end_portal" -> {
+//                    RenderUtil.checkGlErrors("End portal");
+//                    ShaderRenderer.popShader();
+//                }
+//            }
+//        }
     }
 }

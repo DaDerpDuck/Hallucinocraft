@@ -6,7 +6,6 @@ import net.minecraft.util.Mth;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
-// TODO: Make this work again
 @OnlyIn(Dist.CLIENT)
 public class MouseSmootherEffect {
     public static final MouseSmootherEffect INSTANCE = new MouseSmootherEffect();

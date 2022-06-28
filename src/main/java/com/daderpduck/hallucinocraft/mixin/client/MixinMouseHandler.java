@@ -25,10 +25,10 @@ public class MixinMouseHandler {
     }
 
     @Redirect(at = @At(value = "FIELD", target = "Lnet/minecraft/client/MouseHandler;accumulatedDX:D", ordinal = 1), method = "turnPlayer()V")
-    private double getAccumulatedDX(MouseHandler mouseHelper) {
+    private double getAccumulatedDXScoping(MouseHandler mouseHelper) {
         if (MouseSmootherEffect.INSTANCE.getAmplifier() > 0) {
             double d4 = Minecraft.getInstance().options.sensitivity * 0.6D + 0.2D;
-            double d5 = d4 * d4 * d4 * 8.0D;
+            double d5 = d4 * d4 * d4;
             return MouseSmootherEffect.INSTANCE.getX()/d5;
         } else {
             return accumulatedDX;
@@ -36,11 +36,35 @@ public class MixinMouseHandler {
     }
 
     @Redirect(at = @At(value = "FIELD", target = "Lnet/minecraft/client/MouseHandler;accumulatedDY:D", ordinal = 1), method = "turnPlayer()V")
+    private double getAccumulatedDYScoping(MouseHandler mouseHelper) {
+        if (MouseSmootherEffect.INSTANCE.getAmplifier() > 0) {
+            double d4 = Minecraft.getInstance().options.sensitivity * 0.6D + 0.2D;
+            double d5 = d4 * d4 * d4;
+            return MouseSmootherEffect.INSTANCE.getY()/d5;
+        } else {
+            return accumulatedDY;
+        }
+    }
+
+    @Redirect(at = @At(value = "FIELD", target = "Lnet/minecraft/client/MouseHandler;accumulatedDX:D", ordinal = 2), method = "turnPlayer()V")
+    private double getAccumulatedDX(MouseHandler mouseHelper) {
+        if (MouseSmootherEffect.INSTANCE.getAmplifier() > 0) {
+            double d4 = Minecraft.getInstance().options.sensitivity * 0.6D + 0.2D;
+            double d5 = d4 * d4 * d4;
+            double d6 = d5 * 8.0D;
+            return MouseSmootherEffect.INSTANCE.getX()/d6;
+        } else {
+            return accumulatedDX;
+        }
+    }
+
+    @Redirect(at = @At(value = "FIELD", target = "Lnet/minecraft/client/MouseHandler;accumulatedDY:D", ordinal = 2), method = "turnPlayer()V")
     private double getAccumulatedDY(MouseHandler mouseHelper) {
         if (MouseSmootherEffect.INSTANCE.getAmplifier() > 0) {
             double d4 = Minecraft.getInstance().options.sensitivity * 0.6D + 0.2D;
-            double d5 = d4 * d4 * d4 * 8.0D;
-            return MouseSmootherEffect.INSTANCE.getY()/d5;
+            double d5 = d4 * d4 * d4;
+            double d6 = d5 * 8.0D;
+            return MouseSmootherEffect.INSTANCE.getY()/d6;
         } else {
             return accumulatedDY;
         }
