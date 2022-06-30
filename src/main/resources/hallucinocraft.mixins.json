@@ -8,20 +8,12 @@
     "MixinLivingEntity"
   ],
   "client": [
-    "client.InvokerRenderStateTexture",
-    "client.AccessorBufferSource",
-    "client.AccessorRenderTypeState",
     "client.AccessorShaderGroup",
-    "client.InvokerRenderUtilsOF",
     "client.InvokerConfigOF",
+    "client.MixinBufferUploader",
     "client.MixinGameRenderer",
-    "client.MixinRenderSystem",
-    "client.MixinLightTexture",
-    "client.MixinMouseHandler",
-    "client.MixinRenderType",
-    "client.MixinBufferSource",
-    "client.MixinCompositeCompositeRenderType",
-    "client.MixinLevelRenderer"
+    "client.MixinLevelRenderer",
+    "client.MixinMouseHandler"
   ],
   "injectors": {
     "defaultRequire": 1

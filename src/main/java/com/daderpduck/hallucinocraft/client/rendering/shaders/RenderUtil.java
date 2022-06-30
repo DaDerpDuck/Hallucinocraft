@@ -1,10 +1,8 @@
 package com.daderpduck.hallucinocraft.client.rendering.shaders;
 
 import com.daderpduck.hallucinocraft.Hallucinocraft;
-import com.daderpduck.hallucinocraft.mixin.client.InvokerRenderUtilsOF;
 import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraftforge.api.distmarker.Dist;
@@ -25,23 +23,6 @@ public class RenderUtil {
             flag = false;
         }
         hasOptifine = flag;
-    }
-
-    public static void flushRenderBuffer() {
-        if (hasOptifine) {
-            boolean old = InvokerRenderUtilsOF.callSetFlushRenderBuffers(true);
-            InvokerRenderUtilsOF.callFlushRenderBuffers();
-            InvokerRenderUtilsOF.callSetFlushRenderBuffers(old);
-        } else {
-            Minecraft mc = Minecraft.getInstance();
-            flushRenderBuffer(mc.renderBuffers().bufferSource());
-            flushRenderBuffer(mc.renderBuffers().crumblingBufferSource());
-        }
-    }
-
-    private static void flushRenderBuffer(MultiBufferSource.BufferSource buffer) {
-        RenderTypeBufferExt bufferExt = (RenderTypeBufferExt) buffer;
-        bufferExt.flushRenderBuffers();
     }
 
     private static long lastErrorTime = System.currentTimeMillis();
