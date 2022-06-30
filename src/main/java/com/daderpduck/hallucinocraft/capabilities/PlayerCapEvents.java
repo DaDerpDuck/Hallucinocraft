@@ -30,7 +30,7 @@ public class PlayerCapEvents {
 
     @SubscribeEvent
     public static void onPlayerCloned(PlayerEvent.Clone event) {
-        if (event.isWasDeath()) {
+        if (!event.isWasDeath()) {
             event.getOriginal().getCapability(PlayerDrugsProvider.PLAYER_DRUGS).ifPresent(oldStore ->
                     event.getPlayer().getCapability(PlayerDrugsProvider.PLAYER_DRUGS).ifPresent(newStore ->
                             newStore.copyFrom(oldStore)));
