@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 @OnlyIn(Dist.CLIENT)
-public class PostShader extends PostChain {
+public abstract class PostShader extends PostChain {
     protected static final float EPSILON = 1E-6F;
     private final Map<String, float[]> uniformMap = new HashMap<>();
     private int width = 0;
@@ -32,12 +32,9 @@ public class PostShader extends PostChain {
         return ((AccessorShaderGroup)this).getPasses();
     }
 
-    public boolean shouldRender() {
-        return false;
-    }
+    public abstract boolean shouldRender();
 
-    public void render(float partialTicks) {
-    }
+    public abstract void render(float partialTicks);
 
     protected DrugEffects getDrugEffects() {
         return Drug.getDrugEffects();

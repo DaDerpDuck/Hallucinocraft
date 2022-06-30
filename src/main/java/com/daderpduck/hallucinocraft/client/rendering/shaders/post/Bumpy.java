@@ -16,5 +16,9 @@ public class Bumpy extends PostShader {
         return getDrugEffects().BUMPY.getValue() > EPSILON;
     }
 
-
+    @Override
+    public void render(float partialTicks) {
+        setUniform("Intensity", getDrugEffects().BUMPY.getValue());
+        process(partialTicks);
+    }
 }

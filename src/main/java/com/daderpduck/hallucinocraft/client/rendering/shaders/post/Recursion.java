@@ -9,17 +9,17 @@ import java.io.IOException;
 
 public class Recursion extends PostShader {
     public Recursion() throws IOException, JsonSyntaxException {
-        super(new ResourceLocation(Hallucinocraft.MOD_ID, "shaders/post/bumpy.json"));
+        super(new ResourceLocation(Hallucinocraft.MOD_ID, "shaders/post/recursion.json"));
     }
 
     @Override
     public boolean shouldRender() {
-        return getDrugEffects().BUMPY.getValue() > EPSILON;
+        return getDrugEffects().RECURSION.getValue() > EPSILON;
     }
 
     @Override
     public void render(float partialTicks) {
-        setUniform("Intensity", getDrugEffects().BUMPY.getValue());
+        setUniform("Extend", getDrugEffects().RECURSION.getValue());
         setUniform("TimePassed", GlobalUniforms.timePassed);
         process(partialTicks);
     }
