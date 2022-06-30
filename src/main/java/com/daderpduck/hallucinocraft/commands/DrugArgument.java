@@ -20,7 +20,7 @@ import java.util.concurrent.CompletableFuture;
 
 public class DrugArgument implements ArgumentType<Drug> {
     private static final Collection<String> EXAMPLES = Arrays.asList("hallucinocraft:brown_shrooms", "hallucinocraft:cannabis");
-    public static final DynamicCommandExceptionType ERROR_UNKNOWN_DRUG = new DynamicCommandExceptionType(function -> new TranslatableComponent("hallucinocraft.drug.drugNotFound", function));
+    public static final DynamicCommandExceptionType ERROR_UNKNOWN_DRUG = new DynamicCommandExceptionType(arg -> new TranslatableComponent("hallucinocraft.drug.drugNotFound", arg));
 
     public static DrugArgument drug() {
         return new DrugArgument();
@@ -33,7 +33,7 @@ public class DrugArgument implements ArgumentType<Drug> {
         if (drug != null) {
             return drug;
         } else {
-            throw ERROR_UNKNOWN_DRUG.create(resourceLocation);
+            throw ERROR_UNKNOWN_DRUG.create(resourceLocation.toString());
         }
     }
 
