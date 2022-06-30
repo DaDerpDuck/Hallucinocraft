@@ -1,11 +1,13 @@
-#version 120
+#version 150
 
 uniform sampler2D DiffuseSampler;
 
 uniform float Intensity;
 
-varying vec2 texCoord;
-varying vec2 oneTexel;
+in vec2 texCoord;
+in vec2 oneTexel;
+
+out vec4 fragColor;
 
 void main(){
     vec4 c = texture2D(DiffuseSampler, texCoord);
@@ -20,5 +22,5 @@ void main(){
     f += (dr * Intensity) - (dl * Intensity);
 
     vec4 color = c * clamp(f, 0.5, 2.0);
-    gl_FragColor = vec4(color.rgb, 1.0);
+    fragColor = vec4(color.rgb, 1.0);
 }

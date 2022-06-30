@@ -1,12 +1,14 @@
-#version 120
+#version 150
 
 uniform sampler2D DiffuseSampler;
 uniform sampler2D DistortSampler;
 
-varying vec2 texCoord;
+in vec2 texCoord;
 
 uniform float TimePassed;
 uniform float Influence;
+
+out vec4 fragColor;
 
 const vec2 jump = vec2(0.24, 0.2083333);
 
@@ -30,5 +32,5 @@ void main() {
     vec3 texA = texture2D(DiffuseSampler, uvwA.xy).rgb * uvwA.z;
     vec3 texB = texture2D(DiffuseSampler, uvwB.xy).rgb * uvwB.z;
 
-    gl_FragColor = vec4(texA + texB, 1.0);
+    fragColor = vec4(texA + texB, 1.0);
 }

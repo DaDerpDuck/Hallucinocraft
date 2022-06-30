@@ -1,6 +1,8 @@
-#version 120
+#version 150
 
 uniform sampler2D DiffuseSampler;
+
+in vec2 texCoord;
 
 uniform float TimePassed;
 uniform float Layers;
@@ -9,7 +11,7 @@ uniform float Speed;
 uniform float Intensity;
 uniform float Extend;
 
-varying vec2 texCoord;
+out vec4 fragColor;
 
 void main() {
     vec2 ndc = texCoord*2.0 - 1.0;
@@ -31,5 +33,5 @@ void main() {
     float alpha = pow(uv.x*uv.y * Intensity, Extend);
     vec3 final = mix(col.rgb, texture2D(DiffuseSampler, texCoord).rgb, min(alpha, 1.0));
 
-    gl_FragColor = vec4(final, 1.0);
+    fragColor = vec4(final, 1.0);
 }

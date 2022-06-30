@@ -1,8 +1,10 @@
-#version 120
+#version 150
 
 const int ITERATIONS = 3;
 
 uniform sampler2D DiffuseSampler;
+
+in vec2 texCoord;
 
 uniform float Scale;
 uniform float Shift;
@@ -11,7 +13,7 @@ uniform float TimePassedSin;
 uniform float Intensity;
 uniform float Extend;
 
-varying vec2 texCoord;
+out vec4 fragColor;
 
 mat2 rotate(float angle) {
     float x = cos(angle);
@@ -37,5 +39,5 @@ void main() {
     float alpha = pow(uv.x*uv.y * Intensity, Extend);
     vec3 col = mix(texture2D(DiffuseSampler, fract(st)).rgb, texture2D(DiffuseSampler, texCoord).rgb, min(alpha, 1.0));
 
-    gl_FragColor = vec4(col, 1.0);
+    fragColor = vec4(col, 1.0);
 }

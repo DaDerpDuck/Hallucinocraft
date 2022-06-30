@@ -1,8 +1,8 @@
-#version 120
+#version 150
 
 uniform sampler2D DiffuseSampler;
 
-varying vec2 texCoord;
+in vec2 texCoord;
 
 uniform vec3 Gray;
 uniform vec3 RedMatrix;
@@ -12,6 +12,8 @@ uniform vec3 Offset;
 uniform vec3 ColorScale;
 uniform float Saturation;
 uniform float Brightness;
+
+out vec4 fragColor;
 
 void main() {
     vec4 InTexel = texture2D(DiffuseSampler, texCoord);
@@ -30,5 +32,5 @@ void main() {
     vec3 Chroma = OutColor - Luma;
     OutColor = (Chroma * Saturation) + Luma + Brightness;
 
-    gl_FragColor = vec4(clamp(OutColor, 0.0, 1.0), 1.0);
+    fragColor = vec4(clamp(OutColor, 0.0, 1.0), 1.0);
 }

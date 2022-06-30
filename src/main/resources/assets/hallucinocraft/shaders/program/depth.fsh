@@ -1,12 +1,14 @@
-#version 120
+#version 150
 
 uniform sampler2D DiffuseSampler;
 uniform sampler2D DiffuseDepthSampler;
 
+in vec2 texCoord;
+
 uniform float Amplitude;
 uniform float TimePassed;
 
-varying vec2 texCoord;
+out vec4 fragColor;
 
 #define PI 3.14159265358979323846
 
@@ -28,5 +30,5 @@ void main() {
     float depth = linearize(texture2D(DiffuseDepthSampler, texCoord).x);
     vec3 color = texture2D(DiffuseSampler, texCoord).rgb;
     vec3 shifted = hueShift(color, 2.0*PI*fract(TimePassed + depth));
-    gl_FragColor = vec4(mix(color, shifted, Amplitude), 1.0);
+    fragColor = vec4(mix(color, shifted, Amplitude), 1.0);
 }

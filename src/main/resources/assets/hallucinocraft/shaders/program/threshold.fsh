@@ -1,10 +1,12 @@
-#version 120
+#version 150
 
 uniform sampler2D DiffuseSampler;
 
+in vec2 texCoord;
+
 uniform float Threshold;
 
-varying vec2 texCoord;
+out vec4 fragColor;
 
 void main() {
     vec4 color = texture2D(DiffuseSampler, texCoord);
@@ -12,5 +14,5 @@ void main() {
     float brightness = dot(color.rgb, vec3(0.2126, 0.7152, 0.0722));
     float contribution = max(0, brightness - Threshold);
     contribution /= max(brightness, 0.0001);
-    gl_FragColor = vec4(color.rgb*contribution, 1.0);
+    fragColor = vec4(color.rgb*contribution, 1.0);
 }

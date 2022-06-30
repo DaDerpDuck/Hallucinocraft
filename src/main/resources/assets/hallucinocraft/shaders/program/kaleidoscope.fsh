@@ -1,14 +1,16 @@
-#version 120
+#version 150
 
 #define TAU 6.283185
 
 uniform sampler2D DiffuseSampler;
 
+in vec2 texCoord;
+
 uniform float SegmentCount;
 uniform float Intensity;
 uniform float Extend;
 
-varying vec2 texCoord;
+out vec4 fragColor;
 
 void main() {
     // https://danielilett.com/2020-02-19-tut3-8-crazy-kaleidoscopes/
@@ -31,5 +33,5 @@ void main() {
     float alpha = pow(uv.x*uv.y * Intensity, Extend);
     vec3 col = mix(texture2D(DiffuseSampler, st).rgb, texture2D(DiffuseSampler, texCoord).rgb, min(alpha, 1.0));
 
-    gl_FragColor = vec4(col, 1.0);
+    fragColor = vec4(col, 1.0);
 }
