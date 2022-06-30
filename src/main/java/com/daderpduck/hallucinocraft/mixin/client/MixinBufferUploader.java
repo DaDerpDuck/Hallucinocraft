@@ -13,7 +13,7 @@ import java.nio.ByteBuffer;
 
 @Mixin(BufferUploader.class)
 public class MixinBufferUploader {
-    @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/ShaderInstance;apply()V"), method = "_end")
+    @Inject(at = @At(value = "HEAD"), method = "_end")
     private static void onEnd(ByteBuffer pBuffer, VertexFormat.Mode pMode, VertexFormat pFormat, int pVertexCount, VertexFormat.IndexType pIndexType, int pIndexCount, boolean pSequentialIndex, CallbackInfo ci) {
         MinecraftForge.EVENT_BUS.post(new RenderEvent.BufferUploadShaderEvent());
     }

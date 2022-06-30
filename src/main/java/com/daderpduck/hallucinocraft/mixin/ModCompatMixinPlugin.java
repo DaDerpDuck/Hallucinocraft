@@ -19,17 +19,6 @@ public class ModCompatMixinPlugin implements IMixinConfigPlugin {
 
     @Override
     public boolean shouldApplyMixin(String targetClassName, String mixinClassName) {
-        if (targetClassName.equals("net.minecraft.client.renderer.IRenderTypeBuffer$Impl")) {
-            boolean hasOptifine;
-            try {
-                Class.forName("optifine.Utils");
-                hasOptifine = true;
-            } catch (ClassNotFoundException e) {
-                hasOptifine = false;
-            }
-
-            return !hasOptifine;
-        }
         return true;
     }
 
