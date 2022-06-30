@@ -1,0 +1,50 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "hallucinocraft:morphine_bottle"
+    ]
+  },
+  "criteria": {
+    "has_opium_bottle": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "hallucinocraft:opium_bottle_0",
+              "hallucinocraft:opium_bottle_1",
+              "hallucinocraft:opium_bottle_2",
+              "hallucinocraft:opium_bottle_3"
+            ]
+          }
+        ]
+      }
+    },
+    "has_syringe": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "hallucinocraft:syringe"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "hallucinocraft:morphine_bottle"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_opium_bottle",
+      "has_syringe",
+      "has_the_recipe"
+    ]
+  ]
+}

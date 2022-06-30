@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "hallucinocraft:hash_muffin"
+    ]
+  },
+  "criteria": {
+    "has_cannabis_bud": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "hallucinocraft:cannabis_bud"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "hallucinocraft:hash_muffin"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_cannabis_bud",
+      "has_the_recipe"
+    ]
+  ]
+}

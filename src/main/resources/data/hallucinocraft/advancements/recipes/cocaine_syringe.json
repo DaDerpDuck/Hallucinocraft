@@ -1,0 +1,47 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "hallucinocraft:cocaine_syringe"
+    ]
+  },
+  "criteria": {
+    "has_coca_leaf": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "hallucinocraft:coca_leaf"
+            ]
+          }
+        ]
+      }
+    },
+    "has_syringe": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "hallucinocraft:syringe"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "hallucinocraft:cocaine_syringe"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_coca_leaf",
+      "has_syringe",
+      "has_the_recipe"
+    ]
+  ]
+}
