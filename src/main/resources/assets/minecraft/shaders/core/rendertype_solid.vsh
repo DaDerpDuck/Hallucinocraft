@@ -36,6 +36,6 @@ void main(){
     normal = ProjMat * ModelViewMat * vec4(Normal, 0.0);
 
     vec4 pos = ModelViewMat * vec4(Position + ChunkOffset, 1.0);
-    toWavePos(pos, GameTime * 20.0, SmallWaves, BigWaves, WiggleWaves, DistantWorldDeformation);
+    toWavePos(pos, GameTime * 2400.0 * 4.0, SmallWaves, BigWaves, WiggleWaves, DistantWorldDeformation);
     gl_Position = ProjMat * pos;
 }

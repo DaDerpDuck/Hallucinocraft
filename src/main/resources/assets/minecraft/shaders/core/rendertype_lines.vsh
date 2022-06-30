@@ -33,10 +33,10 @@ const mat4 VIEW_SCALE = mat4(
 
 void main() {
     vec4 linePosStart = ModelViewMat * vec4(Position, 1.0);
-    toWavePos(linePosStart, GameTime * 20.0, SmallWaves, BigWaves, WiggleWaves, DistantWorldDeformation);
+    toWavePos(linePosStart, GameTime * 2400.0 * 4.0, SmallWaves, BigWaves, WiggleWaves, DistantWorldDeformation);
     linePosStart = ProjMat * VIEW_SCALE * linePosStart;
     vec4 linePosEnd = ModelViewMat * vec4(Position + Normal, 1.0);
-    toWavePos(linePosEnd, GameTime * 20.0, SmallWaves, BigWaves, WiggleWaves, DistantWorldDeformation);
+    toWavePos(linePosEnd, GameTime * 2400.0 * 4.0, SmallWaves, BigWaves, WiggleWaves, DistantWorldDeformation);
     linePosEnd = ProjMat * VIEW_SCALE * linePosEnd;
 
     vec3 ndc1 = linePosStart.xyz / linePosStart.w;

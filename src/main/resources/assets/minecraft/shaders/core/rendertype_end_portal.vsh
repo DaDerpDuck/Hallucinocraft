@@ -19,7 +19,7 @@ out vec4 texProj0;
 
 void main() {
     vec4 pos = ModelViewMat * vec4(Position, 1.0);
-    toWavePos(pos, GameTime * 20.0, SmallWaves, BigWaves, WiggleWaves, DistantWorldDeformation);
+    toWavePos(pos, GameTime * 2400.0 * 4.0, SmallWaves, BigWaves, WiggleWaves, DistantWorldDeformation);
     gl_Position = ProjMat * pos;
 
     texProj0 = projection_from_position(gl_Position);
