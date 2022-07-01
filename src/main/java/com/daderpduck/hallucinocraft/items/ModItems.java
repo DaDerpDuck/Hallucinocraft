@@ -98,7 +98,7 @@ public class ModItems {
     }
 
     private static <T extends Block> RegistryObject<Item> registerBlock(String name, RegistryObject<T> block, int stackSize) {
-        return registerItem(name, () -> new BlockItem(block.get(), new Item.Properties().tab(Hallucinocraft.TAB).stacksTo(stackSize)));
+        return registerItem(name, () -> new ItemNameBlockItem(block.get(), new Item.Properties().tab(Hallucinocraft.TAB).stacksTo(stackSize)));
     }
 
     private static <T extends Block> RegistryObject<Item> registerBlockNamed(String name, RegistryObject<T> block) {
@@ -106,7 +106,7 @@ public class ModItems {
     }
 
     private static <T extends Block> RegistryObject<Item> registerBlockNamed(String name, RegistryObject<T> block, int stackSize) {
-        return registerItem(name, () -> new BlockItem(block.get(), new Item.Properties().tab(Hallucinocraft.TAB).stacksTo(stackSize)));
+        return registerItem(name, () -> new ItemNameBlockItem(block.get(), new Item.Properties().tab(Hallucinocraft.TAB).stacksTo(stackSize)));
     }
 
     private static RegistryObject<Item> registerItem(String name) {
