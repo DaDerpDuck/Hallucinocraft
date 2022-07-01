@@ -16,7 +16,7 @@ uniform float Brightness;
 out vec4 fragColor;
 
 void main() {
-    vec4 InTexel = texture2D(DiffuseSampler, texCoord);
+    vec4 InTexel = texture(DiffuseSampler, texCoord);
 
     // Color Matrix
     float RedValue = dot(InTexel.rgb, RedMatrix);

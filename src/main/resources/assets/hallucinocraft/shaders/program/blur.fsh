@@ -14,7 +14,7 @@ void main() {
     vec4 sum = vec4(0.0);
 
     for (float r = -Radius; r <= Radius; r += 1.0) {
-        sum += texture2D(DiffuseSampler, texCoord + oneTexel*r*BlurDir);
+        sum += texture(DiffuseSampler, texCoord + oneTexel*r*BlurDir);
     }
 
     fragColor = vec4(sum.rgb/(Radius*2.0 + 1.0), 1.0);

@@ -31,7 +31,7 @@ void main() {
     // I would've done blending w/ another shader but for some reason the destination color is always black?
     vec2 uv = texCoord*(1.0 - texCoord);
     float alpha = pow(uv.x*uv.y * Intensity, Extend);
-    vec3 col = mix(texture2D(DiffuseSampler, st).rgb, texture2D(DiffuseSampler, texCoord).rgb, min(alpha, 1.0));
+    vec3 col = mix(texture(DiffuseSampler, st).rgb, texture(DiffuseSampler, texCoord).rgb, min(alpha, 1.0));
 
     fragColor = vec4(col, 1.0);
 }

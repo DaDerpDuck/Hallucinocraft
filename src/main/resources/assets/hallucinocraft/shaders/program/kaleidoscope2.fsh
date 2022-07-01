@@ -37,7 +37,7 @@ void main() {
     // vignette masking (https://www.shadertoy.com/view/lsKSWR)
     vec2 uv = texCoord*(1.0 - texCoord);
     float alpha = pow(uv.x*uv.y * Intensity, Extend);
-    vec3 col = mix(texture2D(DiffuseSampler, fract(st)).rgb, texture2D(DiffuseSampler, texCoord).rgb, min(alpha, 1.0));
+    vec3 col = mix(texture(DiffuseSampler, fract(st)).rgb, texture(DiffuseSampler, texCoord).rgb, min(alpha, 1.0));
 
     fragColor = vec4(col, 1.0);
 }

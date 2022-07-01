@@ -27,8 +27,8 @@ float linearize(float depth) {
 }
 
 void main() {
-    float depth = linearize(texture2D(DiffuseDepthSampler, texCoord).x);
-    vec3 color = texture2D(DiffuseSampler, texCoord).rgb;
+    float depth = linearize(texture(DiffuseDepthSampler, texCoord).x);
+    vec3 color = texture(DiffuseSampler, texCoord).rgb;
     vec3 shifted = hueShift(color, 2.0*PI*fract(TimePassed + depth));
     fragColor = vec4(mix(color, shifted, Amplitude), 1.0);
 }

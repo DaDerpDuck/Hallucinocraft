@@ -22,15 +22,15 @@ vec3 flow(vec2 flowVector, float time, float phaseOffset) {
 }
 
 void main() {
-    vec3 flowMap = texture2D(DistortSampler, texCoord).rga;
+    vec3 flowMap = texture(DistortSampler, texCoord).rga;
     flowMap.xy = (flowMap.xy * 2.0 - 1.0);
 
     float time = TimePassed + flowMap.z;
     vec3 uvwA = flow(flowMap.xy, time, 0.0);
     vec3 uvwB = flow(flowMap.xy, time, 0.5);
 
-    vec3 texA = texture2D(DiffuseSampler, uvwA.xy).rgb * uvwA.z;
-    vec3 texB = texture2D(DiffuseSampler, uvwB.xy).rgb * uvwB.z;
+    vec3 texA = texture(DiffuseSampler, uvwA.xy).rgb * uvwA.z;
+    vec3 texB = texture(DiffuseSampler, uvwB.xy).rgb * uvwB.z;
 
     fragColor = vec4(texA + texB, 1.0);
 }

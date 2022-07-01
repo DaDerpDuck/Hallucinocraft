@@ -10,12 +10,12 @@ in vec2 oneTexel;
 out vec4 fragColor;
 
 void main(){
-    vec4 c = texture2D(DiffuseSampler, texCoord);
+    vec4 c = texture(DiffuseSampler, texCoord);
     vec4 nc = normalize(c);
-    float du = dot(nc, normalize(texture2D(DiffuseSampler, texCoord + vec2(        0.0, -oneTexel.y))));
-    float dd = dot(nc, normalize(texture2D(DiffuseSampler, texCoord + vec2(        0.0,  oneTexel.y))));
-    float dl = dot(nc, normalize(texture2D(DiffuseSampler, texCoord + vec2(-oneTexel.x,         0.0))));
-    float dr = dot(nc, normalize(texture2D(DiffuseSampler, texCoord + vec2( oneTexel.x,         0.0))));
+    float du = dot(nc, normalize(texture(DiffuseSampler, texCoord + vec2(        0.0, -oneTexel.y))));
+    float dd = dot(nc, normalize(texture(DiffuseSampler, texCoord + vec2(        0.0,  oneTexel.y))));
+    float dl = dot(nc, normalize(texture(DiffuseSampler, texCoord + vec2(-oneTexel.x,         0.0))));
+    float dr = dot(nc, normalize(texture(DiffuseSampler, texCoord + vec2( oneTexel.x,         0.0))));
 
     float f = 1.0;
     f += (du * Intensity) - (dd * Intensity);

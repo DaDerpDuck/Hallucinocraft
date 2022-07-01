@@ -9,7 +9,7 @@ uniform float Threshold;
 out vec4 fragColor;
 
 void main() {
-    vec4 color = texture2D(DiffuseSampler, texCoord);
+    vec4 color = texture(DiffuseSampler, texCoord);
 
     float brightness = dot(color.rgb, vec3(0.2126, 0.7152, 0.0722));
     float contribution = max(0, brightness - Threshold);
