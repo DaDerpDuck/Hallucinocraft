@@ -1,5 +1,6 @@
 package com.daderpduck.hallucinocraft.mixin.client;
 
+import com.daderpduck.hallucinocraft.client.rendering.shaders.RenderUtil;
 import com.daderpduck.hallucinocraft.events.hooks.RenderEvent;
 import com.mojang.blaze3d.vertex.BufferUploader;
 import com.mojang.blaze3d.vertex.VertexFormat;
@@ -15,6 +16,6 @@ import java.nio.ByteBuffer;
 public class MixinBufferUploader {
     @Inject(at = @At(value = "HEAD"), method = "_end")
     private static void onEnd(ByteBuffer pBuffer, VertexFormat.Mode pMode, VertexFormat pFormat, int pVertexCount, VertexFormat.IndexType pIndexType, int pIndexCount, boolean pSequentialIndex, CallbackInfo ci) {
-        MinecraftForge.EVENT_BUS.post(new RenderEvent.BufferUploadShaderEvent());
+        if (!RenderUtil.hasOptifine) MinecraftForge.EVENT_BUS.post(new RenderEvent.BufferUploadShaderEvent());
     }
 }
