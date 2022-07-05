@@ -1,7 +1,7 @@
 package com.daderpduck.hallucinocraft.drugs;
 
-public class Soulwrencher extends Drug {
-    public Soulwrencher(DrugProperties properties) {
+public class SoulWrencher extends Drug {
+    public SoulWrencher(DrugProperties properties) {
         super(properties);
     }
 

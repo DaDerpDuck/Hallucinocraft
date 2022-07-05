@@ -64,6 +64,9 @@ public class ModItems {
     public static final RegistryObject<Item> OPIUM_BOTTLE_2 = registerItem("opium_bottle_2", 16);
     public static final RegistryObject<Item> OPIUM_BOTTLE_3 = registerItem("opium_bottle_3", 16);
 
+    public static final RegistryObject<Item> SOUL_CONCENTRATE = registerItem("soul_concentrate", 64);
+    public static final RegistryObject<Item> SOUL_RESTER = registerItem("soul_rester", 16);
+    public static final RegistryObject<Item> SOUL_WRENCHER = registerItem("soul_wrencher", 16);
 
     private static RegistryObject<DrugItem> registerDrug(String name, DrugChain drugChain) {
         return registerDrug(name, drugChain, UseAnim.EAT, 64);

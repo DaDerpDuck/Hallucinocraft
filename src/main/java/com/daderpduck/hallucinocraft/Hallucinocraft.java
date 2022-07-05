@@ -5,10 +5,7 @@ import com.daderpduck.hallucinocraft.client.rendering.shaders.ShaderRenderer;
 import com.daderpduck.hallucinocraft.commands.SetDrugCommand;
 import com.daderpduck.hallucinocraft.drugs.Drug;
 import com.daderpduck.hallucinocraft.drugs.DrugRegistry;
-import com.daderpduck.hallucinocraft.items.BongRegistry;
-import com.daderpduck.hallucinocraft.items.CauldronRegistry;
-import com.daderpduck.hallucinocraft.items.CompostRegistry;
-import com.daderpduck.hallucinocraft.items.ModItems;
+import com.daderpduck.hallucinocraft.items.*;
 import com.daderpduck.hallucinocraft.network.PacketHandler;
 import com.daderpduck.hallucinocraft.sounds.ModSounds;
 import net.minecraft.resources.ResourceLocation;
@@ -83,6 +80,7 @@ public class Hallucinocraft {
         DrugRegistry.DRUGS = drugSupplier.get(); //TODO: Is this correct??
         CompostRegistry.register();
         CauldronRegistry.register();
+        BrewRegistry.register();
         BongRegistry.register();
         SetDrugCommand.registerSerializer();
     }
