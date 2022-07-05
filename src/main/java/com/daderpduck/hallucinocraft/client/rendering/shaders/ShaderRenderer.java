@@ -32,7 +32,7 @@ public class ShaderRenderer {
         clear(true);
 
         MinecraftForge.EVENT_BUS.register(GlobalUniforms.EventHandler.class);
-        MinecraftForge.EVENT_BUS.register(ShaderRenderer.EventHandler.class);
+        MinecraftForge.EVENT_BUS.register(ShaderEventHandler.class);
 
         try {
             PostShaders.setup();
@@ -48,7 +48,7 @@ public class ShaderRenderer {
         }
 
         MinecraftForge.EVENT_BUS.unregister(GlobalUniforms.EventHandler.class);
-        MinecraftForge.EVENT_BUS.unregister(ShaderRenderer.EventHandler.class);
+        MinecraftForge.EVENT_BUS.unregister(ShaderEventHandler.class);
 
         useShader = false;
         isRenderingWorld = false;
@@ -70,7 +70,7 @@ public class ShaderRenderer {
         framebuffer.bindWrite(false);
     }
 
-    static class EventHandler {
+    static class ShaderEventHandler {
         @SubscribeEvent
         public static void onRenderStart(RenderEvent.LevelStartRender event) {
             isRenderingLevel = true;

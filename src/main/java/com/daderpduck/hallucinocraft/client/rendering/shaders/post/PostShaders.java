@@ -29,6 +29,7 @@ public class PostShaders {
         register(WaterDistort::new);
         register(Bloom::new);
         register(Glitch::new);
+        register(Blur::new);
 
         MinecraftForge.EVENT_BUS.register(PostShaders.EventHandler.class);
 

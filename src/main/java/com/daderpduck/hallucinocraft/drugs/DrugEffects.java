@@ -25,6 +25,9 @@ public class DrugEffects {
     public final FloatDrugEffect RECURSION = registerClient();
     public final FloatDrugEffect WATER_DISTORT = registerClient();
     public final FloatDrugEffect GLITCH = registerClient();
+    public final FloatDrugEffect FOG_DENSITY = registerClient();
+    public final FloatDrugEffect FOG_DARKEN = registerClient();
+    public final FloatDrugEffect BLUR = registerClient();
 
     public final FloatDrugEffect MOVEMENT_SPEED = register();
     public final FloatDrugEffect DIG_SPEED = register();
