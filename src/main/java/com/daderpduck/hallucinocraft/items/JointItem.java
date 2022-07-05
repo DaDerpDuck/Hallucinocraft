@@ -2,6 +2,7 @@ package com.daderpduck.hallucinocraft.items;
 
 import com.daderpduck.hallucinocraft.capabilities.PlayerDrugs;
 import net.minecraft.MethodsReturnNonnullByDefault;
+import net.minecraft.stats.Stats;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -18,11 +19,12 @@ public class JointItem extends DrugItem {
     }
 
     @Override
-    public ItemStack finishUsingItem(ItemStack itemStack, Level world, LivingEntity entity) {
-        if (entity instanceof Player playerEntity) {
-            PlayerDrugs.getPlayerDrugs(playerEntity).setSmokeTicks(4);
+    public ItemStack finishUsingItem(ItemStack itemStack, Level level, LivingEntity entity) {
+        if (entity instanceof Player player) {
+            PlayerDrugs.getPlayerDrugs(player).setSmokeTicks(4);
+            player.awardStat(Stats.ITEM_USED.get(itemStack.getItem()));
         }
 
-        return super.finishUsingItem(itemStack, world, entity);
+        return super.finishUsingItem(itemStack, level, entity);
     }
 }

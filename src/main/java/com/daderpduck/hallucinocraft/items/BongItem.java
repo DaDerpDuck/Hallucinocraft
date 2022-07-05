@@ -7,19 +7,26 @@ import it.unimi.dsi.fastutil.objects.Object2ObjectFunction;
 import it.unimi.dsi.fastutil.objects.Object2ObjectLinkedOpenHashMap;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.NonNullList;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.stats.Stats;
+import net.minecraft.tags.FluidTags;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
+import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.gameevent.GameEvent;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.HitResult;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public class BongItem extends Item implements Vanishable {
+public class BongItem extends Item {
     public static final Object2ObjectFunction<Item, ModItems.DrugChain> BONGABLES = new Object2ObjectLinkedOpenHashMap<>();
 
     public BongItem(Properties properties) {
@@ -37,39 +44,45 @@ public class BongItem extends Item implements Vanishable {
     }
 
     @Override
-    public InteractionResultHolder<ItemStack> use(Level world, Player playerEntity, InteractionHand hand) {
-        ItemStack itemStack = playerEntity.getItemInHand(hand);
-        if (hand == InteractionHand.MAIN_HAND && !itemStack.isEmpty() && itemStack.getDamageValue() < getMaxDamage(itemStack)) {
-            ItemStack offhandItem = playerEntity.getItemInHand(InteractionHand.OFF_HAND);
-            if (!offhandItem.isEmpty()) {
-                if (BONGABLES.containsKey(offhandItem.getItem())) {
-                    playerEntity.startUsingItem(hand);
-                    return InteractionResultHolder.consume(itemStack);
-                } else {
-                    return InteractionResultHolder.fail(itemStack);
-                }
-            }
+    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
+        ItemStack itemStack = player.getItemInHand(hand);
+        if (itemStack.isEmpty()) return InteractionResultHolder.pass(itemStack);
+
+        BlockHitResult hitResult = getPlayerPOVHitResult(level, player, ClipContext.Fluid.SOURCE_ONLY);
+        ItemStack offhandItem = player.getItemInHand(InteractionHand.OFF_HAND);
+
+        if ((itemStack.getDamageValue() > 0 && hitResult.getType() == HitResult.Type.BLOCK && level.mayInteract(player, hitResult.getBlockPos()) && level.getFluidState(hitResult.getBlockPos()).is(FluidTags.WATER))
+                && (hand == InteractionHand.OFF_HAND || offhandItem.isEmpty() || !BONGABLES.containsKey(offhandItem.getItem()) || itemStack.getDamageValue() == getMaxDamage(itemStack))) {
+            level.playSound(player, player.getX(), player.getY(), player.getZ(), SoundEvents.BOTTLE_FILL, SoundSource.NEUTRAL, 1.0F, 1.0F);
+            level.gameEvent(player, GameEvent.FLUID_PICKUP, hitResult.getBlockPos());
+            itemStack.setDamageValue(0);
+            return InteractionResultHolder.sidedSuccess(itemStack, level.isClientSide);
+        } else if (hand == InteractionHand.MAIN_HAND && !itemStack.isEmpty() && itemStack.getDamageValue() < getMaxDamage(itemStack) && !offhandItem.isEmpty() && BONGABLES.containsKey(offhandItem.getItem())) {
+            player.startUsingItem(hand);
+            return InteractionResultHolder.sidedSuccess(itemStack, level.isClientSide);
         }
 
         return InteractionResultHolder.pass(itemStack);
     }
 
     @Override
-    public ItemStack finishUsingItem(ItemStack itemStack, Level world, LivingEntity entity) {
-        if (entity instanceof Player playerEntity) {
-            ItemStack offhandItem = playerEntity.getItemInHand(InteractionHand.OFF_HAND);
+    public ItemStack finishUsingItem(ItemStack itemStack, Level level, LivingEntity entity) {
+        if (entity instanceof Player player) {
+            ItemStack offhandItem = player.getItemInHand(InteractionHand.OFF_HAND);
 
             ModItems.DrugChain drugChain = BONGABLES.get(offhandItem.getItem());
             for (ModItems.DrugEffectProperty drugEffectProperty : drugChain.list) {
-                Drug.addDrug(playerEntity, new DrugInstance(drugEffectProperty.drug().get(), drugEffectProperty.delayTicks(), drugEffectProperty.potencyPercentage(), drugEffectProperty.duration()));
+                Drug.addDrug(player, new DrugInstance(drugEffectProperty.drug().get(), drugEffectProperty.delayTicks(), drugEffectProperty.potencyPercentage(), drugEffectProperty.duration()));
             }
 
-            if (!playerEntity.getAbilities().instabuild) {
+            if (!player.getAbilities().instabuild) {
                 itemStack.setDamageValue(itemStack.getDamageValue() + 1);
                 offhandItem.shrink(1);
             }
 
-            world.playSound(playerEntity, playerEntity.blockPosition(), ModSounds.BONG_HIT.get(), SoundSource.PLAYERS, 1F, 1F);
+            level.playSound(player, player.blockPosition(), ModSounds.BONG_HIT.get(), SoundSource.PLAYERS, 1F, 1F);
+            player.awardStat(Stats.ITEM_USED.get(itemStack.getItem()));
+            player.awardStat(Stats.ITEM_USED.get(offhandItem.getItem()));
         }
 
         return itemStack;

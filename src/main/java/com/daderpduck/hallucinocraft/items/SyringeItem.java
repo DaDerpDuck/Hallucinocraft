@@ -24,14 +24,14 @@ public class SyringeItem extends DrugItem {
     }
 
     @Override
-    public ItemStack finishUsingItem(ItemStack itemStack, Level world, LivingEntity entity) {
-        ItemStack itemStack1 = super.finishUsingItem(itemStack, world, entity);
+    public ItemStack finishUsingItem(ItemStack itemStack, Level level, LivingEntity entity) {
+        ItemStack itemStack1 = super.finishUsingItem(itemStack, level, entity);
 
-        if (entity instanceof Player playerEntity) {
-            if (!playerEntity.getAbilities().instabuild) {
+        if (entity instanceof Player player) {
+            if (!player.getAbilities().instabuild) {
                 if (itemStack1.isEmpty()) return ModItems.EMPTY_SYRINGE.get().getDefaultInstance();
 
-                playerEntity.getInventory().add(ModItems.EMPTY_SYRINGE.get().getDefaultInstance());
+                player.getInventory().add(ModItems.EMPTY_SYRINGE.get().getDefaultInstance());
             }
         }
 

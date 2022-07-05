@@ -6,6 +6,7 @@ import com.daderpduck.hallucinocraft.commands.SetDrugCommand;
 import com.daderpduck.hallucinocraft.drugs.Drug;
 import com.daderpduck.hallucinocraft.drugs.DrugRegistry;
 import com.daderpduck.hallucinocraft.items.BongRegistry;
+import com.daderpduck.hallucinocraft.items.CauldronRegistry;
 import com.daderpduck.hallucinocraft.items.CompostRegistry;
 import com.daderpduck.hallucinocraft.items.ModItems;
 import com.daderpduck.hallucinocraft.network.PacketHandler;
@@ -81,6 +82,7 @@ public class Hallucinocraft {
     private void setup(final FMLCommonSetupEvent event) {
         DrugRegistry.DRUGS = drugSupplier.get(); //TODO: Is this correct??
         CompostRegistry.register();
+        CauldronRegistry.register();
         BongRegistry.register();
         SetDrugCommand.registerSerializer();
     }

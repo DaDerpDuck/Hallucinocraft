@@ -32,10 +32,10 @@ public class DrugItem extends Item {
         useAction = drugProperties.useAction;
     }
 
-    protected void addDrugs(Player playerEntity) {
+    protected void addDrugs(Player player) {
         for (DrugEffectProperties properties : effects) {
             if (properties.drug.isPresent()) {
-                Drug.addDrug(playerEntity, new DrugInstance(properties.drug.get(), properties.delayTick, properties.potencyPercentage, properties.duration));
+                Drug.addDrug(player, new DrugInstance(properties.drug.get(), properties.delayTick, properties.potencyPercentage, properties.duration));
             } else {
                 Hallucinocraft.LOGGER.error("{} is not in the drug registry!", properties.drug.toString());
             }
@@ -43,24 +43,24 @@ public class DrugItem extends Item {
     }
 
     @Override
-    public ItemStack finishUsingItem(ItemStack itemStack, Level world, LivingEntity entity) {
-        if (entity instanceof Player playerEntity) {
+    public ItemStack finishUsingItem(ItemStack itemStack, Level level, LivingEntity entity) {
+        if (entity instanceof Player player) {
             if (isEdible()) {
-                playerEntity.eat(world, itemStack);
-            } else if (!playerEntity.getAbilities().instabuild) {
+                player.eat(level, itemStack);
+            } else if (!player.getAbilities().instabuild) {
                 itemStack.shrink(1);
             }
 
-            addDrugs(playerEntity);
+            addDrugs(player);
         }
 
         return itemStack;
     }
 
     @Override
-    public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
+    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
         if (isEdible()) {
-            return super.use(world, player, hand);
+            return super.use(level, player, hand);
         } else {
             ItemStack itemstack = player.getItemInHand(hand);
             player.startUsingItem(hand);
