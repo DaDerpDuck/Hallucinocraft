@@ -45,8 +45,8 @@ public class ModItems {
     public static final RegistryObject<Item> EMPTY_SYRINGE = registerItem("syringe", 16);
     public static final RegistryObject<SyringeItem> COCAINE_SYRINGE = registerSyringe("cocaine_syringe", new DrugChain().add(DrugRegistry.COCAINE, 0, 0.47F, 4800), 0xFFFFFFFF);
     public static final RegistryObject<SyringeItem> MORPHINE_SYRINGE = registerSyringe("morphine_syringe", new DrugChain().add(DrugRegistry.MORPHINE, 0, 0.6F, 6200), 0xFF885038);
-    public static final RegistryObject<SyringeItem> SOUL_RESTER_SYRINGE = registerSyringe("soul_rester_syringe", new DrugChain().add(DrugRegistry.SOUL_RESTER, 0, 0.4F, 4800), 0xFF6A5244);
-    public static final RegistryObject<SyringeItem> SOUL_WRENCHER_SYRINGE = registerSyringe("soul_wrencher_syringe", new DrugChain().add(DrugRegistry.SOUL_WRENCHER, 0, 0.4F, 4800), 0xFF60F5FA);
+    public static final RegistryObject<SyringeItem> SOUL_RESTER_SYRINGE = registerSyringe("soul_rester_syringe", new DrugChain().add(DrugRegistry.SOUL_RESTER, 0, 0.4F, 2400), 0xFF6A5244);
+    public static final RegistryObject<SyringeItem> SOUL_WRENCHER_SYRINGE = registerSyringe("soul_wrencher_syringe", new DrugChain().add(DrugRegistry.SOUL_WRENCHER, 0, 0.4F, 3600), 0xFF60F5FA);
 
     public static final RegistryObject<Item> BONG = registerItem("bong", () -> new BongItem(new Item.Properties().durability(8).setNoRepair().tab(Hallucinocraft.TAB)));
 
