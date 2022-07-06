@@ -13,6 +13,8 @@ public class SoulRester extends Drug {
         drugEffects.BLUR.addValue(effect*16F);
         drugEffects.FOG_DENSITY.addValue(effect);
         drugEffects.FOG_DARKEN.addValue(effect*4F);
+        if (effect > 0.7F)
+            drugEffects.MOUSE_SENSITIVITY_SCALE.addValue((effect - 0.7F)*-3F);
     }
 
     @Override

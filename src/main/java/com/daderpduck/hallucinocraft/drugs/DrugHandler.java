@@ -26,9 +26,11 @@ public class DrugHandler {
 
     @SubscribeEvent
     public static void playerTick(TickEvent.PlayerTickEvent event) {
-        Player player = event.player;
-        DrugEffects drugEffects = Drug.getDrugEffects(player);
         if (event.phase == TickEvent.Phase.START) {
+            Player player = event.player;
+            DrugEffects drugEffects = Drug.getDrugEffects(player);
+
+            drugEffects.reset(false);
             Drug.tick(player);
 
             modifyAttribute(player, Attributes.MOVEMENT_SPEED, "Drug movement speed", Math.max(drugEffects.MOVEMENT_SPEED.getValue(), -0.5F), AttributeModifier.Operation.MULTIPLY_TOTAL);
@@ -50,8 +52,6 @@ public class DrugHandler {
                     player.heal(1F);
                 }
             }
-        } else {
-            drugEffects.reset(false);
         }
     }
 

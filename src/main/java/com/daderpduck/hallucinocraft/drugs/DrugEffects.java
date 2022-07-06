@@ -28,6 +28,7 @@ public class DrugEffects {
     public final FloatDrugEffect FOG_DENSITY = registerClient();
     public final FloatDrugEffect FOG_DARKEN = registerClient();
     public final FloatDrugEffect BLUR = registerClient();
+    public final FloatDrugEffect MOUSE_SENSITIVITY_SCALE = registerClient(1F);
 
     public final FloatDrugEffect MOVEMENT_SPEED = register();
     public final FloatDrugEffect DIG_SPEED = register();
@@ -36,18 +37,26 @@ public class DrugEffects {
     public final FloatDrugEffect HUNGER_RATE = register();
 
 
-    private FloatDrugEffect register(boolean isClientOnly) {
-        FloatDrugEffect floatDrugEffect = new FloatDrugEffect(isClientOnly);
+    private FloatDrugEffect register(boolean isClientOnly, float defaultValue) {
+        FloatDrugEffect floatDrugEffect = new FloatDrugEffect(isClientOnly, defaultValue);
         EFFECTS.add(floatDrugEffect);
         return floatDrugEffect;
     }
 
     private FloatDrugEffect register() {
-        return register(false);
+        return register(false, 0);
+    }
+
+    private FloatDrugEffect register(float defaultValue) {
+        return register(false, defaultValue);
     }
 
     private FloatDrugEffect registerClient() {
-        return register(true);
+        return register(true, 0);
+    }
+
+    private FloatDrugEffect registerClient(float defaultValue) {
+        return register(true, defaultValue);
     }
 
     public void reset(boolean clientOnly) {
@@ -63,10 +72,13 @@ public class DrugEffects {
 
     public static class FloatDrugEffect implements DrugEffect {
         private final boolean isClientOnly;
-        private float value = 0;
+        private final float defaultValue;
+        private float value;
 
-        public FloatDrugEffect(boolean isClientOnly) {
+        public FloatDrugEffect(boolean isClientOnly, float defaultValue) {
             this.isClientOnly = isClientOnly;
+            this.defaultValue = defaultValue;
+            this.value = defaultValue;
         }
 
         public void addValue(float valueIn) {
@@ -81,6 +93,10 @@ public class DrugEffects {
             return Mth.clamp(value, 0, 1);
         }
 
+        public float getClamped(float min, float max) {
+            return Mth.clamp(value, min, max);
+        }
+
         @Override
         public boolean isClientOnly() {
             return isClientOnly;
@@ -88,7 +104,7 @@ public class DrugEffects {
 
         @Override
         public void resetValue() {
-            value = 0;
+            value = defaultValue;
         }
     }
 }

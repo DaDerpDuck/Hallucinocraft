@@ -1,8 +1,10 @@
 package com.daderpduck.hallucinocraft.mixin.client;
 
 import com.daderpduck.hallucinocraft.client.rendering.MouseSmootherEffect;
+import com.daderpduck.hallucinocraft.drugs.Drug;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.MouseHandler;
+import net.minecraft.client.Options;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -68,5 +70,10 @@ public class MixinMouseHandler {
         } else {
             return accumulatedDY;
         }
+    }
+
+    @Redirect(at = @At(value = "FIELD", target = "Lnet/minecraft/client/Options;sensitivity:D"), method = "turnPlayer()V")
+    private double getMouseSensitivity(Options instance) {
+        return instance.sensitivity * Drug.getDrugEffects().MOUSE_SENSITIVITY_SCALE.getClamped(0.1F, 2F);
     }
 }

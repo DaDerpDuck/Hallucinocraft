@@ -41,6 +41,7 @@ public class DrugRenderer {
         if (mc.level == null) return;
 
         if (event.phase == TickEvent.Phase.START) {
+            Drug.getDrugEffects().reset(true);
             Map<Drug, Float> activeDrugs = Drug.getActiveDrugs(mc.player);
 
             activeDrugs.forEach((drug, effect) -> {
@@ -48,8 +49,6 @@ public class DrugRenderer {
             });
 
             MouseSmootherEffect.INSTANCE.setAmplifier(Drug.getDrugEffects().CAMERA_INERTIA.getClamped());
-        } else {
-            Drug.getDrugEffects().reset(true);
         }
     }
 
