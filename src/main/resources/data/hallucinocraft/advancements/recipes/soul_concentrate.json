@@ -2,17 +2,17 @@
   "parent": "minecraft:recipes/root",
   "rewards": {
     "recipes": [
-      "hallucinocraft:cannabis_joint"
+      "hallucinocraft:soul_concentrate"
     ]
   },
   "criteria": {
-    "has_dried_cannabis_bud": {
+    "has_soul_sand": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
             "items": [
-              "hallucinocraft:dried_cannabis_bud"
+              "minecraft:soul_sand"
             ]
           }
         ]
@@ -21,13 +21,13 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "hallucinocraft:cannabis_joint"
+        "recipe": "hallucinocraft:soul_concentrate"
       }
     }
   },
   "requirements": [
     [
-      "has_dried_cannabis_bud",
+      "has_soul_sand",
       "has_the_recipe"
     ]
   ]

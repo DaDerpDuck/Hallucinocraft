@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "hallucinocraft:soul_wrencher_bottle"
+    },
+    {
+      "item": "hallucinocraft:syringe"
+    }
+  ],
+  "result": {
+    "item": "hallucinocraft:soul_wrencher_syringe"
+  }
+}

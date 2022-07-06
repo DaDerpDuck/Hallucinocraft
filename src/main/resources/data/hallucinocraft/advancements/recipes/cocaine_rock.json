@@ -6,13 +6,13 @@
     ]
   },
   "criteria": {
-    "has_coca_leaf": {
+    "has_coca_powder": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
             "items": [
-              "hallucinocraft:coca_leaf"
+              "hallucinocraft:coca_powder"
             ]
           }
         ]
@@ -27,7 +27,7 @@
   },
   "requirements": [
     [
-      "has_coca_leaf",
+      "has_coca_powder",
       "has_the_recipe"
     ]
   ]

@@ -2,17 +2,17 @@
   "parent": "minecraft:recipes/root",
   "rewards": {
     "recipes": [
-      "hallucinocraft:morphine_syringe"
+      "hallucinocraft:soul_wrencher_syringe"
     ]
   },
   "criteria": {
-    "has_morphine_bottle": {
+    "has_soul_wrencher_bottle": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
             "items": [
-              "hallucinocraft:morphine_bottle"
+              "hallucinocraft:soul_wrencher_bottle"
             ]
           }
         ]
@@ -33,13 +33,13 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "hallucinocraft:morphine_syringe"
+        "recipe": "hallucinocraft:soul_wrencher_syringe"
       }
     }
   },
   "requirements": [
     [
-      "has_morphine_bottle",
+      "has_soul_wrencher_bottle",
       "has_syringe",
       "has_the_recipe"
     ]

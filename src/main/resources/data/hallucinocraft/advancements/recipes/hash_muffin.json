@@ -6,13 +6,13 @@
     ]
   },
   "criteria": {
-    "has_cannabis_bud": {
+    "has_dried_cannabis_bud": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
             "items": [
-              "hallucinocraft:cannabis_bud"
+              "hallucinocraft:dried_cannabis_bud"
             ]
           }
         ]
@@ -27,7 +27,7 @@
   },
   "requirements": [
     [
-      "has_cannabis_bud",
+      "has_dried_cannabis_bud",
       "has_the_recipe"
     ]
   ]

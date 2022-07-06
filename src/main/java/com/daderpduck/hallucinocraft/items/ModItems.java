@@ -44,29 +44,21 @@ public class ModItems {
 
     public static final RegistryObject<Item> EMPTY_SYRINGE = registerItem("syringe", 16);
     public static final RegistryObject<SyringeItem> COCAINE_SYRINGE = registerSyringe("cocaine_syringe", new DrugChain().add(DrugRegistry.COCAINE, 0, 0.47F, 4800), 0xFFFFFFFF);
-    public static final RegistryObject<SyringeItem> MORPHINE_SYRINGE = registerSyringe("morphine_syringe", new DrugChain().add(DrugRegistry.MORPHINE, 0, 0.6F, 4800), 0xFF885038);
+    public static final RegistryObject<SyringeItem> MORPHINE_SYRINGE = registerSyringe("morphine_syringe", new DrugChain().add(DrugRegistry.MORPHINE, 0, 0.6F, 6200), 0xFF885038);
+    public static final RegistryObject<SyringeItem> SOUL_RESTER_SYRINGE = registerSyringe("soul_rester_syringe", new DrugChain().add(DrugRegistry.SOUL_RESTER, 0, 0.4F, 4800), 0xFF6A5244);
+    public static final RegistryObject<SyringeItem> SOUL_WRENCHER_SYRINGE = registerSyringe("soul_wrencher_syringe", new DrugChain().add(DrugRegistry.SOUL_WRENCHER, 0, 0.4F, 4800), 0xFF60F5FA);
 
     public static final RegistryObject<Item> BONG = registerItem("bong", () -> new BongItem(new Item.Properties().durability(8).setNoRepair().tab(Hallucinocraft.TAB)));
 
-    public static final RegistryObject<Item> MORPHINE_BOTTLE = registerItem("morphine_bottle", () -> new Item(new Item.Properties().stacksTo(16).tab(Hallucinocraft.TAB)) {
-        @Override
-        public boolean hasContainerItem(ItemStack itemStack) {
-            return true;
-        }
-
-        @Override
-        public ItemStack getContainerItem(ItemStack itemStack) {
-            return Items.GLASS_BOTTLE.getDefaultInstance();
-        }
-    });
+    public static final RegistryObject<Item> MORPHINE_BOTTLE = registerBottle("morphine_bottle");
     public static final RegistryObject<Item> OPIUM_BOTTLE_0 = registerItem("opium_bottle_0", 16);
     public static final RegistryObject<Item> OPIUM_BOTTLE_1 = registerItem("opium_bottle_1", 16);
     public static final RegistryObject<Item> OPIUM_BOTTLE_2 = registerItem("opium_bottle_2", 16);
     public static final RegistryObject<Item> OPIUM_BOTTLE_3 = registerItem("opium_bottle_3", 16);
 
     public static final RegistryObject<Item> SOUL_CONCENTRATE = registerItem("soul_concentrate", 64);
-    public static final RegistryObject<Item> SOUL_RESTER = registerItem("soul_rester", 16);
-    public static final RegistryObject<Item> SOUL_WRENCHER = registerItem("soul_wrencher", 16);
+    public static final RegistryObject<Item> SOUL_RESTER_BOTTLE = registerBottle("soul_rester_bottle");
+    public static final RegistryObject<Item> SOUL_WRENCHER_BOTTLE = registerBottle("soul_wrencher_bottle");
 
     private static RegistryObject<DrugItem> registerDrug(String name, DrugChain drugChain) {
         return registerDrug(name, drugChain, UseAnim.EAT, 64);
@@ -112,6 +104,20 @@ public class ModItems {
         return registerItem(name, () -> new ItemNameBlockItem(block.get(), new Item.Properties().tab(Hallucinocraft.TAB).stacksTo(stackSize)));
     }
 
+    private static RegistryObject<Item> registerBottle(String name) {
+        return registerItem(name, () -> new Item(new Item.Properties().stacksTo(16).tab(Hallucinocraft.TAB)) {
+            @Override
+            public boolean hasContainerItem(ItemStack itemStack) {
+                return true;
+            }
+
+            @Override
+            public ItemStack getContainerItem(ItemStack itemStack) {
+                return Items.GLASS_BOTTLE.getDefaultInstance();
+            }
+        });
+    }
+
     private static RegistryObject<Item> registerItem(String name) {
         return registerItem(name, () -> new Item(new Item.Properties().tab(Hallucinocraft.TAB)));
     }
@@ -139,7 +145,7 @@ public class ModItems {
     @SubscribeEvent
     @OnlyIn(Dist.CLIENT)
     public static void registerItemColors(ColorHandlerEvent.Item event) {
-        event.getItemColors().register(new SyringeItem.Color(), COCAINE_SYRINGE.get(), MORPHINE_SYRINGE.get());
+        event.getItemColors().register(new SyringeItem.Color(), COCAINE_SYRINGE.get(), MORPHINE_SYRINGE.get(), SOUL_RESTER_SYRINGE.get(), SOUL_WRENCHER_SYRINGE.get());
     }
 
     public static void init(IEventBus modBus) {
