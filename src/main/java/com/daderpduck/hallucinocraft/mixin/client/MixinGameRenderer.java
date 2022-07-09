@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(GameRenderer.class)
 public class MixinGameRenderer {
-    @Inject(at = @At("HEAD"), method = "bobHurt(Lcom/mojang/blaze3d/vertex/PoseStack;F)V")
+    @Inject(method = "bobHurt(Lcom/mojang/blaze3d/vertex/PoseStack;F)V", at = @At("HEAD"))
     private void onCamera(PoseStack pMatrixStack, float pPartialTicks, CallbackInfo ci) {
         MinecraftForge.EVENT_BUS.post(new BobHurtEvent(pMatrixStack, pPartialTicks));
     }

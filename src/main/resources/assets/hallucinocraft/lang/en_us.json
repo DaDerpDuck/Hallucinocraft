@@ -44,5 +44,6 @@
   "block.hallucinocraft.cut_poppy": "Cut Poppy",
 
   "hallucinocraft.drug.drugNotFound": "Could not find a drug of type \"%s\"",
-  "hallucinocraft.message.glError": "§eHallucinocraft GL Error§f: %s (%s) at %s"
+  "hallucinocraft.message.glError": "§eHallucinocraft GL Error§f: %s (%s) at %s",
+  "hallucinocraft.message.alError": "§eHallucinocraft AL Error§f: %s (%s) at %s"
 }

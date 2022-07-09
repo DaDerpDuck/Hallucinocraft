@@ -1,7 +1,7 @@
 package com.daderpduck.hallucinocraft.client.rendering;
 
 import com.daderpduck.hallucinocraft.Hallucinocraft;
-import com.daderpduck.hallucinocraft.client.rendering.shaders.RenderUtil;
+import com.daderpduck.hallucinocraft.client.ClientUtil;
 import com.daderpduck.hallucinocraft.client.rendering.shaders.ShaderRenderer;
 import com.daderpduck.hallucinocraft.client.rendering.shaders.post.PostShaders;
 import com.daderpduck.hallucinocraft.drugs.Drug;
@@ -26,7 +26,7 @@ public class DrugRenderer {
     public static void onRenderTick(TickEvent.RenderTickEvent event) {
         Minecraft mc = Minecraft.getInstance();
 
-        if (RenderUtil.hasOptifine) { // Checks for optifine shaders
+        if (ClientUtil.HAS_OPTIFINE) { // Checks for optifine shaders
             if (InvokerConfigOF.callIsShaders() && ShaderRenderer.useShader) {
                 ShaderRenderer.clear(true);
                 ShaderRenderer.useShader = false;

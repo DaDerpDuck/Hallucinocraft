@@ -9,11 +9,13 @@
   ],
   "client": [
     "client.AccessorShaderGroup",
+    "client.ChannelMixin",
     "client.InvokerConfigOF",
     "client.MixinBufferUploader",
     "client.MixinGameRenderer",
     "client.MixinLevelRenderer",
-    "client.MixinMouseHandler"
+    "client.MixinMouseHandler",
+    "client.SoundEngineMixin"
   ],
   "injectors": {
     "defaultRequire": 1
