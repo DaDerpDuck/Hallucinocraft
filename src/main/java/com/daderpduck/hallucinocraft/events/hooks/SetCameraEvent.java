@@ -6,8 +6,6 @@ import net.minecraft.client.Camera;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.LightTexture;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.eventbus.api.Event;
 
 /**
@@ -15,7 +13,6 @@ import net.minecraftforge.eventbus.api.Event;
  * <br>
  * Fires after camera's coordinates has been set
  */
-@OnlyIn(Dist.CLIENT)
 public class SetCameraEvent extends Event {
     public final PoseStack matrixStack;
     public final float partialTicks;

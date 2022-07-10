@@ -10,7 +10,6 @@ import com.daderpduck.hallucinocraft.mixin.client.InvokerConfigOF;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.Mth;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.EntityViewRenderEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
@@ -19,7 +18,6 @@ import net.minecraftforge.fml.common.Mod;
 
 import java.util.Map;
 
-@OnlyIn(Dist.CLIENT)
 @Mod.EventBusSubscriber(value = Dist.CLIENT, modid = Hallucinocraft.MOD_ID)
 public class DrugRenderer {
     @SubscribeEvent

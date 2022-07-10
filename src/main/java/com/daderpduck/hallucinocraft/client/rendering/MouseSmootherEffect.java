@@ -3,10 +3,7 @@ package com.daderpduck.hallucinocraft.client.rendering;
 import com.mojang.blaze3d.Blaze3D;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.Mth;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
-@OnlyIn(Dist.CLIENT)
 public class MouseSmootherEffect {
     public static final MouseSmootherEffect INSTANCE = new MouseSmootherEffect();
     private final Smoother smoothTurnX = new Smoother();

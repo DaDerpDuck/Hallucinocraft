@@ -3,12 +3,9 @@ package com.daderpduck.hallucinocraft.client.rendering;
 import com.daderpduck.hallucinocraft.client.rendering.shaders.GlobalUniforms;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.util.Mth;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
 import java.util.Random;
 
-@OnlyIn(Dist.CLIENT)
 public class CameraTrembleEffect {
     private final Random random = new Random();
     private double amplitude = 0;
