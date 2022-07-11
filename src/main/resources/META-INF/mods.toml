@@ -1,6 +1,6 @@
 modLoader="javafml"
 loaderVersion="${loader_range}"
-license="All rights reserved"
+license="MIT"
 
 [[mods]]
 modId = "hallucinocraft"
