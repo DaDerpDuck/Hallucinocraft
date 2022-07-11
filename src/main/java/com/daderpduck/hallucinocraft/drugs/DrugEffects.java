@@ -8,6 +8,7 @@ import java.util.List;
 public class DrugEffects {
     private final List<DrugEffect> EFFECTS = new ArrayList<>();
 
+    // Visual Effects
     public final FloatDrugEffect CAMERA_TREMBLE = registerClient();
     public final FloatDrugEffect CAMERA_INERTIA = registerClient();
     public final FloatDrugEffect HAND_TREMBLE = registerClient();
@@ -28,8 +29,15 @@ public class DrugEffects {
     public final FloatDrugEffect FOG_DENSITY = registerClient();
     public final FloatDrugEffect FOG_DARKEN = registerClient();
     public final FloatDrugEffect BLUR = registerClient();
+
+    // Input Effects
     public final FloatDrugEffect MOUSE_SENSITIVITY_SCALE = registerClient(1F);
 
+    // Audio Effects
+    public final FloatDrugEffect MUFFLE = registerClient();
+    public final FloatDrugEffect ECHO = registerClient();
+
+    // Attribute Effects
     public final FloatDrugEffect MOVEMENT_SPEED = register();
     public final FloatDrugEffect DIG_SPEED = register();
     public final FloatDrugEffect DROWN_RATE = register();
