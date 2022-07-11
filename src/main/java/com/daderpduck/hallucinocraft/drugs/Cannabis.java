@@ -13,6 +13,8 @@ public class Cannabis extends Drug {
         drugEffects.BLOOM_RADIUS.addValue(effect*15.0F);
         drugEffects.BLOOM_THRESHOLD.addValue(effect);
         drugEffects.CAMERA_INERTIA.addValue(effect);
+        drugEffects.MUFFLE.addValue(effect*0.4F);
+        drugEffects.REVERB.addValue(effect*0.6F);
     }
 
     @Override

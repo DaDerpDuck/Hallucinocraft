@@ -36,6 +36,7 @@ public class DrugEffects {
     // Audio Effects
     public final FloatDrugEffect MUFFLE = registerClient();
     public final FloatDrugEffect ECHO = registerClient();
+    public final FloatDrugEffect REVERB = registerClient();
 
     // Attribute Effects
     public final FloatDrugEffect MOVEMENT_SPEED = register();
