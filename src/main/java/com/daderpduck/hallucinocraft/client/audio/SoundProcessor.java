@@ -15,15 +15,17 @@ public class SoundProcessor {
     private static int directFilter;
     private static int auxFXSlot0;
     private static int sendFilter0;
-    private static int echoEffect;
+    private static int echoEffect0;
     private static int auxFXSlot1;
     private static int sendFilter1;
-    private static int reverbEffect;
+    private static int reverbEffect1;
 
 
     public static void init() {
         // https://github.com/rtpHarry/Sokoban/blob/master/libraries/OpenAL%201.1%20SDK/docs/Effects%20Extension%20Guide.pdf
+
         Hallucinocraft.LOGGER.info("Initializing sound processor");
+
         long currentContext = ALC10.alcGetCurrentContext();
         long currentDevice = ALC10.alcGetContextsDevice(currentContext);
         if (!ALC10.alcIsExtensionPresent(currentDevice, "ALC_EXT_EFX")) {
@@ -33,37 +35,40 @@ public class SoundProcessor {
 
         directFilter = EXTEfx.alGenFilters();
         EXTEfx.alFilteri(directFilter, AL_FILTER_TYPE, AL_FILTER_LOWPASS);
+        Hallucinocraft.LOGGER.debug("Filter {} created (direct filter)", directFilter);
         ClientUtil.checkAlErrors("Creating direct filter");
 
         auxFXSlot0 = EXTEfx.alGenAuxiliaryEffectSlots();
         EXTEfx.alAuxiliaryEffectSloti(auxFXSlot0, AL_EFFECTSLOT_AUXILIARY_SEND_AUTO, AL_TRUE);
+        Hallucinocraft.LOGGER.debug("Aux slot {} created", auxFXSlot0);
         ClientUtil.checkAlErrors("Creating auxiliary effect slot 0");
-
         sendFilter0 = EXTEfx.alGenFilters();
         EXTEfx.alFilteri(sendFilter0, AL_FILTER_TYPE, AL_FILTER_LOWPASS);
+        Hallucinocraft.LOGGER.debug("Filter {} created (send filter 0)", sendFilter0);
         ClientUtil.checkAlErrors("Creating send filter 0");
-
-        echoEffect = EXTEfx.alGenEffects();
-        EXTEfx.alEffecti(echoEffect, AL_EFFECT_TYPE, AL_EFFECT_ECHO);
+        echoEffect0 = EXTEfx.alGenEffects();
+        EXTEfx.alEffecti(echoEffect0, AL_EFFECT_TYPE, AL_EFFECT_ECHO);
+        Hallucinocraft.LOGGER.debug("Echo effect {} created", echoEffect0);
         ClientUtil.checkAlErrors("Creating echo effect");
 
         auxFXSlot1 = EXTEfx.alGenAuxiliaryEffectSlots();
         EXTEfx.alAuxiliaryEffectSloti(auxFXSlot1, AL_EFFECTSLOT_AUXILIARY_SEND_AUTO, AL_TRUE);
+        Hallucinocraft.LOGGER.debug("Aux slot {} created", auxFXSlot1);
         ClientUtil.checkAlErrors("Creating auxiliary effect slot 1");
-
         sendFilter1 = EXTEfx.alGenFilters();
         EXTEfx.alFilteri(sendFilter1, AL_FILTER_TYPE, AL_FILTER_LOWPASS);
+        Hallucinocraft.LOGGER.debug("Filter {} created (send filter 1)", sendFilter1);
         ClientUtil.checkAlErrors("Creating send filter 1");
-
-        reverbEffect = EXTEfx.alGenEffects();
-        EXTEfx.alEffecti(reverbEffect, AL_EFFECT_TYPE, AL_EFFECT_EAXREVERB);
+        reverbEffect1 = EXTEfx.alGenEffects();
+        EXTEfx.alEffecti(reverbEffect1, AL_EFFECT_TYPE, AL_EFFECT_EAXREVERB);
+        Hallucinocraft.LOGGER.debug("Reverb effect {} created", reverbEffect1);
         ClientUtil.checkAlErrors("Creating reverb effect");
-        // idk what i'm doing
-        // TODO: fix my incompetence
+
+        // TODO: Readjust these parameters
         setReverbParameters(new ReverbParams(
                 0.5F,
-                1F,
-                0.1F,
+                0F,
+                0.5F,
                 0.89F,
                 10F,
                 1.2F,
@@ -81,10 +86,10 @@ public class SoundProcessor {
         EXTEfx.alDeleteFilters(directFilter);
         EXTEfx.alDeleteAuxiliaryEffectSlots(auxFXSlot0);
         EXTEfx.alDeleteFilters(sendFilter0);
-        EXTEfx.alDeleteEffects(echoEffect);
+        EXTEfx.alDeleteEffects(echoEffect0);
         EXTEfx.alDeleteAuxiliaryEffectSlots(auxFXSlot1);
         EXTEfx.alDeleteFilters(sendFilter1);
-        EXTEfx.alDeleteEffects(reverbEffect);
+        EXTEfx.alDeleteEffects(reverbEffect1);
     }
 
     public static void processSound(int source, double x, double y, double z) {
@@ -124,7 +129,7 @@ public class SoundProcessor {
 
         EXTEfx.alFilterf(sendFilter0, AL_LOWPASS_GAIN, sendGain0);
         EXTEfx.alFilterf(sendFilter0, AL_LOWPASS_GAINHF, sendCutoff0);
-        AL11.alSource3i(source, AL_AUXILIARY_SEND_FILTER, auxFXSlot0, 1, sendFilter0);
+        AL11.alSource3i(source, AL_AUXILIARY_SEND_FILTER, auxFXSlot0, 0, sendFilter0);
         ClientUtil.checkAlErrors("Setting send filter 0 parameters");
 
         EXTEfx.alFilterf(sendFilter1, AL_LOWPASS_GAIN, sendGain1);
@@ -134,46 +139,46 @@ public class SoundProcessor {
     }
 
     private static void setEchoParameters(float delay, float damping) {
-        EXTEfx.alEffectf(echoEffect, AL_ECHO_DELAY, delay);
+        EXTEfx.alEffectf(echoEffect0, AL_ECHO_DELAY, delay);
         ClientUtil.checkAlErrors("Setting echo parameter delay to " + delay);
-        EXTEfx.alEffectf(echoEffect, AL_ECHO_LRDELAY, delay);
+        EXTEfx.alEffectf(echoEffect0, AL_ECHO_LRDELAY, delay);
         ClientUtil.checkAlErrors("Setting echo parameter LR delay to " + delay);
-        EXTEfx.alEffectf(echoEffect, AL_ECHO_DAMPING, damping);
+        EXTEfx.alEffectf(echoEffect0, AL_ECHO_DAMPING, damping);
         ClientUtil.checkAlErrors("Setting echo parameter damping to " + damping);
 
-        EXTEfx.alAuxiliaryEffectSloti(auxFXSlot0, AL_EFFECTSLOT_EFFECT, echoEffect);
+        EXTEfx.alAuxiliaryEffectSloti(auxFXSlot0, AL_EFFECTSLOT_EFFECT, echoEffect0);
     }
 
     private static void setReverbParameters(ReverbParams params) {
-        EXTEfx.alEffectf(reverbEffect, AL_EAXREVERB_DENSITY, params.density());
+        EXTEfx.alEffectf(reverbEffect1, AL_EAXREVERB_DENSITY, params.density());
         ClientUtil.checkAlErrors("Setting reverb parameter density to " + params.density());
-        EXTEfx.alEffectf(reverbEffect, AL_EAXREVERB_DIFFUSION, params.diffusion());
+        EXTEfx.alEffectf(reverbEffect1, AL_EAXREVERB_DIFFUSION, params.diffusion());
         ClientUtil.checkAlErrors("Setting reverb parameter diffusion to " + params.diffusion());
-        EXTEfx.alEffectf(reverbEffect, AL_EAXREVERB_GAIN, params.gain());
+        EXTEfx.alEffectf(reverbEffect1, AL_EAXREVERB_GAIN, params.gain());
         ClientUtil.checkAlErrors("Setting reverb parameter gain to " + params.gain());
-        EXTEfx.alEffectf(reverbEffect, AL_EAXREVERB_GAINHF, params.gainHF());
+        EXTEfx.alEffectf(reverbEffect1, AL_EAXREVERB_GAINHF, params.gainHF());
         ClientUtil.checkAlErrors("Setting reverb parameter gainHF to " + params.gainHF());
-        EXTEfx.alEffectf(reverbEffect, AL_EAXREVERB_DECAY_TIME, params.decayTime());
+        EXTEfx.alEffectf(reverbEffect1, AL_EAXREVERB_DECAY_TIME, params.decayTime());
         ClientUtil.checkAlErrors("Setting reverb parameter decayTime to " + params.decayTime());
-        EXTEfx.alEffectf(reverbEffect, AL_EAXREVERB_DECAY_HFRATIO, params.decayHFRatio());
+        EXTEfx.alEffectf(reverbEffect1, AL_EAXREVERB_DECAY_HFRATIO, params.decayHFRatio());
         ClientUtil.checkAlErrors("Setting reverb parameter decayHFRatio to " + params.decayHFRatio());
-        EXTEfx.alEffectf(reverbEffect, AL_EAXREVERB_REFLECTIONS_GAIN, params.reflectionsGain());
+        EXTEfx.alEffectf(reverbEffect1, AL_EAXREVERB_REFLECTIONS_GAIN, params.reflectionsGain());
         ClientUtil.checkAlErrors("Setting reverb parameter reflectionsGain to " + params.reflectionsGain());
-        EXTEfx.alEffectf(reverbEffect, AL_EAXREVERB_REFLECTIONS_DELAY, params.reflectionsDelay());
+        EXTEfx.alEffectf(reverbEffect1, AL_EAXREVERB_REFLECTIONS_DELAY, params.reflectionsDelay());
         ClientUtil.checkAlErrors("Setting reverb parameter reflectionsDelay to " + params.reflectionsDelay());
-        EXTEfx.alEffectf(reverbEffect, AL_EAXREVERB_LATE_REVERB_GAIN, params.lateReverbGain());
+        EXTEfx.alEffectf(reverbEffect1, AL_EAXREVERB_LATE_REVERB_GAIN, params.lateReverbGain());
         ClientUtil.checkAlErrors("Setting reverb parameter lateReverbGain to " + params.lateReverbGain());
-        EXTEfx.alEffectf(reverbEffect, AL_EAXREVERB_LATE_REVERB_DELAY, params.lateReverbDelay());
+        EXTEfx.alEffectf(reverbEffect1, AL_EAXREVERB_LATE_REVERB_DELAY, params.lateReverbDelay());
         ClientUtil.checkAlErrors("Setting reverb parameter lateReverbDelay to " + params.lateReverbDelay());
-        EXTEfx.alEffectf(reverbEffect, AL_EAXREVERB_ECHO_TIME, params.echoTime());
+        EXTEfx.alEffectf(reverbEffect1, AL_EAXREVERB_ECHO_TIME, params.echoTime());
         ClientUtil.checkAlErrors("Setting reverb parameter echoTime to " + params.echoTime());
-        EXTEfx.alEffectf(reverbEffect, AL_EAXREVERB_ECHO_DEPTH, params.echoDepth());
+        EXTEfx.alEffectf(reverbEffect1, AL_EAXREVERB_ECHO_DEPTH, params.echoDepth());
         ClientUtil.checkAlErrors("Setting reverb parameter echoDepth to " + params.echoDepth());
-        EXTEfx.alEffectf(reverbEffect, AL_EAXREVERB_ROOM_ROLLOFF_FACTOR, params.roomRolloffFactor());
+        EXTEfx.alEffectf(reverbEffect1, AL_EAXREVERB_ROOM_ROLLOFF_FACTOR, params.roomRolloffFactor());
         ClientUtil.checkAlErrors("Setting reverb parameter roomRolloffFactor to " + params.roomRolloffFactor());
-        EXTEfx.alEffectf(reverbEffect, AL_EAXREVERB_AIR_ABSORPTION_GAINHF, params.airAbsorptionGainHF());
+        EXTEfx.alEffectf(reverbEffect1, AL_EAXREVERB_AIR_ABSORPTION_GAINHF, params.airAbsorptionGainHF());
         ClientUtil.checkAlErrors("Setting reverb parameter airAbsorptionGainHF to " + params.airAbsorptionGainHF());
 
-        EXTEfx.alAuxiliaryEffectSloti(auxFXSlot1, AL_EFFECTSLOT_EFFECT, reverbEffect);
+        EXTEfx.alAuxiliaryEffectSloti(auxFXSlot1, AL_EFFECTSLOT_EFFECT, reverbEffect1);
     }
 }

@@ -13,4 +13,9 @@ public class MixinSoundEngine {
     private void loadLibrary(CallbackInfo ci) {
         SoundProcessor.init();
     }
+
+    @Inject(method = "destroy", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/sounds/SoundEngine;stopAll()V"))
+    private void destroy(CallbackInfo ci) {
+        SoundProcessor.cleanup();
+    }
 }
