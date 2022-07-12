@@ -23,6 +23,7 @@ public class SoundProcessor {
 
     public static void init() {
         // https://github.com/rtpHarry/Sokoban/blob/master/libraries/OpenAL%201.1%20SDK/docs/Effects%20Extension%20Guide.pdf
+        Hallucinocraft.LOGGER.info("Initializing sound processor");
         long currentContext = ALC10.alcGetCurrentContext();
         long currentDevice = ALC10.alcGetContextsDevice(currentContext);
         if (!ALC10.alcIsExtensionPresent(currentDevice, "ALC_EXT_EFX")) {

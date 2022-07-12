@@ -5,8 +5,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 
 import javax.annotation.Nullable;
@@ -62,7 +60,6 @@ public class Drug extends ForgeRegistryEntry<Drug> {
         return PlayerDrugs.getPlayerDrugs(playerEntity).getDrugEffects();
     }
 
-    @OnlyIn(Dist.CLIENT)
     public static DrugEffects getDrugEffects() {
         assert Minecraft.getInstance().player != null;
         return PlayerDrugs.getPlayerDrugs(Minecraft.getInstance().player).getDrugEffects();
@@ -114,7 +111,6 @@ public class Drug extends ForgeRegistryEntry<Drug> {
     public void startUse(Player player) {
     }
 
-    @OnlyIn(Dist.CLIENT)
     public void renderTick(DrugEffects drugEffects, float effect) {
     }
 

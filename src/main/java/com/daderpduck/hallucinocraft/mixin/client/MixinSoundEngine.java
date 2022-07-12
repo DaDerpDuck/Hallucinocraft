@@ -8,7 +8,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(SoundEngine.class)
-public class SoundEngineMixin {
+public class MixinSoundEngine {
     @Inject(method = "loadLibrary", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/audio/Listener;reset()V"))
     private void loadLibrary(CallbackInfo ci) {
         SoundProcessor.init();

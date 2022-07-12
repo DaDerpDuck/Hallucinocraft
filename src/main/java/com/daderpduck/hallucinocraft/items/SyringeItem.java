@@ -8,8 +8,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
@@ -56,7 +54,6 @@ public class SyringeItem extends DrugItem {
         }
     }
 
-    @OnlyIn(Dist.CLIENT)
     public static class Color implements ItemColor {
         @Override
         public int getColor(ItemStack itemStack, int tintIndex) {

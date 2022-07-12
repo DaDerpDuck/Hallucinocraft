@@ -3,8 +3,6 @@ package com.daderpduck.hallucinocraft.client.rendering.shaders.post;
 import com.daderpduck.hallucinocraft.client.rendering.shaders.ShaderRenderer;
 import com.google.gson.JsonSyntaxException;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.RenderLevelLastEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -13,7 +11,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-@OnlyIn(Dist.CLIENT)
 public class PostShaders {
     public static boolean useShaders = false;
     private static final List<PostShader> postShaders = new ArrayList<>();

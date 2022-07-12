@@ -4,12 +4,9 @@ import com.daderpduck.hallucinocraft.Hallucinocraft;
 import com.google.gson.JsonSyntaxException;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
 import java.io.IOException;
 
-@OnlyIn(Dist.CLIENT)
 public class Color extends PostShader {
     public Color() throws IOException, JsonSyntaxException {
         super(new ResourceLocation(Hallucinocraft.MOD_ID, "shaders/post/color.json"));

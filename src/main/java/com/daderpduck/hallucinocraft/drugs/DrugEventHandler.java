@@ -21,7 +21,7 @@ import net.minecraftforge.fml.common.Mod;
 import java.util.UUID;
 
 @Mod.EventBusSubscriber(modid = Hallucinocraft.MOD_ID)
-public class DrugHandler {
+public class DrugEventHandler {
     private static final UUID uuid = UUID.fromString("512eebf1-6b63-4e4e-be79-42d90813a70a");
 
     @SubscribeEvent

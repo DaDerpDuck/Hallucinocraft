@@ -7,8 +7,6 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.Material;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.registries.RegistryObject;
 
 import java.util.function.Supplier;
@@ -23,7 +21,6 @@ public class ModBlocks {
         return Hallucinocraft.BLOCKS.register(name, supplier);
     }
 
-    @OnlyIn(Dist.CLIENT)
     public static void initRenderTypes() {
         ItemBlockRenderTypes.setRenderLayer(COCA_BLOCK.get(), RenderType.cutout());
         ItemBlockRenderTypes.setRenderLayer(CANNABIS_BLOCK.get(), RenderType.cutout());
