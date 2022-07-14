@@ -31,7 +31,8 @@ public class SoundEventHandler {
         float pitch = Drug.getDrugEffects().PITCH_RANDOM_SCALE.getClamped()*0.9F;
         if (pitch != 0F) {
             event.setCanceled(true);
-            AL10.alSourcef(event.source, AL10.AL_PITCH, event.pitch*(1F + Mth.randomBetween(RANDOM, -pitch, pitch)));
+            float newPitch = event.pitch*(1F + Mth.randomBetween(RANDOM, -pitch, pitch));
+            AL10.alSourcef(event.source, AL10.AL_PITCH, newPitch);
         }
     }
 }

@@ -2,6 +2,12 @@ package com.daderpduck.hallucinocraft.drugs;
 
 import net.minecraft.world.entity.player.Player;
 
+/*
+Cannabis generally produces a happy and relaxed state, hallucinations, and increased appetite (https://www.healthline.com/health/what-does-it-feel-like-to-be-high)
+Music also sounds better when on a high (https://www.quora.com/Why-does-music-sound-better-when-youre-stoned)
+To replicate visual effects, saturation and bloom is added for a happy state, camera inertia and movement slowdown for a relaxed state, hunger increase for increased appetite
+To replicate audio effects, treble is accentuated for higher clarity
+ */
 public class Cannabis extends Drug {
     public Cannabis(DrugProperties properties) {
         super(properties);
@@ -13,8 +19,7 @@ public class Cannabis extends Drug {
         drugEffects.BLOOM_RADIUS.addValue(effect*15.0F);
         drugEffects.BLOOM_THRESHOLD.addValue(effect);
         drugEffects.CAMERA_INERTIA.addValue(effect);
-        drugEffects.MUFFLE.addValue(effect*0.4F);
-        drugEffects.REVERB.addValue(effect*0.6F);
+        drugEffects.TREBLE.addValue(effect*0.6F);
     }
 
     @Override
