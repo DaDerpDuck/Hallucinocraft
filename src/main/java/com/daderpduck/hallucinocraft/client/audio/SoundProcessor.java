@@ -2,7 +2,7 @@ package com.daderpduck.hallucinocraft.client.audio;
 
 import com.daderpduck.hallucinocraft.Hallucinocraft;
 import com.daderpduck.hallucinocraft.client.ClientUtil;
-import com.daderpduck.hallucinocraft.config.ModConfig;
+import com.daderpduck.hallucinocraft.HallucinocraftConfig;
 import com.daderpduck.hallucinocraft.drugs.Drug;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.Mth;
@@ -38,7 +38,7 @@ public class SoundProcessor {
     public static void init() {
         // https://github.com/rtpHarry/Sokoban/blob/master/libraries/OpenAL%201.1%20SDK/docs/Effects%20Extension%20Guide.pdf
 
-        if (!ModConfig.USE_SOUND_PROCESSOR.get()) return;
+        if (!HallucinocraftConfig.CLIENT.useSoundProcessor.get()) return;
         Hallucinocraft.LOGGER.info("Initializing sound processor");
 
         long currentContext = ALC10.alcGetCurrentContext();
@@ -115,7 +115,7 @@ public class SoundProcessor {
     }
 
     public static Float modifyPitch(double x, double y, double z, float pitch) {
-        if (!ModConfig.USE_SOUND_PROCESSOR.get()) return null;
+        if (!HallucinocraftConfig.CLIENT.useSoundProcessor.get()) return null;
         Minecraft mc = Minecraft.getInstance();
         if (mc.player == null || mc.level == null || (x == 0 && y == 0 && z == 0)) return null;
 
@@ -128,7 +128,7 @@ public class SoundProcessor {
     }
 
     public static void processSound(int source, double x, double y, double z) {
-        if (!ModConfig.USE_SOUND_PROCESSOR.get()) return;
+        if (!HallucinocraftConfig.CLIENT.useSoundProcessor.get()) return;
         if (!isSetup) return;
         Minecraft mc = Minecraft.getInstance();
         if (mc.player == null || mc.level == null || (x == 0 && y == 0 && z == 0)) {

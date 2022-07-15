@@ -4,7 +4,7 @@ import com.daderpduck.hallucinocraft.Hallucinocraft;
 import com.daderpduck.hallucinocraft.client.ClientUtil;
 import com.daderpduck.hallucinocraft.client.rendering.shaders.LevelShaders;
 import com.daderpduck.hallucinocraft.client.rendering.shaders.post.PostShaders;
-import com.daderpduck.hallucinocraft.config.ModConfig;
+import com.daderpduck.hallucinocraft.HallucinocraftConfig;
 import com.daderpduck.hallucinocraft.drugs.Drug;
 import com.daderpduck.hallucinocraft.events.hooks.BobHurtEvent;
 import com.daderpduck.hallucinocraft.mixin.client.InvokerConfigOF;
@@ -26,7 +26,7 @@ public class DrugRenderer {
     public static void onRenderTick(TickEvent.RenderTickEvent event) throws IOException {
         Minecraft mc = Minecraft.getInstance();
 
-        if (!ModConfig.USE_SHADERS.get()) {
+        if (!HallucinocraftConfig.CLIENT.useShaders.get()) {
             if (LevelShaders.isSetup()) {
                 LevelShaders.cleanup();
                 LevelShaders.toggleShaders(false);
@@ -48,15 +48,15 @@ public class DrugRenderer {
                 }
             } else {
                 if (!LevelShaders.isSetup()) LevelShaders.setup();
-                LevelShaders.toggleShaders(ModConfig.USE_LEVEL_SHADERS.get());
+                LevelShaders.toggleShaders(HallucinocraftConfig.CLIENT.useLevelShaders.get());
                 if (!PostShaders.isSetup()) PostShaders.setup();
-                PostShaders.toggleShaders(ModConfig.USE_POST_SHADERS.get());
+                PostShaders.toggleShaders(HallucinocraftConfig.CLIENT.usePostShaders.get());
             }
         } else {
             if (!LevelShaders.isSetup()) LevelShaders.setup();
-            LevelShaders.toggleShaders(ModConfig.USE_LEVEL_SHADERS.get());
+            LevelShaders.toggleShaders(HallucinocraftConfig.CLIENT.useLevelShaders.get());
             if (!PostShaders.isSetup()) PostShaders.setup();
-            PostShaders.toggleShaders(ModConfig.USE_POST_SHADERS.get());
+            PostShaders.toggleShaders(HallucinocraftConfig.CLIENT.usePostShaders.get());
         }
 
         if (mc.level == null) return;

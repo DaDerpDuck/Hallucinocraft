@@ -4,7 +4,6 @@ import com.daderpduck.hallucinocraft.blocks.ModBlocks;
 import com.daderpduck.hallucinocraft.client.rendering.shaders.LevelShaders;
 import com.daderpduck.hallucinocraft.client.rendering.shaders.post.PostShaders;
 import com.daderpduck.hallucinocraft.commands.SetDrugCommand;
-import com.daderpduck.hallucinocraft.config.ModConfig;
 import com.daderpduck.hallucinocraft.drugs.Drug;
 import com.daderpduck.hallucinocraft.drugs.DrugRegistry;
 import com.daderpduck.hallucinocraft.items.*;
@@ -20,7 +19,9 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
@@ -58,7 +59,10 @@ public class Hallucinocraft {
     public Hallucinocraft() {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
-        ModConfig.register();
+        ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, HallucinocraftConfig.serverSpec);
+        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, HallucinocraftConfig.commonSpec);
+        ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, HallucinocraftConfig.clientSpec);
+        modEventBus.register(HallucinocraftConfig.class);
 
         drugSupplier = DRUGS.makeRegistry(Drug.class, DrugRegistry::getRegistryBuilder);
 
@@ -93,11 +97,11 @@ public class Hallucinocraft {
     private void doClientStuff(final FMLClientSetupEvent event) {
         ModBlocks.initRenderTypes();
 
-        if (ModConfig.USE_SHADERS.get()) {
-            if (ModConfig.USE_LEVEL_SHADERS.get())
+        if (HallucinocraftConfig.CLIENT.useShaders.get()) {
+            if (HallucinocraftConfig.CLIENT.useLevelShaders.get())
                 LevelShaders.setup();
 
-            if (ModConfig.USE_POST_SHADERS.get()) {
+            if (HallucinocraftConfig.CLIENT.usePostShaders.get()) {
                 try {
                     PostShaders.setup();
                 } catch (IOException e) {
