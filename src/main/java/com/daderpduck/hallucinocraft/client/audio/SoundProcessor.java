@@ -5,9 +5,12 @@ import com.daderpduck.hallucinocraft.client.ClientUtil;
 import com.daderpduck.hallucinocraft.config.ModConfig;
 import com.daderpduck.hallucinocraft.drugs.Drug;
 import net.minecraft.client.Minecraft;
+import net.minecraft.util.Mth;
 import org.lwjgl.openal.AL11;
 import org.lwjgl.openal.ALC10;
 import org.lwjgl.openal.EXTEfx;
+
+import java.util.Random;
 
 import static org.lwjgl.openal.AL10.AL_TRUE;
 import static org.lwjgl.openal.EXTEfx.*;
@@ -15,6 +18,7 @@ import static org.lwjgl.openal.EXTEfx.*;
 public class SoundProcessor {
     private static boolean isSetup = false;
     private static int maxAuxSends;
+    private static final Random RANDOM = new Random();
 
     private static int directFilter;
 
@@ -111,6 +115,19 @@ public class SoundProcessor {
         EXTEfx.alDeleteAuxiliaryEffectSlots(auxFXSlot1);
         EXTEfx.alDeleteFilters(sendFilter1);
         EXTEfx.alDeleteEffects(equalizerEffect1);
+    }
+
+    public static Float modifyPitch(double x, double y, double z, float pitch) {
+        if (!ModConfig.USE_SOUND_PROCESSOR.get()) return null;
+        Minecraft mc = Minecraft.getInstance();
+        if (mc.player == null || mc.level == null || (x == 0 && y == 0 && z == 0)) return null;
+
+        float pitchRange = Drug.getDrugEffects().PITCH_RANDOM_SCALE.getClamped()*0.9F;
+        if (pitchRange != 0F) {
+            return pitch * (1F + Mth.randomBetween(RANDOM, -pitchRange, pitchRange));
+        } else {
+            return null;
+        }
     }
 
     public static void processSound(int source, double x, double y, double z) {

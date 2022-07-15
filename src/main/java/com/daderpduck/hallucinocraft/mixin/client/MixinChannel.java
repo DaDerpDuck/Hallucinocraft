@@ -26,12 +26,6 @@ public class MixinChannel {
 
     @Inject(method = "play", at = @At("HEAD"))
     private void play(CallbackInfo ci) {
-        MinecraftForge.EVENT_BUS.post(new SoundEvent.Play(source, pos));
-    }
-
-    @Inject(method = "setPitch", at = @At("HEAD"), cancellable = true)
-    private void setPitch(float pPitch, CallbackInfo ci) {
-        if (MinecraftForge.EVENT_BUS.post(new SoundEvent.SetPitch(source, pos, pPitch)))
-            ci.cancel();
+        MinecraftForge.EVENT_BUS.post(new SoundEvent.Play(pos, source));
     }
 }

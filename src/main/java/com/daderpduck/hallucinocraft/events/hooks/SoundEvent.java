@@ -8,26 +8,26 @@ import javax.annotation.Nullable;
 import java.util.Objects;
 
 public class SoundEvent extends Event {
-    public final int source;
     public final Vec3 position;
 
-    private SoundEvent(int source, @Nullable Vec3 position) {
-        this.source = source;
+    private SoundEvent(@Nullable Vec3 position) {
         this.position = Objects.requireNonNullElse(position, Vec3.ZERO);
     }
 
     public static class Play extends SoundEvent {
-        public Play(int source, @Nullable Vec3 position) {
-            super(source, position);
+        public final int source;
+        public Play(@Nullable Vec3 position, int source) {
+            super(position);
+            this.source = source;
         }
     }
 
     @Cancelable
     public static class SetPitch extends SoundEvent {
-        public final float pitch;
+        public float pitch;
 
-        public SetPitch(int source, @Nullable Vec3 position, float pitch) {
-            super(source, position);
+        public SetPitch(@Nullable Vec3 position, float pitch) {
+            super(position);
             this.pitch = pitch;
         }
     }
