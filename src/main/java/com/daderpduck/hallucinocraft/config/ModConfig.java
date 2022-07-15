@@ -43,7 +43,7 @@ public class ModConfig {
                 .define("use_sound_processor", true);
         MAX_AUX_SENDS = CLIENT_BUILDER
                 .comment("Configures number of max auxiliary send channels (lower values may result in performance boost but limits number of effects) (restart required)")
-                .defineInRange("max_aux_sends", 2, 0, 2);
+                .defineInRange("max_aux_sends", 3, 0, 3);
         CLIENT_BUILDER.pop();
 
         ModLoadingContext.get().registerConfig(net.minecraftforge.fml.config.ModConfig.Type.CLIENT, CLIENT_BUILDER.build());

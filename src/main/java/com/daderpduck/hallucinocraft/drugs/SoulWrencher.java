@@ -9,5 +9,6 @@ public class SoulWrencher extends Drug {
     public void renderTick(DrugEffects drugEffects, float effect) {
         drugEffects.GLITCH.addValue(effect);
         drugEffects.PITCH_RANDOM_SCALE.addValue(effect);
+        drugEffects.DISTORTION.addValue(effect);
     }
 }

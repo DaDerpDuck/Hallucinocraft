@@ -30,6 +30,10 @@ public class SoundProcessor {
     private static int sendFilter1;
     private static int equalizerEffect1;
 
+    private static int auxFXSlot2;
+    private static int sendFilter2;
+    private static int distortionEffect2;
+
 
     public static void init() {
         // https://github.com/rtpHarry/Sokoban/blob/master/libraries/OpenAL%201.1%20SDK/docs/Effects%20Extension%20Guide.pdf
@@ -76,8 +80,7 @@ public class SoundProcessor {
         equalizerEffect1 = EXTEfx.alGenEffects();
         EXTEfx.alEffecti(equalizerEffect1, AL_EFFECT_TYPE, AL_EFFECT_EQUALIZER);
         Hallucinocraft.LOGGER.debug("Equalizer effect {} created", equalizerEffect1);
-        ClientUtil.checkAlErrors("Creating reverb effect");
-
+        ClientUtil.checkAlErrors("Creating equalizer effect");
         setEqualizerParameters(equalizerEffect1, auxFXSlot1, new EqualizerParams(
                 0.4F,
                 0.8F,
@@ -87,34 +90,28 @@ public class SoundProcessor {
                 1.05F
         ));
 
-        isSetup = true;
 
-//        setReverbParameters(reverbEffect1, auxFXSlot1, new ReverbParams(
-//                0.5F,
-//                0F,
-//                0.5F,
-//                0.89F,
-//                10F,
-//                1.2F,
-//                0F,
-//                0.2F,
-//                1F,
-//                0.02F,
-//                0.25F,
-//                1F,
-//                0.11F,
-//                0.9F));
+        auxFXSlot2 = EXTEfx.alGenAuxiliaryEffectSlots();
+        EXTEfx.alAuxiliaryEffectSloti(auxFXSlot2, AL_EFFECTSLOT_AUXILIARY_SEND_AUTO, AL_TRUE);
+        Hallucinocraft.LOGGER.debug("Aux slot {} created", auxFXSlot2);
+        ClientUtil.checkAlErrors("Creating auxiliary effect slot 2");
+        sendFilter2 = EXTEfx.alGenFilters();
+        EXTEfx.alFilteri(sendFilter2, AL_FILTER_TYPE, AL_FILTER_LOWPASS);
+        Hallucinocraft.LOGGER.debug("Filter {} created (send filter 2)", sendFilter2);
+        ClientUtil.checkAlErrors("Creating send filter 2");
+        distortionEffect2 = EXTEfx.alGenEffects();
+        EXTEfx.alEffecti(distortionEffect2, AL_EFFECT_TYPE, AL_EFFECT_DISTORTION);
+        Hallucinocraft.LOGGER.debug("Distortion effect {} created", distortionEffect2);
+        ClientUtil.checkAlErrors("Creating distortion effect");
+
+        isSetup = true;
     }
 
     public static void cleanup() {
         if (!isSetup) return;
-        EXTEfx.alDeleteFilters(directFilter);
-        EXTEfx.alDeleteAuxiliaryEffectSlots(auxFXSlot0);
-        EXTEfx.alDeleteFilters(sendFilter0);
-        EXTEfx.alDeleteEffects(echoEffect0);
-        EXTEfx.alDeleteAuxiliaryEffectSlots(auxFXSlot1);
-        EXTEfx.alDeleteFilters(sendFilter1);
-        EXTEfx.alDeleteEffects(equalizerEffect1);
+        EXTEfx.alDeleteEffects(new int[]{echoEffect0, equalizerEffect1, distortionEffect2});
+        EXTEfx.alDeleteFilters(new int[]{directFilter, sendFilter0, sendFilter1, sendFilter2});
+        EXTEfx.alDeleteAuxiliaryEffectSlots(new int[]{auxFXSlot0, auxFXSlot1, auxFXSlot2});
     }
 
     public static Float modifyPitch(double x, double y, double z, float pitch) {
@@ -153,14 +150,17 @@ public class SoundProcessor {
         float sendCutoff1 = Drug.getDrugEffects().TREBLE.getClamped();
         float sendGain1 = (float)Math.sqrt(sendCutoff1);
 
-        setFilterParameters(source, directGain, directCutoff, sendGain0, sendCutoff0, sendGain1, sendCutoff1);
+        float sendGain2 = Drug.getDrugEffects().DISTORTION.getClamped();
+        setDistortionParameters(distortionEffect2, auxFXSlot2, sendGain2*0.3F);
+
+        setFilterParameters(source, directGain, directCutoff, sendGain0, sendCutoff0, sendGain1, sendCutoff1, sendGain2, 1F);
     }
 
     private static void setDefaultParameters(int source) {
-        setFilterParameters(source, 1F, 1F, 0F, 1F, 0F, 1F);
+        setFilterParameters(source, 1F, 1F, 0F, 1F, 0F, 1F, 0F, 1F);
     }
 
-    private static void setFilterParameters(int source, float directGain, float directCutoff, float sendGain0, float sendCutoff0, float sendGain1, float sendCutoff1) {
+    private static void setFilterParameters(int source, float directGain, float directCutoff, float sendGain0, float sendCutoff0, float sendGain1, float sendCutoff1, float sendGain2, float sendCutoff2) {
         EXTEfx.alFilterf(directFilter, AL_LOWPASS_GAIN, directGain);
         EXTEfx.alFilterf(directFilter, AL_LOWPASS_GAINHF, directCutoff);
         AL11.alSourcei(source, AL_DIRECT_FILTER, directFilter);
@@ -178,6 +178,13 @@ public class SoundProcessor {
             EXTEfx.alFilterf(sendFilter1, AL_LOWPASS_GAINHF, sendCutoff1);
             AL11.alSource3i(source, AL_AUXILIARY_SEND_FILTER, auxFXSlot1, 1, sendFilter1);
             ClientUtil.checkAlErrors("Setting send filter 1 parameters");
+        }
+
+        if (maxAuxSends >= 3) {
+            EXTEfx.alFilterf(sendFilter2, AL_LOWPASS_GAIN, sendGain2);
+            EXTEfx.alFilterf(sendFilter2, AL_LOWPASS_GAINHF, sendCutoff2);
+            AL11.alSource3i(source, AL_AUXILIARY_SEND_FILTER, auxFXSlot2, 2, sendFilter2);
+            ClientUtil.checkAlErrors("Setting send filter 2 parameters");
         }
     }
 
@@ -238,6 +245,13 @@ public class SoundProcessor {
         ClientUtil.checkAlErrors("Setting equalizer parameter mid2Width to " + params.mid2Width());
         EXTEfx.alEffectf(effect, AL_EQUALIZER_HIGH_GAIN, params.highGain());
         ClientUtil.checkAlErrors("Setting equalizer parameter highGain to " + params.highGain());
+
+        EXTEfx.alAuxiliaryEffectSloti(auxFXSlot, AL_EFFECTSLOT_EFFECT, effect);
+    }
+
+    private static void setDistortionParameters(int effect, int auxFXSlot, float edge) {
+        EXTEfx.alEffectf(effect, AL_DISTORTION_EDGE, edge);
+        ClientUtil.checkAlErrors("Setting distortion parameter edge to " + edge);
 
         EXTEfx.alAuxiliaryEffectSloti(auxFXSlot, AL_EFFECTSLOT_EFFECT, effect);
     }
