@@ -9,11 +9,12 @@
   ],
   "client": [
     "client.AccessorShaderGroup",
-    "client.MixinChannel",
     "client.InvokerConfigOF",
     "client.MixinBufferUploader",
+    "client.MixinChannel",
     "client.MixinGameRenderer",
     "client.MixinLevelRenderer",
+    "client.MixinLibrary",
     "client.MixinMouseHandler",
     "client.MixinSoundEngine"
   ],

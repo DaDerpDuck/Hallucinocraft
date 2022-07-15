@@ -2,6 +2,7 @@ package com.daderpduck.hallucinocraft.client.audio;
 
 import com.daderpduck.hallucinocraft.Hallucinocraft;
 import com.daderpduck.hallucinocraft.client.ClientUtil;
+import com.daderpduck.hallucinocraft.config.ModConfig;
 import com.daderpduck.hallucinocraft.drugs.Drug;
 import net.minecraft.client.Minecraft;
 import org.lwjgl.openal.AL11;
@@ -12,10 +13,15 @@ import static org.lwjgl.openal.AL10.AL_TRUE;
 import static org.lwjgl.openal.EXTEfx.*;
 
 public class SoundProcessor {
+    private static boolean isSetup = false;
+    private static int maxAuxSends;
+
     private static int directFilter;
+
     private static int auxFXSlot0;
     private static int sendFilter0;
     private static int echoEffect0;
+
     private static int auxFXSlot1;
     private static int sendFilter1;
     private static int equalizerEffect1;
@@ -24,6 +30,7 @@ public class SoundProcessor {
     public static void init() {
         // https://github.com/rtpHarry/Sokoban/blob/master/libraries/OpenAL%201.1%20SDK/docs/Effects%20Extension%20Guide.pdf
 
+        if (!ModConfig.USE_SOUND_PROCESSOR.get()) return;
         Hallucinocraft.LOGGER.info("Initializing sound processor");
 
         long currentContext = ALC10.alcGetCurrentContext();
@@ -32,6 +39,9 @@ public class SoundProcessor {
             Hallucinocraft.LOGGER.error("EFX Extension not present on current device");
             return;
         }
+
+        maxAuxSends = ALC10.alcGetInteger(currentDevice, ALC_MAX_AUXILIARY_SENDS);
+        Hallucinocraft.LOGGER.debug("Max auxiliary sends: {}", maxAuxSends);
 
         directFilter = EXTEfx.alGenFilters();
         EXTEfx.alFilteri(directFilter, AL_FILTER_TYPE, AL_FILTER_LOWPASS);
@@ -73,6 +83,8 @@ public class SoundProcessor {
                 1.05F
         ));
 
+        isSetup = true;
+
 //        setReverbParameters(reverbEffect1, auxFXSlot1, new ReverbParams(
 //                0.5F,
 //                0F,
@@ -91,6 +103,7 @@ public class SoundProcessor {
     }
 
     public static void cleanup() {
+        if (!isSetup) return;
         EXTEfx.alDeleteFilters(directFilter);
         EXTEfx.alDeleteAuxiliaryEffectSlots(auxFXSlot0);
         EXTEfx.alDeleteFilters(sendFilter0);
@@ -101,13 +114,14 @@ public class SoundProcessor {
     }
 
     public static void processSound(int source, double x, double y, double z) {
+        if (!ModConfig.USE_SOUND_PROCESSOR.get()) return;
+        if (!isSetup) return;
         Minecraft mc = Minecraft.getInstance();
         if (mc.player == null || mc.level == null || (x == 0 && y == 0 && z == 0)) {
             setDefaultParameters(source);
             return;
         }
 
-        // idk much about audio mixing pls help lmao
         float echoFactor = Drug.getDrugEffects().ECHO.getClamped();
         float delay = echoFactor*0.1F;
         float damping = (1F - echoFactor)*0.4F + 0.5F;
@@ -135,15 +149,19 @@ public class SoundProcessor {
         AL11.alSourcei(source, AL_DIRECT_FILTER, directFilter);
         ClientUtil.checkAlErrors("Setting direct filter parameters");
 
-        EXTEfx.alFilterf(sendFilter0, AL_LOWPASS_GAIN, sendGain0);
-        EXTEfx.alFilterf(sendFilter0, AL_LOWPASS_GAINHF, sendCutoff0);
-        AL11.alSource3i(source, AL_AUXILIARY_SEND_FILTER, auxFXSlot0, 0, sendFilter0);
-        ClientUtil.checkAlErrors("Setting send filter 0 parameters");
+        if (maxAuxSends >= 1) {
+            EXTEfx.alFilterf(sendFilter0, AL_LOWPASS_GAIN, sendGain0);
+            EXTEfx.alFilterf(sendFilter0, AL_LOWPASS_GAINHF, sendCutoff0);
+            AL11.alSource3i(source, AL_AUXILIARY_SEND_FILTER, auxFXSlot0, 0, sendFilter0);
+            ClientUtil.checkAlErrors("Setting send filter 0 parameters");
+        }
 
-        EXTEfx.alFilterf(sendFilter1, AL_LOWPASS_GAIN, sendGain1);
-        EXTEfx.alFilterf(sendFilter1, AL_LOWPASS_GAINHF, sendCutoff1);
-        AL11.alSource3i(source, AL_AUXILIARY_SEND_FILTER, auxFXSlot1, 1, sendFilter1);
-        ClientUtil.checkAlErrors("Setting send filter 1 parameters");
+        if (maxAuxSends >= 2) {
+            EXTEfx.alFilterf(sendFilter1, AL_LOWPASS_GAIN, sendGain1);
+            EXTEfx.alFilterf(sendFilter1, AL_LOWPASS_GAINHF, sendCutoff1);
+            AL11.alSource3i(source, AL_AUXILIARY_SEND_FILTER, auxFXSlot1, 1, sendFilter1);
+            ClientUtil.checkAlErrors("Setting send filter 1 parameters");
+        }
     }
 
     private static void setEchoParameters(int effect, int auxFXSlot, float delay, float damping) {

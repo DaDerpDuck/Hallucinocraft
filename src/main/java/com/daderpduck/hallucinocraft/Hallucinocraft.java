@@ -1,8 +1,10 @@
 package com.daderpduck.hallucinocraft;
 
 import com.daderpduck.hallucinocraft.blocks.ModBlocks;
-import com.daderpduck.hallucinocraft.client.rendering.shaders.ShaderRenderer;
+import com.daderpduck.hallucinocraft.client.rendering.shaders.LevelShaders;
+import com.daderpduck.hallucinocraft.client.rendering.shaders.post.PostShaders;
 import com.daderpduck.hallucinocraft.commands.SetDrugCommand;
+import com.daderpduck.hallucinocraft.config.ModConfig;
 import com.daderpduck.hallucinocraft.drugs.Drug;
 import com.daderpduck.hallucinocraft.drugs.DrugRegistry;
 import com.daderpduck.hallucinocraft.items.*;
@@ -31,6 +33,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.annotation.Nonnull;
+import java.io.IOException;
 import java.util.function.Supplier;
 
 @Mod(Hallucinocraft.MOD_ID)
@@ -54,6 +57,8 @@ public class Hallucinocraft {
 
     public Hallucinocraft() {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
+
+        ModConfig.register();
 
         drugSupplier = DRUGS.makeRegistry(Drug.class, DrugRegistry::getRegistryBuilder);
 
@@ -88,7 +93,19 @@ public class Hallucinocraft {
     private void doClientStuff(final FMLClientSetupEvent event) {
         ModBlocks.initRenderTypes();
 
-        ShaderRenderer.setup();
+        if (ModConfig.USE_SHADERS.get()) {
+            if (ModConfig.USE_LEVEL_SHADERS.get())
+                LevelShaders.setup();
+
+            if (ModConfig.USE_POST_SHADERS.get()) {
+                try {
+                    PostShaders.setup();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+
     }
 
     private void enqueueIMC(final InterModEnqueueEvent event) {

@@ -2,8 +2,9 @@ package com.daderpduck.hallucinocraft.client.rendering;
 
 import com.daderpduck.hallucinocraft.Hallucinocraft;
 import com.daderpduck.hallucinocraft.client.ClientUtil;
-import com.daderpduck.hallucinocraft.client.rendering.shaders.ShaderRenderer;
+import com.daderpduck.hallucinocraft.client.rendering.shaders.LevelShaders;
 import com.daderpduck.hallucinocraft.client.rendering.shaders.post.PostShaders;
+import com.daderpduck.hallucinocraft.config.ModConfig;
 import com.daderpduck.hallucinocraft.drugs.Drug;
 import com.daderpduck.hallucinocraft.events.hooks.BobHurtEvent;
 import com.daderpduck.hallucinocraft.mixin.client.InvokerConfigOF;
@@ -16,24 +17,46 @@ import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
+import java.io.IOException;
 import java.util.Map;
 
 @Mod.EventBusSubscriber(value = Dist.CLIENT, modid = Hallucinocraft.MOD_ID)
 public class DrugRenderer {
     @SubscribeEvent
-    public static void onRenderTick(TickEvent.RenderTickEvent event) {
+    public static void onRenderTick(TickEvent.RenderTickEvent event) throws IOException {
         Minecraft mc = Minecraft.getInstance();
 
-        if (ClientUtil.HAS_OPTIFINE) { // Checks for optifine shaders
-            if (InvokerConfigOF.callIsShaders() && ShaderRenderer.useShader) {
-                ShaderRenderer.clear(true);
-                ShaderRenderer.useShader = false;
-                PostShaders.useShaders = false;
-            } else if (!InvokerConfigOF.callIsShaders() && !ShaderRenderer.useShader) {
-                ShaderRenderer.setup();
-                ShaderRenderer.useShader = true;
-                PostShaders.useShaders = true;
+        if (!ModConfig.USE_SHADERS.get()) {
+            if (LevelShaders.isSetup()) {
+                LevelShaders.cleanup();
+                LevelShaders.toggleShaders(false);
             }
+            if (PostShaders.isSetup()) {
+                PostShaders.cleanup();
+                PostShaders.toggleShaders(false);
+            }
+        } else if (ClientUtil.HAS_OPTIFINE) {
+            // Checks for optifine shaders
+            if (InvokerConfigOF.callIsShaders()) {
+                if (LevelShaders.isSetup()) {
+                    LevelShaders.cleanup();
+                    LevelShaders.toggleShaders(false);
+                }
+                if (PostShaders.isSetup()) {
+                    PostShaders.cleanup();
+                    PostShaders.toggleShaders(false);
+                }
+            } else {
+                if (!LevelShaders.isSetup()) LevelShaders.setup();
+                LevelShaders.toggleShaders(ModConfig.USE_LEVEL_SHADERS.get());
+                if (!PostShaders.isSetup()) PostShaders.setup();
+                PostShaders.toggleShaders(ModConfig.USE_POST_SHADERS.get());
+            }
+        } else {
+            if (!LevelShaders.isSetup()) LevelShaders.setup();
+            LevelShaders.toggleShaders(ModConfig.USE_LEVEL_SHADERS.get());
+            if (!PostShaders.isSetup()) PostShaders.setup();
+            PostShaders.toggleShaders(ModConfig.USE_POST_SHADERS.get());
         }
 
         if (mc.level == null) return;

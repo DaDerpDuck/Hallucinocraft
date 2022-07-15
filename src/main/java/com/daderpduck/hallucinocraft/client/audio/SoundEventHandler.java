@@ -1,6 +1,7 @@
 package com.daderpduck.hallucinocraft.client.audio;
 
 import com.daderpduck.hallucinocraft.Hallucinocraft;
+import com.daderpduck.hallucinocraft.config.ModConfig;
 import com.daderpduck.hallucinocraft.drugs.Drug;
 import com.daderpduck.hallucinocraft.events.hooks.SoundEvent;
 import net.minecraft.client.Minecraft;
@@ -24,6 +25,7 @@ public class SoundEventHandler {
 
     @SubscribeEvent
     public static void onPitch(SoundEvent.SetPitch event) {
+        if (!ModConfig.USE_SOUND_PROCESSOR.get()) return;
         Minecraft mc = Minecraft.getInstance();
         Vec3 pos = event.position;
         if (mc.player == null || mc.level == null || (pos.x == 0 && pos.y == 0 && pos.z == 0)) return;
