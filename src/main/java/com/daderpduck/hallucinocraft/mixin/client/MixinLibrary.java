@@ -15,7 +15,8 @@ public class MixinLibrary {
     @Redirect(method = "init", at = @At(value = "INVOKE", target = "Lorg/lwjgl/openal/ALC10;alcCreateContext(JLjava/nio/IntBuffer;)J"))
     private long requestAuxSends(long deviceHandle, IntBuffer attrList) {
         if (HallucinocraftConfig.CLIENT.useSoundProcessor.get()) {
-            return ALC10.alcCreateContext(deviceHandle, new int[]{EXTEfx.ALC_MAX_AUXILIARY_SENDS, HallucinocraftConfig.CLIENT.maxAuxSends.get(), 0, 0});
+            int configuredAuxSends = HallucinocraftConfig.CLIENT.maxAuxSends.get();
+            return ALC10.alcCreateContext(deviceHandle, new int[]{EXTEfx.ALC_MAX_AUXILIARY_SENDS, configuredAuxSends == -1 ? HallucinocraftConfig.DEFAULT_MAX_AUX_SENDS : configuredAuxSends, 0, 0});
         } else {
             return ALC10.alcCreateContext(deviceHandle, attrList);
         }

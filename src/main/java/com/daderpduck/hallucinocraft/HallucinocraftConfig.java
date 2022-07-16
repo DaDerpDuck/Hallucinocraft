@@ -6,6 +6,8 @@ import net.minecraftforge.fml.event.config.ModConfigEvent;
 import org.apache.commons.lang3.tuple.Pair;
 
 public class HallucinocraftConfig {
+    public static final int DEFAULT_MAX_AUX_SENDS = 3;
+
     public static class Server {
         Server(ForgeConfigSpec.Builder builder) {
 
@@ -44,8 +46,8 @@ public class HallucinocraftConfig {
                     .comment("Enables use of sound processing (restart required)")
                     .define("use_sound_processor", true);
             maxAuxSends = builder
-                    .comment("Configures number of max auxiliary send channels (lower values may result in performance boost but limits number of effects) (restart required)")
-                    .defineInRange("max_aux_sends", 3, 0, 3);
+                    .comment("Configures number of max auxiliary send channels (lower values may result in performance boost but limits number of effects) (set to -1 for default value) (restart required)")
+                    .defineInRange("max_aux_sends", -1, -1, DEFAULT_MAX_AUX_SENDS);
             builder.pop();
         }
     }

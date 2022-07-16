@@ -26,10 +26,10 @@ public class DrugEffects {
     public final FloatDrugEffect RECURSION = registerClient();
     public final FloatDrugEffect WATER_DISTORT = registerClient();
     public final FloatDrugEffect GLITCH = registerClient();
+    public final FloatDrugEffect ARTIFACTS = registerClient();
     public final FloatDrugEffect FOG_DENSITY = registerClient();
     public final FloatDrugEffect FOG_DARKEN = registerClient();
     public final FloatDrugEffect BLUR = registerClient();
-    public final FloatDrugEffect ARTIFACTS = registerClient();
 
     // Input Effects
     public final FloatDrugEffect MOUSE_SENSITIVITY_SCALE = registerClient(1F);
@@ -38,8 +38,9 @@ public class DrugEffects {
     public final FloatDrugEffect MUFFLE = registerClient();
     public final FloatDrugEffect ECHO = registerClient();
     public final FloatDrugEffect TREBLE = registerClient();
-    public final FloatDrugEffect PITCH_RANDOM_SCALE = registerClient();
     public final FloatDrugEffect DISTORTION = registerClient();
+    public final FloatDrugEffect FLANGER = registerClient();
+    public final FloatDrugEffect PITCH_RANDOM_SCALE = registerClient();
     public final FloatDrugEffect SOUL_WRENCHER_AMBIENCE = registerClient();
 
     // Attribute Effects

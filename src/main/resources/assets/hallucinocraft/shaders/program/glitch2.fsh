@@ -7,7 +7,6 @@ uniform sampler2D NoiseSampler;
 
 in vec2 texCoord;
 
-uniform vec2 ScreenSize;
 uniform float TimePassed;
 uniform float Artifacts;
 
