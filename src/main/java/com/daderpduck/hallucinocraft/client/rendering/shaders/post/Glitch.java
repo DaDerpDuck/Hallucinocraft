@@ -20,6 +20,7 @@ public class Glitch extends PostShader {
     @Override
     public void render(float partialTicks) {
         setUniform("Amount", getDrugEffects().GLITCH.getValue());
+        setUniform("Artifacts", getDrugEffects().ARTIFACTS.getValue());
         setUniform("TimePassed", GlobalUniforms.timePassed);
         process(partialTicks);
     }

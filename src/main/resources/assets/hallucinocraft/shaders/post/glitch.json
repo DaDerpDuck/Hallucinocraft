@@ -9,9 +9,18 @@
       "outtarget": "swap"
     },
     {
-      "name": "blit",
+      "name": "hallucinocraft:glitch2",
       "intarget": "swap",
-      "outtarget": "minecraft:main"
+      "outtarget": "minecraft:main",
+      "auxtargets": [
+        {
+          "name": "NoiseSampler",
+          "id": "hallucinocraft:noise",
+          "width": 96,
+          "height": 96,
+          "bilinear": true
+        }
+      ]
     }
   ]
 }

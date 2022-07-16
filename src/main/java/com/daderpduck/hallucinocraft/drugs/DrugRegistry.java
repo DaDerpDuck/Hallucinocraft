@@ -17,7 +17,7 @@ public class DrugRegistry {
     public static final RegistryObject<Drug> CANNABIS = register("cannabis", () -> new Cannabis(new Drug.DrugProperties().adsr(1800F, 0F, 1F, 2400F)));
     public static final RegistryObject<Drug> MORPHINE = register("morphine", () -> new Morphine(new Drug.DrugProperties().adsr(0F, 800F, 0.8F, 200F)));
     public static final RegistryObject<Drug> SOUL_RESTER = register("soul_rester", () -> new SoulRester(new Drug.DrugProperties().adsr(800F, 0F, 1F, 4800F)));
-    public static final RegistryObject<Drug> SOUL_WRENCHER = register("soul_wrencher", () -> new SoulWrencher(new Drug.DrugProperties().adsr(200F, 0F, 1F, 2400F)));
+    public static final RegistryObject<Drug> SOUL_WRENCHER = register("soul_wrencher", () -> new SoulWrencher(new Drug.DrugProperties().adsr(2400F, 0F, 1F, 4800F)));
 
     public static RegistryObject<Drug> register(String name, Supplier<? extends Drug> supplier) {
         return Hallucinocraft.DRUGS.register(name, supplier);

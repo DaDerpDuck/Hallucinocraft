@@ -29,6 +29,7 @@ public class DrugEffects {
     public final FloatDrugEffect FOG_DENSITY = registerClient();
     public final FloatDrugEffect FOG_DARKEN = registerClient();
     public final FloatDrugEffect BLUR = registerClient();
+    public final FloatDrugEffect ARTIFACTS = registerClient();
 
     // Input Effects
     public final FloatDrugEffect MOUSE_SENSITIVITY_SCALE = registerClient(1F);
@@ -95,6 +96,10 @@ public class DrugEffects {
 
         public void addValue(float valueIn) {
             value += valueIn;
+        }
+
+        public void setValue(float valueIn) {
+            value = valueIn;
         }
 
         public float getValue() {
