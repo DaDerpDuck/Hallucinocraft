@@ -10,7 +10,7 @@ import java.util.function.Supplier;
 public class ModSounds {
     public static final RegistryObject<SoundEvent> BONG_HIT = register("item.bong.hit");
     public static final RegistryObject<SoundEvent> AMBIENT_SOUL_WRENCHER_LOOP = register("ambience.soul_wrencher.loop");
-    public static final RegistryObject<SoundEvent> AMBIENT_SOUL_WRENCHER_POP = register("ambience.soul_wrencher.pop");
+    public static final RegistryObject<SoundEvent> AMBIENT_SOUL_WRENCHER_ADDITIONS = register("ambience.soul_wrencher.additions");
 
 
     private static RegistryObject<SoundEvent> register(String key) {

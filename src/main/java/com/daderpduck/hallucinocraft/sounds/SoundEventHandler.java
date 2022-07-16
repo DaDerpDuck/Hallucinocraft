@@ -39,7 +39,7 @@ public class SoundEventHandler {
             if (soulWrencherLoopTicks > 100F) {
                 soulWrencherLoopTicks -= 100F;
 
-                soundManager.play(SimpleSoundInstance.forAmbientAddition(ModSounds.AMBIENT_SOUL_WRENCHER_POP.get()));
+                soundManager.play(SimpleSoundInstance.forAmbientAddition(ModSounds.AMBIENT_SOUL_WRENCHER_ADDITIONS.get()));
             }
         } else if (soulWrencherLoop != null) {
             soulWrencherLoop.setVolume(0F);

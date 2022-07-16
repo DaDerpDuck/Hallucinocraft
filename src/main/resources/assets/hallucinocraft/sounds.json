@@ -1,15 +1,19 @@
 {
-  "ambience.soul_wrencher.pop": {
+  "ambience.soul_wrencher.additions": {
     "sounds": [
       "hallucinocraft:ambience/soul_wrencher/pop1",
       "hallucinocraft:ambience/soul_wrencher/pop2",
       "hallucinocraft:ambience/soul_wrencher/pop3",
       "hallucinocraft:ambience/soul_wrencher/pop4",
       "hallucinocraft:ambience/soul_wrencher/pop5",
-      "hallucinocraft:ambience/soul_wrencher/pop6",
-      "hallucinocraft:ambience/soul_wrencher/pop7",
-      "hallucinocraft:ambience/soul_wrencher/pop8",
-      "hallucinocraft:ambience/soul_wrencher/pop9"
+      "hallucinocraft:ambience/soul_wrencher/mic1",
+      "hallucinocraft:ambience/soul_wrencher/mic2",
+      "hallucinocraft:ambience/soul_wrencher/mic3",
+      "hallucinocraft:ambience/soul_wrencher/mic4",
+      "hallucinocraft:ambience/soul_wrencher/mic5",
+      "hallucinocraft:ambience/soul_wrencher/mic6",
+      "hallucinocraft:ambience/soul_wrencher/mic7",
+      "hallucinocraft:ambience/soul_wrencher/mic8"
     ]
   },
   "ambience.soul_wrencher.loop": {
@@ -17,7 +21,7 @@
       {
         "name": "hallucinocraft:ambience/soul_wrencher/hum",
         "stream": true,
-        "volume": 0.1
+        "volume": 0.3
       }
     ]
   },
