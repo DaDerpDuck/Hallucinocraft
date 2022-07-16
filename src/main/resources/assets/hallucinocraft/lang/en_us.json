@@ -35,8 +35,7 @@
   "item.hallucinocraft.soul_rester_syringe": "Soul Rester Syringe",
   "item.hallucinocraft.soul_wrencher_syringe": "Soul Wrencher Syringe",
 
-  "item.bong_hit": "Bong hit",
-  "item.bong_hit.sub": "Bong hit",
+  "subtitles.item.bong.hit": "Bong hit",
 
   "block.hallucinocraft.coca": "Coca",
   "block.hallucinocraft.cannabis": "Cannabis",

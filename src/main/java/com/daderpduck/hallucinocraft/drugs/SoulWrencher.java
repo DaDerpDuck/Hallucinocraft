@@ -10,5 +10,6 @@ public class SoulWrencher extends Drug {
         drugEffects.GLITCH.addValue(effect);
         drugEffects.PITCH_RANDOM_SCALE.addValue(effect);
         drugEffects.DISTORTION.addValue(effect);
+        drugEffects.SOUL_WRENCHER_AMBIENCE.addValue(effect);
     }
 }

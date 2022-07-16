@@ -1,24 +1,33 @@
 {
-  "item.bong_hit": {
-    "category": "item",
-    "subtitle": "item.bong_hit.sub",
+  "ambience.soul_wrencher.pop": {
+    "sounds": [
+      "hallucinocraft:ambience/soul_wrencher/pop1",
+      "hallucinocraft:ambience/soul_wrencher/pop2",
+      "hallucinocraft:ambience/soul_wrencher/pop3",
+      "hallucinocraft:ambience/soul_wrencher/pop4",
+      "hallucinocraft:ambience/soul_wrencher/pop5",
+      "hallucinocraft:ambience/soul_wrencher/pop6",
+      "hallucinocraft:ambience/soul_wrencher/pop7",
+      "hallucinocraft:ambience/soul_wrencher/pop8",
+      "hallucinocraft:ambience/soul_wrencher/pop9"
+    ]
+  },
+  "ambience.soul_wrencher.loop": {
     "sounds": [
       {
-        "name": "hallucinocraft:item/bong_hit1",
-        "stream": true
-      },
-      {
-        "name": "hallucinocraft:item/bong_hit2",
-        "stream": true
-      },
-      {
-        "name": "hallucinocraft:item/bong_hit3",
-        "stream": true
-      },
-      {
-        "name": "hallucinocraft:item/bong_hit4",
-        "stream": true
+        "name": "hallucinocraft:ambience/soul_wrencher/hum",
+        "stream": true,
+        "volume": 0.1
       }
+    ]
+  },
+  "item.bong.hit": {
+    "subtitle": "subtitles.item.bong.hit",
+    "sounds": [
+      "hallucinocraft:item/bong/hit1",
+      "hallucinocraft:item/bong/hit2",
+      "hallucinocraft:item/bong/hit3",
+      "hallucinocraft:item/bong/hit4"
     ]
   }
 }

@@ -39,6 +39,7 @@ public class DrugEffects {
     public final FloatDrugEffect TREBLE = registerClient();
     public final FloatDrugEffect PITCH_RANDOM_SCALE = registerClient();
     public final FloatDrugEffect DISTORTION = registerClient();
+    public final FloatDrugEffect SOUL_WRENCHER_AMBIENCE = registerClient();
 
     // Attribute Effects
     public final FloatDrugEffect MOVEMENT_SPEED = register();
