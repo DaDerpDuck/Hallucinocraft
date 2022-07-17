@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smelting",
+  "ingredient": {
+    "item": "hallucinocraft:unbrewed_cannabis_tea"
+  },
+  "result": "hallucinocraft:cannabis_tea",
+  "experience": 0.35,
+  "cookingtime": 200
+}

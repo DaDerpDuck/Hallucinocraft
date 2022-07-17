@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "hallucinocraft:brown_shrooms"
+    },
+    {
+      "item": "hallucinocraft:red_shrooms"
+    },
+    {
+      "item": "minecraft:bowl"
+    }
+  ],
+  "result": {
+    "item": "hallucinocraft:shroom_stew"
+  }
+}

@@ -22,6 +22,8 @@ public class ModItems {
     public static final RegistryObject<DrugItem> BROWN_SHROOMS = registerDrug("brown_shrooms", new DrugChain().add(DrugRegistry.BROWN_SHROOMS, 200, 0.3F, 3200));
     public static final RegistryObject<Item> DRIED_BROWN_MUSHROOM = registerItem("dried_brown_mushroom");
 
+    public static final RegistryObject<DrugBowlItem> SHROOM_STEW = registerItem("shroom_stew", () -> new DrugBowlItem(new DrugItem.Properties().addDrug(DrugRegistry.RED_SHROOMS, 400, 0.2F, 6900).addDrug(DrugRegistry.BROWN_SHROOMS, 400, 0.2F, 6900).food(ModFoods.SHROOM_STEW).stacksTo(1).tab(CreativeModeTab.TAB_FOOD)));
+
     public static final RegistryObject<Item> COKE_CAKE = registerBlock("coke_cake", ModBlocks.COKE_CAKE_BLOCK, 1);
     public static final RegistryObject<Item> COCAINE_ROCK = registerItem("cocaine_rock");
     public static final RegistryObject<DrugItem> COCAINE_POWDER = registerDrug("cocaine_powder", new DrugChain().add(DrugRegistry.COCAINE, 100, 0.3F, 3200), UseAnim.BOW, 64);
@@ -31,6 +33,8 @@ public class ModItems {
     public static final RegistryObject<Item> COCA_SEEDS = registerBlockNamed("coca_seeds", ModBlocks.COCA_BLOCK);
 
     public static final RegistryObject<Item> HASH_MUFFIN = registerItem("hash_muffin", () -> new DrugItem(new DrugItem.Properties().addDrug(DrugRegistry.CANNABIS, 800, 0.12F, 3200).food(ModFoods.HASH_MUFFIN).tab(CreativeModeTab.TAB_FOOD)));
+    public static final RegistryObject<DrugBottleItem> UNBREWED_CANNABIS_TEA = registerItem("unbrewed_cannabis_tea", () -> new DrugBottleItem(new DrugItem.Properties().stacksTo(16).tab(Hallucinocraft.TAB)));
+    public static final RegistryObject<DrugBottleItem> CANNABIS_TEA = registerItem("cannabis_tea", () -> new DrugBottleItem(new DrugItem.Properties().addDrug(DrugRegistry.CANNABIS, 800, 0.1F, 3200).food(ModFoods.CANNABIS_TEA).stacksTo(16).tab(Hallucinocraft.TAB)));
     public static final RegistryObject<JointItem> CANNABIS_JOINT = registerJoint("cannabis_joint", new DrugChain().add(DrugRegistry.CANNABIS, 0, 0.12F, 3200));
     public static final RegistryObject<Item> DRIED_CANNABIS_LEAF = registerItem("dried_cannabis_leaf");
     public static final RegistryObject<Item> CANNABIS_LEAF = registerItem("cannabis_leaf");

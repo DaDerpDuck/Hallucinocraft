@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "hallucinocraft:unbrewed_cannabis_tea"
+    ]
+  },
+  "criteria": {
+    "has_dried_cannabis_leaf": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "hallucinocraft:dried_cannabis_leaf"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "hallucinocraft:unbrewed_cannabis_tea"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_dried_cannabis_leaf",
+      "has_the_recipe"
+    ]
+  ]
+}
