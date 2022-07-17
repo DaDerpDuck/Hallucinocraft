@@ -52,21 +52,21 @@ public class HallucinocraftConfig {
         }
     }
 
-    static final ForgeConfigSpec serverSpec;
-    public static final HallucinocraftConfig.Server SERVER;
-    static {
-        final Pair<HallucinocraftConfig.Server, ForgeConfigSpec> specPair = new ForgeConfigSpec.Builder().configure(HallucinocraftConfig.Server::new);
-        serverSpec = specPair.getRight();
-        SERVER = specPair.getLeft();
-    }
+//    static final ForgeConfigSpec serverSpec;
+//    public static final HallucinocraftConfig.Server SERVER;
+//    static {
+//        final Pair<HallucinocraftConfig.Server, ForgeConfigSpec> specPair = new ForgeConfigSpec.Builder().configure(HallucinocraftConfig.Server::new);
+//        serverSpec = specPair.getRight();
+//        SERVER = specPair.getLeft();
+//    }
 
-    static final ForgeConfigSpec commonSpec;
-    public static final HallucinocraftConfig.Common COMMON;
-    static {
-        final Pair<HallucinocraftConfig.Common, ForgeConfigSpec> specPair = new ForgeConfigSpec.Builder().configure(HallucinocraftConfig.Common::new);
-        commonSpec = specPair.getRight();
-        COMMON = specPair.getLeft();
-    }
+//    static final ForgeConfigSpec commonSpec;
+//    public static final HallucinocraftConfig.Common COMMON;
+//    static {
+//        final Pair<HallucinocraftConfig.Common, ForgeConfigSpec> specPair = new ForgeConfigSpec.Builder().configure(HallucinocraftConfig.Common::new);
+//        commonSpec = specPair.getRight();
+//        COMMON = specPair.getLeft();
+//    }
 
     static final ForgeConfigSpec clientSpec;
     public static final Client CLIENT;

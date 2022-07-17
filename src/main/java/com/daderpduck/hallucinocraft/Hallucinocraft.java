@@ -59,8 +59,8 @@ public class Hallucinocraft {
     public Hallucinocraft() {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
-        ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, HallucinocraftConfig.serverSpec);
-        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, HallucinocraftConfig.commonSpec);
+        //ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, HallucinocraftConfig.serverSpec);
+        //ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, HallucinocraftConfig.commonSpec);
         ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, HallucinocraftConfig.clientSpec);
         modEventBus.register(HallucinocraftConfig.class);
 

@@ -13,6 +13,7 @@ public class Cocaine extends Drug {
         drugEffects.CAMERA_TREMBLE.addValue(effect*5F);
         drugEffects.BUMPY.addValue(effect*320.0F);
         drugEffects.MOUSE_SENSITIVITY_SCALE.addValue(effect*0.2F);
+        drugEffects.TREBLE.addValue(effect);
     }
 
     @Override
