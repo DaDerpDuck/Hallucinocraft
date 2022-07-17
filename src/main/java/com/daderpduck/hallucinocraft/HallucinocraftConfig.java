@@ -6,7 +6,7 @@ import net.minecraftforge.fml.event.config.ModConfigEvent;
 import org.apache.commons.lang3.tuple.Pair;
 
 public class HallucinocraftConfig {
-    public static final int DEFAULT_MAX_AUX_SENDS = 3;
+    public static final int DEFAULT_MAX_AUX_SENDS = 4;
 
     public static class Server {
         Server(ForgeConfigSpec.Builder builder) {
