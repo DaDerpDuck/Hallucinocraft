@@ -6,6 +6,8 @@ import com.daderpduck.hallucinocraft.drugs.Drug;
 import com.daderpduck.hallucinocraft.drugs.DrugRegistry;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.block.Block;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.ColorHandlerEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -145,6 +147,7 @@ public class ModItems {
     }
 
     @SubscribeEvent
+    @OnlyIn(Dist.CLIENT)
     public static void registerItemColors(ColorHandlerEvent.Item event) {
         event.getItemColors().register(new SyringeItem.Color(), COCAINE_SYRINGE.get(), MORPHINE_SYRINGE.get(), SOUL_RESTER_SYRINGE.get(), SOUL_WRENCHER_SYRINGE.get());
     }

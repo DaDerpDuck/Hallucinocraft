@@ -6,6 +6,8 @@ import com.daderpduck.hallucinocraft.drugs.DrugRegistry;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.network.NetworkEvent;
 
 import java.util.HashMap;
@@ -40,6 +42,7 @@ public class ActiveDrugCapSync implements IMessage {
     }
 
     @Override
+    @OnlyIn(Dist.CLIENT)
     public void handle(Supplier<NetworkEvent.Context> ctx) {
         ctx.get().enqueueWork(() -> {
             LocalPlayer player = Minecraft.getInstance().player;
