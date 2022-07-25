@@ -2,7 +2,7 @@ package com.daderpduck.hallucinocraft.network;
 
 import com.daderpduck.hallucinocraft.capabilities.PlayerDrugs;
 import com.daderpduck.hallucinocraft.drugs.Drug;
-import com.daderpduck.hallucinocraft.drugs.DrugRegistry;
+import com.daderpduck.hallucinocraft.drugs.Drugs;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.FriendlyByteBuf;
@@ -27,7 +27,7 @@ public class ActiveDrugCapSync implements IMessage {
 
         int mapSize = buffer.readInt();
         for (int i = 0; i < mapSize; i++) {
-            map.put(DrugRegistry.DRUGS.getValue(buffer.readResourceLocation()), buffer.readFloat());
+            map.put(Drugs.DrugRegistry.getValue(buffer.readResourceLocation()), buffer.readFloat());
         }
     }
 
@@ -36,7 +36,7 @@ public class ActiveDrugCapSync implements IMessage {
         packetBuffer.writeInt(map.size());
 
         map.forEach((drug, effect) -> {
-            packetBuffer.writeResourceLocation(Objects.requireNonNull(DrugRegistry.DRUGS.getKey(drug)));
+            packetBuffer.writeResourceLocation(Objects.requireNonNull(Drugs.DrugRegistry.getKey(drug)));
             packetBuffer.writeFloat(effect);
         });
     }

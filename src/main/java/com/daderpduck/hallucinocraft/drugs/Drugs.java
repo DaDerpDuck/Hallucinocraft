@@ -2,14 +2,16 @@ package com.daderpduck.hallucinocraft.drugs;
 
 import com.daderpduck.hallucinocraft.Hallucinocraft;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.RegistryBuilder;
 import net.minecraftforge.registries.RegistryObject;
 
 import java.util.function.Supplier;
 
-public class DrugRegistry {
-    public static IForgeRegistry<Drug> DRUGS;
+public class Drugs {
+    public static final DeferredRegister<Drug> DRUGS = DeferredRegister.create(new ResourceLocation(Hallucinocraft.MOD_ID, "drug"), Hallucinocraft.MOD_ID);
+    public static IForgeRegistry<Drug> DrugRegistry;
 
     public static final RegistryObject<Drug> RED_SHROOMS = register("red_shrooms", () -> new RedShrooms(new Drug.DrugProperties().adsr(2400F, 200F, 0.8F, 2400F)));
     public static final RegistryObject<Drug> BROWN_SHROOMS = register("brown_shrooms", () -> new BrownShrooms(new Drug.DrugProperties().adsr(2400F, 0F, 1F, 2400F)));
@@ -20,7 +22,7 @@ public class DrugRegistry {
     public static final RegistryObject<Drug> SOUL_WRENCHER = register("soul_wrencher", () -> new SoulWrencher(new Drug.DrugProperties().adsr(2400F, 0F, 1F, 4800F)));
 
     public static RegistryObject<Drug> register(String name, Supplier<? extends Drug> supplier) {
-        return Hallucinocraft.DRUGS.register(name, supplier);
+        return DRUGS.register(name, supplier);
     }
 
     public static RegistryBuilder<Drug> getRegistryBuilder() {

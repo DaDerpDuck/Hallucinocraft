@@ -1,6 +1,5 @@
 package com.daderpduck.hallucinocraft.datagen.loot;
 
-import com.daderpduck.hallucinocraft.Hallucinocraft;
 import com.daderpduck.hallucinocraft.blocks.ModBlocks;
 import com.daderpduck.hallucinocraft.items.ModItems;
 import net.minecraft.MethodsReturnNonnullByDefault;
@@ -54,6 +53,6 @@ public class ModBlockLootTables extends BlockLoot {
 
     @Override
     protected Iterable<Block> getKnownBlocks() {
-        return Hallucinocraft.BLOCKS.getEntries().stream().map(RegistryObject::get)::iterator;
+        return ModBlocks.BLOCKS.getEntries().stream().map(RegistryObject::get)::iterator;
     }
 }

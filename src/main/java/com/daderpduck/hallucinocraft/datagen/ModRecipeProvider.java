@@ -8,6 +8,7 @@ import net.minecraft.data.DataGenerator;
 import net.minecraft.data.recipes.*;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -16,6 +17,7 @@ import net.minecraft.world.item.alchemy.Potions;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.ItemLike;
+import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.crafting.NBTIngredient;
 import net.minecraftforge.common.crafting.conditions.IConditionBuilder;
 
@@ -147,6 +149,12 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .save(pFinishedRecipeConsumer);
         syringe(pFinishedRecipeConsumer, ModItems.SOUL_RESTER_SYRINGE.get(), ModItems.SOUL_RESTER_BOTTLE.get());
         syringe(pFinishedRecipeConsumer, ModItems.SOUL_WRENCHER_SYRINGE.get(), ModItems.SOUL_WRENCHER_BOTTLE.get());
+        ShapedRecipeBuilder.shaped(ModItems.AIRLOCK.get())
+                .define('#', ItemTags.WOODEN_BUTTONS)
+                .define('@', Tags.Items.GLASS)
+                .pattern("#")
+                .pattern("@")
+                .save(pFinishedRecipeConsumer);
     }
 
     protected static void syringe(Consumer<FinishedRecipe> finishedRecipeConsumer, ItemLike result, ItemLike ingredient) {

@@ -2,7 +2,7 @@ package com.daderpduck.hallucinocraft.blocks;
 
 import com.daderpduck.hallucinocraft.drugs.Drug;
 import com.daderpduck.hallucinocraft.drugs.DrugInstance;
-import com.daderpduck.hallucinocraft.drugs.DrugRegistry;
+import com.daderpduck.hallucinocraft.drugs.Drugs;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
@@ -25,7 +25,7 @@ public class CokeCakeBlock extends CakeBlock {
     @Override
     public InteractionResult use(BlockState blockState, Level world, BlockPos blockPos, Player playerEntity, InteractionHand hand, BlockHitResult blockRayTraceResult) {
         InteractionResult resultType = super.use(blockState, world, blockPos, playerEntity, hand, blockRayTraceResult);
-        if (resultType.consumesAction()) Drug.addDrug(playerEntity, new DrugInstance(DrugRegistry.COCAINE.get(), 800, 0.2F, 3200));
+        if (resultType.consumesAction()) Drug.addDrug(playerEntity, new DrugInstance(Drugs.COCAINE.get(), 800, 0.2F, 3200));
         return resultType;
     }
 }

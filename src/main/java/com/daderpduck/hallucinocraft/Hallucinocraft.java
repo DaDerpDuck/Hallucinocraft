@@ -5,16 +5,12 @@ import com.daderpduck.hallucinocraft.client.rendering.shaders.LevelShaders;
 import com.daderpduck.hallucinocraft.client.rendering.shaders.post.PostShaders;
 import com.daderpduck.hallucinocraft.commands.SetDrugCommand;
 import com.daderpduck.hallucinocraft.drugs.Drug;
-import com.daderpduck.hallucinocraft.drugs.DrugRegistry;
+import com.daderpduck.hallucinocraft.drugs.Drugs;
 import com.daderpduck.hallucinocraft.items.*;
 import com.daderpduck.hallucinocraft.network.PacketHandler;
 import com.daderpduck.hallucinocraft.sounds.ModSounds;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.Block;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -27,8 +23,6 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.IForgeRegistry;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -49,11 +43,6 @@ public class Hallucinocraft {
         }
     };
 
-    public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, MOD_ID);
-    public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, MOD_ID);
-    public static final DeferredRegister<SoundEvent> SOUNDS = DeferredRegister.create(ForgeRegistries.SOUND_EVENTS, MOD_ID);
-    public static final DeferredRegister<Drug> DRUGS = DeferredRegister.create(new ResourceLocation(Hallucinocraft.MOD_ID, "drug"), MOD_ID);
-
     private static Supplier<IForgeRegistry<Drug>> drugSupplier;
 
     public Hallucinocraft() {
@@ -64,12 +53,12 @@ public class Hallucinocraft {
         ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, HallucinocraftConfig.clientSpec);
         modEventBus.register(HallucinocraftConfig.class);
 
-        drugSupplier = DRUGS.makeRegistry(Drug.class, DrugRegistry::getRegistryBuilder);
+        drugSupplier = Drugs.DRUGS.makeRegistry(Drug.class, Drugs::getRegistryBuilder);
 
-        ITEMS.register(modEventBus);
-        BLOCKS.register(modEventBus);
-        SOUNDS.register(modEventBus);
-        DRUGS.register(modEventBus);
+        ModItems.ITEMS.register(modEventBus);
+        ModBlocks.BLOCKS.register(modEventBus);
+        ModSounds.SOUNDS.register(modEventBus);
+        Drugs.DRUGS.register(modEventBus);
 
         ModItems.init(modEventBus);
         ModBlocks.init();
@@ -86,7 +75,7 @@ public class Hallucinocraft {
     }
 
     private void setup(final FMLCommonSetupEvent event) {
-        DrugRegistry.DRUGS = drugSupplier.get(); //TODO: Is this correct??
+        Drugs.DrugRegistry = drugSupplier.get(); //TODO: Is this correct??
         CompostRegistry.register();
         CauldronRegistry.register();
         BrewRegistry.register();

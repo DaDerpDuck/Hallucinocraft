@@ -2,7 +2,7 @@ package com.daderpduck.hallucinocraft.network;
 
 import com.daderpduck.hallucinocraft.capabilities.PlayerDrugs;
 import com.daderpduck.hallucinocraft.drugs.DrugInstance;
-import com.daderpduck.hallucinocraft.drugs.DrugRegistry;
+import com.daderpduck.hallucinocraft.drugs.Drugs;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.FriendlyByteBuf;
@@ -27,7 +27,7 @@ public class DrugCapSync implements IMessage {
         list = new ArrayList<>(listSize);
 
         for (int i = 0; i < listSize; i++) {
-            list.add(new DrugInstance(DrugRegistry.DRUGS.getValue(buffer.readResourceLocation()), buffer.readInt(), buffer.readFloat(), buffer.readInt(), buffer.readInt()));
+            list.add(new DrugInstance(Drugs.DrugRegistry.getValue(buffer.readResourceLocation()), buffer.readInt(), buffer.readFloat(), buffer.readInt(), buffer.readInt()));
         }
     }
 
@@ -36,7 +36,7 @@ public class DrugCapSync implements IMessage {
         packetBuffer.writeInt(list.size());
 
         for (DrugInstance drugInstance : list) {
-            packetBuffer.writeResourceLocation(Objects.requireNonNull(DrugRegistry.DRUGS.getKey(drugInstance.getDrug())));
+            packetBuffer.writeResourceLocation(Objects.requireNonNull(Drugs.DrugRegistry.getKey(drugInstance.getDrug())));
             packetBuffer.writeInt(drugInstance.getDelayTime());
             packetBuffer.writeFloat(drugInstance.getPotency());
             packetBuffer.writeInt(drugInstance.getDuration());

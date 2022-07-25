@@ -1,7 +1,7 @@
 package com.daderpduck.hallucinocraft.commands;
 
 import com.daderpduck.hallucinocraft.drugs.Drug;
-import com.daderpduck.hallucinocraft.drugs.DrugRegistry;
+import com.daderpduck.hallucinocraft.drugs.Drugs;
 import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.arguments.ArgumentType;
 import com.mojang.brigadier.context.CommandContext;
@@ -29,7 +29,7 @@ public class DrugArgument implements ArgumentType<Drug> {
     @Override
     public Drug parse(StringReader reader) throws CommandSyntaxException {
         ResourceLocation resourceLocation = ResourceLocation.read(reader);
-        Drug drug = DrugRegistry.DRUGS.getValue(resourceLocation);
+        Drug drug = Drugs.DrugRegistry.getValue(resourceLocation);
         if (drug != null) {
             return drug;
         } else {
@@ -39,7 +39,7 @@ public class DrugArgument implements ArgumentType<Drug> {
 
     @Override
     public <S> CompletableFuture<Suggestions> listSuggestions(final CommandContext<S> context, final SuggestionsBuilder builder) {
-        return SharedSuggestionProvider.suggestResource(DrugRegistry.DRUGS.getKeys(), builder);
+        return SharedSuggestionProvider.suggestResource(Drugs.DrugRegistry.getKeys(), builder);
     }
 
     @Override

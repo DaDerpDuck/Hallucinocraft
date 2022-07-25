@@ -26,11 +26,11 @@ public class Drug extends ForgeRegistryEntry<Drug> {
 
     @Nullable
     public static Drug byName(String resource) {
-        return DrugRegistry.DRUGS.getValue(new ResourceLocation(resource));
+        return Drugs.DrugRegistry.getValue(new ResourceLocation(resource));
     }
 
     public static String toName(Drug drug) {
-        return Objects.requireNonNull(DrugRegistry.DRUGS.getKey(drug)).toString();
+        return Objects.requireNonNull(Drugs.DrugRegistry.getKey(drug)).toString();
     }
 
     public static void addDrug(Player player, DrugInstance drugInstance) {
