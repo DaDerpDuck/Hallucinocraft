@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "hallucinocraft:dried_brown_mushroom_from_campfire_cooking"
+    ]
+  },
+  "criteria": {
+    "has_brown_mushroom": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:brown_mushroom"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "hallucinocraft:dried_brown_mushroom_from_campfire_cooking"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_brown_mushroom",
+      "has_the_recipe"
+    ]
+  ]
+}

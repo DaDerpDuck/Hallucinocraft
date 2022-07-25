@@ -1,0 +1,47 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "hallucinocraft:shroom_stew"
+    ]
+  },
+  "criteria": {
+    "has_brown_shrooms": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "hallucinocraft:brown_shrooms"
+            ]
+          }
+        ]
+      }
+    },
+    "has_red_shrooms": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "hallucinocraft:red_shrooms"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "hallucinocraft:shroom_stew"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_brown_shrooms",
+      "has_red_shrooms",
+      "has_the_recipe"
+    ]
+  ]
+}

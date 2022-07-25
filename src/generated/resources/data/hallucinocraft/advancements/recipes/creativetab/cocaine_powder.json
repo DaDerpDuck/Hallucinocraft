@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "hallucinocraft:cocaine_powder"
+    ]
+  },
+  "criteria": {
+    "has_cocaine_dust": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "hallucinocraft:cocaine_dust"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "hallucinocraft:cocaine_powder"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_cocaine_dust",
+      "has_the_recipe"
+    ]
+  ]
+}

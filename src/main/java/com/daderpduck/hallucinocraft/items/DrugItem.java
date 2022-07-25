@@ -93,17 +93,6 @@ public class DrugItem extends Item {
         }
     }
 
-    private static class DrugEffectProperties {
-        private final RegistryObject<Drug> drug;
-        private final int delayTick;
-        private final float potencyPercentage;
-        private final int duration;
-
-        public DrugEffectProperties(RegistryObject<Drug> drug, int delayTick, float potencyPercentage, int duration) {
-            this.drug = drug;
-            this.delayTick = delayTick;
-            this.potencyPercentage = potencyPercentage;
-            this.duration = duration;
-        }
+    private record DrugEffectProperties(RegistryObject<Drug> drug, int delayTick, float potencyPercentage, int duration) {
     }
 }

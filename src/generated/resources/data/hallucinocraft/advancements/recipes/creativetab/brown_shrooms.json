@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "hallucinocraft:brown_shrooms"
+    ]
+  },
+  "criteria": {
+    "has_dried_brown_mushroom": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "hallucinocraft:dried_brown_mushroom"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "hallucinocraft:brown_shrooms"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_dried_brown_mushroom",
+      "has_the_recipe"
+    ]
+  ]
+}

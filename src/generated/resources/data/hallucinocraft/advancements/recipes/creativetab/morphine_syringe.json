@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "hallucinocraft:morphine_syringe"
+    ]
+  },
+  "criteria": {
+    "has_morphine_bottle": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "hallucinocraft:morphine_bottle"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "hallucinocraft:morphine_syringe"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_morphine_bottle",
+      "has_the_recipe"
+    ]
+  ]
+}

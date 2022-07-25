@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "hallucinocraft:morphine_bottle"
+    ]
+  },
+  "criteria": {
+    "has_opium_bottle_3": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "hallucinocraft:opium_bottle_3"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "hallucinocraft:morphine_bottle"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_opium_bottle_3",
+      "has_the_recipe"
+    ]
+  ]
+}

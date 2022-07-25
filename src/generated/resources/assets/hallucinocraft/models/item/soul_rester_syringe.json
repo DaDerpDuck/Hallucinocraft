@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "hallucinocraft:item/syringe_overlay",
+    "layer1": "hallucinocraft:item/syringe"
+  }
+}

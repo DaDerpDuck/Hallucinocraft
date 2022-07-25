@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "hallucinocraft:red_shrooms"
+    ]
+  },
+  "criteria": {
+    "has_dried_red_mushroom": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "hallucinocraft:dried_red_mushroom"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "hallucinocraft:red_shrooms"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_dried_red_mushroom",
+      "has_the_recipe"
+    ]
+  ]
+}

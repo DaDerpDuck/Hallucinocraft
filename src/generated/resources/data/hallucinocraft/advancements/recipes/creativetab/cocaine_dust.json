@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "hallucinocraft:cocaine_dust"
+    ]
+  },
+  "criteria": {
+    "has_coca_mulch": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "hallucinocraft:coca_mulch"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "hallucinocraft:cocaine_dust"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_coca_mulch",
+      "has_the_recipe"
+    ]
+  ]
+}

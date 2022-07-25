@@ -1,0 +1,76 @@
+{
+  "variants": {
+    "age=0,crop=false,height=0": {
+      "model": "hallucinocraft:block/cannabis_stage0"
+    },
+    "age=1,crop=false,height=0": {
+      "model": "hallucinocraft:block/cannabis_stage1"
+    },
+    "age=2,crop=false,height=0": {
+      "model": "hallucinocraft:block/cannabis_stage2"
+    },
+    "age=3,crop=false,height=0": {
+      "model": "hallucinocraft:block/cannabis_stage3"
+    },
+    "age=0,crop=true,height=0": {
+      "model": "hallucinocraft:block/cannabis_stage0"
+    },
+    "age=1,crop=true,height=0": {
+      "model": "hallucinocraft:block/cannabis_stage1"
+    },
+    "age=2,crop=true,height=0": {
+      "model": "hallucinocraft:block/cannabis_stage2"
+    },
+    "age=3,crop=true,height=0": {
+      "model": "hallucinocraft:block/cannabis_stage3"
+    },
+    "age=0,crop=false,height=1": {
+      "model": "hallucinocraft:block/cannabis_stage0"
+    },
+    "age=1,crop=false,height=1": {
+      "model": "hallucinocraft:block/cannabis_stage1"
+    },
+    "age=2,crop=false,height=1": {
+      "model": "hallucinocraft:block/cannabis_stage2"
+    },
+    "age=3,crop=false,height=1": {
+      "model": "hallucinocraft:block/cannabis_stage3"
+    },
+    "age=0,crop=true,height=1": {
+      "model": "hallucinocraft:block/cannabis_stage0"
+    },
+    "age=1,crop=true,height=1": {
+      "model": "hallucinocraft:block/cannabis_stage1"
+    },
+    "age=2,crop=true,height=1": {
+      "model": "hallucinocraft:block/cannabis_stage2"
+    },
+    "age=3,crop=true,height=1": {
+      "model": "hallucinocraft:block/cannabis_stage3"
+    },
+    "age=0,crop=false,height=2": {
+      "model": "hallucinocraft:block/cannabis_stage0"
+    },
+    "age=1,crop=false,height=2": {
+      "model": "hallucinocraft:block/cannabis_stage1"
+    },
+    "age=2,crop=false,height=2": {
+      "model": "hallucinocraft:block/cannabis_stage2"
+    },
+    "age=3,crop=false,height=2": {
+      "model": "hallucinocraft:block/cannabis_stage3"
+    },
+    "age=0,crop=true,height=2": {
+      "model": "hallucinocraft:block/cannabis_stage0"
+    },
+    "age=1,crop=true,height=2": {
+      "model": "hallucinocraft:block/cannabis_stage1"
+    },
+    "age=2,crop=true,height=2": {
+      "model": "hallucinocraft:block/cannabis_stage2"
+    },
+    "age=3,crop=true,height=2": {
+      "model": "hallucinocraft:block/cannabis_stage3"
+    }
+  }
+}

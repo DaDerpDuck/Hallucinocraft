@@ -1,9 +1,0 @@
-{
-  "type": "minecraft:smelting",
-  "ingredient": {
-    "item": "hallucinocraft:coca_mulch"
-  },
-  "result": "hallucinocraft:cocaine_dust",
-  "experience": 0.35,
-  "cookingtime": 200
-}
