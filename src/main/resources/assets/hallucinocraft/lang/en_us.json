@@ -37,6 +37,8 @@
   "item.hallucinocraft.soul_wrencher_bottle": "Soul Wrencher Bottle",
   "item.hallucinocraft.soul_rester_syringe": "Soul Rester Syringe",
   "item.hallucinocraft.soul_wrencher_syringe": "Soul Wrencher Syringe",
+  "item.hallucinocraft.airlock": "Airlock",
+  "item.hallucinocraft.fermenting_bottle": "Fermenting Bottle",
 
   "subtitles.item.bong.hit": "Bong hit",
 
@@ -44,6 +46,7 @@
   "block.hallucinocraft.cannabis": "Cannabis",
   "block.hallucinocraft.coke_cake": "Coke",
   "block.hallucinocraft.cut_poppy": "Cut Poppy",
+  "block.hallucinocraft.fermenting_bottle": "Fermenting Bottle",
 
   "hallucinocraft.drug.drugNotFound": "Could not find a drug of type \"%s\"",
   "hallucinocraft.message.glError": "§eHallucinocraft GL Error§f: %s (%s) at %s",

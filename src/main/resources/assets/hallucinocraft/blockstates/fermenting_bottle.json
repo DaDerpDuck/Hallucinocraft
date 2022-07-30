@@ -1,0 +1,25 @@
+{
+  "multipart": [
+    {
+      "apply": {
+        "model": "hallucinocraft:block/fermenting_bottle"
+      }
+    },
+    {
+      "when": {
+        "lid": "cork"
+      },
+      "apply": {
+        "model": "hallucinocraft:block/fermenting_bottle_cork"
+      }
+    },
+    {
+      "when": {
+        "lid": "airlock"
+      },
+      "apply": {
+        "model": "hallucinocraft:block/fermenting_bottle_airlock"
+      }
+    }
+  ]
+}

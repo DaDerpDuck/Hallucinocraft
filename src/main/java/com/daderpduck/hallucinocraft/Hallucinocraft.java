@@ -1,6 +1,7 @@
 package com.daderpduck.hallucinocraft;
 
 import com.daderpduck.hallucinocraft.blocks.ModBlocks;
+import com.daderpduck.hallucinocraft.blocks.entities.ModBlockEntities;
 import com.daderpduck.hallucinocraft.client.rendering.shaders.LevelShaders;
 import com.daderpduck.hallucinocraft.client.rendering.shaders.post.PostShaders;
 import com.daderpduck.hallucinocraft.commands.SetDrugCommand;
@@ -58,6 +59,7 @@ public class Hallucinocraft {
         ModItems.ITEMS.register(modEventBus);
         ModBlocks.BLOCKS.register(modEventBus);
         ModSounds.SOUNDS.register(modEventBus);
+        ModBlockEntities.BLOCK_ENTITIES.register(modEventBus);
         Drugs.DRUGS.register(modEventBus);
 
         ModItems.init(modEventBus);

@@ -1,11 +1,13 @@
 package com.daderpduck.hallucinocraft.datagen;
 
 import com.daderpduck.hallucinocraft.Hallucinocraft;
+import com.daderpduck.hallucinocraft.blocks.ModBlocks;
 import com.daderpduck.hallucinocraft.items.ModItems;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.Block;
 import net.minecraftforge.client.model.generators.ItemModelProvider;
 import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.common.data.ExistingFileHelper;
@@ -73,11 +75,17 @@ public class ModItemModelProvider extends ItemModelProvider {
         simpleItem(ModItems.SOUL_WRENCHER_BOTTLE.get());
         syringe(ModItems.SOUL_WRENCHER_SYRINGE.get());
         simpleItem(ModItems.CIGARETTE.get());
+        simpleItem(ModItems.AIRLOCK.get());
+        simpleBlock(ModItems.FERMENTING_BOTTLE.get(), ModBlocks.FERMENTING_BOTTLE_BLOCK.get());
     }
 
     protected void simpleItem(Item item) {
         withExistingParent(getItemName(item), new ResourceLocation("item/generated"))
                 .texture("layer0", new ResourceLocation(Hallucinocraft.MOD_ID, "item/" + getItemName(item)));
+    }
+
+    protected void simpleBlock(Item item, Block block) {
+        withExistingParent(getItemName(item), new ResourceLocation(Objects.requireNonNull(block.getRegistryName()).getNamespace(), "block/" + Objects.requireNonNull(block.getRegistryName()).getPath()));
     }
 
     protected void syringe(Item item) {

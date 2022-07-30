@@ -22,7 +22,7 @@ public class ModBlockLootTables extends BlockLoot {
     @Override
     protected void addTables() {
         LootItemBlockStatePropertyCondition.Builder cocaGrownCondition = LootItemBlockStatePropertyCondition.hasBlockStateProperties(ModBlocks.COCA_BLOCK.get()).setProperties(StatePropertiesPredicate.Builder.properties().hasProperty(ModBlocks.COCA_BLOCK.get().getAgeProperty(), 3));
-        this.add(ModBlocks.COCA_BLOCK.get(), applyExplosionDecay(ModBlocks.COCA_BLOCK.get(), LootTable.lootTable()
+        add(ModBlocks.COCA_BLOCK.get(), applyExplosionDecay(ModBlocks.COCA_BLOCK.get(), LootTable.lootTable()
                 .withPool(LootPool.lootPool()
                         .add(LootItem.lootTableItem(ModItems.COCA_LEAF.get())
                                 .when(cocaGrownCondition)
@@ -33,7 +33,7 @@ public class ModBlockLootTables extends BlockLoot {
                                 .when(cocaGrownCondition)
                                 .apply(ApplyBonusCount.addBonusBinomialDistributionCount(Enchantments.BLOCK_FORTUNE, 0.5714286F, 3))))));
         LootItemBlockStatePropertyCondition.Builder cannabisGrownCondition = LootItemBlockStatePropertyCondition.hasBlockStateProperties(ModBlocks.CANNABIS_BLOCK.get()).setProperties(StatePropertiesPredicate.Builder.properties().hasProperty(ModBlocks.CANNABIS_BLOCK.get().getAgeProperty(), 3));
-        this.add(ModBlocks.CANNABIS_BLOCK.get(), applyExplosionDecay(ModBlocks.CANNABIS_BLOCK.get(), LootTable.lootTable()
+        add(ModBlocks.CANNABIS_BLOCK.get(), applyExplosionDecay(ModBlocks.CANNABIS_BLOCK.get(), LootTable.lootTable()
                 .withPool(LootPool.lootPool()
                         .add(LootItem.lootTableItem(ModItems.CANNABIS_BUD.get())
                                 .when(cannabisGrownCondition)
@@ -47,8 +47,9 @@ public class ModBlockLootTables extends BlockLoot {
                         .add(LootItem.lootTableItem(ModItems.CANNABIS_LEAF.get())
                                 .when(cannabisGrownCondition)
                                 .apply(ApplyBonusCount.addBonusBinomialDistributionCount(Enchantments.BLOCK_FORTUNE, 0.5714286F, 3))))));
-        this.add(ModBlocks.COKE_CAKE_BLOCK.get(), noDrop());
-        this.add(ModBlocks.CUT_POPPY_BLOCK.get(), noDrop());
+        add(ModBlocks.COKE_CAKE_BLOCK.get(), noDrop());
+        add(ModBlocks.CUT_POPPY_BLOCK.get(), noDrop());
+        dropSelf(ModBlocks.FERMENTING_BOTTLE_BLOCK.get());
     }
 
     @Override

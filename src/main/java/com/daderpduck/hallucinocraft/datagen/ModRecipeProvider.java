@@ -154,6 +154,14 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .define('@', Tags.Items.GLASS)
                 .pattern("#")
                 .pattern("@")
+                .unlockedBy(getHasName(Items.GLASS), has(Items.GLASS))
+                .save(pFinishedRecipeConsumer);
+        ShapedRecipeBuilder.shaped(ModItems.FERMENTING_BOTTLE.get())
+                .define('#', Tags.Items.GLASS)
+                .pattern(" # ")
+                .pattern("# #")
+                .pattern("###")
+                .unlockedBy(getHasName(Items.GLASS), has(Items.GLASS))
                 .save(pFinishedRecipeConsumer);
     }
 

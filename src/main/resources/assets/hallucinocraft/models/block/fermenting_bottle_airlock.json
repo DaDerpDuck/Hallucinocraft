@@ -1,0 +1,36 @@
+{
+	"credit": "Made with Blockbench",
+	"ambientocclusion": false,
+	"textures": {
+		"lid": "hallucinocraft:block/fermenting_bottle_lid",
+		"particle": "hallucinocraft:block/fermenting_bottle"
+	},
+	"elements": [
+		{
+			"name": "airlock_neck",
+			"from": [7, 16, 7],
+			"to": [9, 19, 9],
+			"shade": false,
+			"faces": {
+				"north": {"uv": [6, 0, 8, 1], "texture": "#lid"},
+				"east": {"uv": [6, 0, 8, 1], "texture": "#lid"},
+				"south": {"uv": [6, 0, 8, 1], "texture": "#lid"},
+				"west": {"uv": [6, 0, 8, 1], "texture": "#lid"}
+			}
+		},
+		{
+			"name": "airlock",
+			"from": [6, 17, 6],
+			"to": [10, 21, 10],
+			"shade": false,
+			"faces": {
+				"north": {"uv": [0, 0, 4, 4], "texture": "#lid"},
+				"east": {"uv": [0, 0, 4, 4], "texture": "#lid"},
+				"south": {"uv": [0, 0, 4, 4], "texture": "#lid"},
+				"west": {"uv": [0, 0, 4, 4], "texture": "#lid"},
+				"up": {"uv": [0, 0, 4, 4], "texture": "#lid"},
+				"down": {"uv": [0, 0, 4, 4], "texture": "#lid"}
+			}
+		}
+	]
+}

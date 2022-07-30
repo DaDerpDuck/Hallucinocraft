@@ -1,0 +1,24 @@
+{
+	"credit": "Made with Blockbench",
+	"ambientocclusion": false,
+	"textures": {
+		"lid": "hallucinocraft:block/fermenting_bottle_lid",
+		"particle": "hallucinocraft:block/fermenting_bottle"
+	},
+	"elements": [
+		{
+			"name": "cork",
+			"from": [7, 16, 7],
+			"to": [9, 17, 9],
+			"shade": false,
+			"faces": {
+				"north": {"uv": [4, 2, 6, 3], "texture": "#lid"},
+				"east": {"uv": [4, 2, 6, 3], "texture": "#lid"},
+				"south": {"uv": [4, 2, 6, 3], "texture": "#lid"},
+				"west": {"uv": [4, 2, 6, 3], "texture": "#lid"},
+				"up": {"uv": [4, 2, 6, 4], "texture": "#lid"},
+				"down": {"uv": [4, 2, 6, 4], "texture": "#lid"}
+			}
+		}
+	]
+}

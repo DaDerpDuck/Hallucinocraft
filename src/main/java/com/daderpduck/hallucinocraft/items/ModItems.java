@@ -69,6 +69,7 @@ public class ModItems {
     public static final RegistryObject<Item> SOUL_WRENCHER_BOTTLE = registerBottle("soul_wrencher_bottle");
 
     public static final RegistryObject<Item> AIRLOCK = registerItem("airlock");
+    public static final RegistryObject<Item> FERMENTING_BOTTLE = registerBlock("fermenting_bottle", ModBlocks.FERMENTING_BOTTLE_BLOCK);
 
     private static RegistryObject<DrugItem> registerDrug(String name, DrugChain drugChain) {
         return registerDrug(name, drugChain, UseAnim.EAT, 64);
