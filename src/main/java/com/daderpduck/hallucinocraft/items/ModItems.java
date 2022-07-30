@@ -159,7 +159,8 @@ public class ModItems {
         event.getItemColors().register(new SyringeItem.Color(), COCAINE_SYRINGE.get(), MORPHINE_SYRINGE.get(), SOUL_RESTER_SYRINGE.get(), SOUL_WRENCHER_SYRINGE.get());
     }
 
-    public static void init(IEventBus modBus) {
+    public static void register(IEventBus modBus) {
+        ITEMS.register(modBus);
         modBus.register(ModItems.class);
     }
 }

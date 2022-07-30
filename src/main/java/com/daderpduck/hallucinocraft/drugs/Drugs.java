@@ -2,6 +2,7 @@ package com.daderpduck.hallucinocraft.drugs;
 
 import com.daderpduck.hallucinocraft.Hallucinocraft;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.RegistryBuilder;
@@ -21,7 +22,7 @@ public class Drugs {
     public static final RegistryObject<Drug> SOUL_RESTER = register("soul_rester", () -> new SoulRester(new Drug.DrugProperties().adsr(800F, 0F, 1F, 4800F)));
     public static final RegistryObject<Drug> SOUL_WRENCHER = register("soul_wrencher", () -> new SoulWrencher(new Drug.DrugProperties().adsr(2400F, 0F, 1F, 4800F)));
 
-    public static RegistryObject<Drug> register(String name, Supplier<? extends Drug> supplier) {
+    private static RegistryObject<Drug> register(String name, Supplier<? extends Drug> supplier) {
         return DRUGS.register(name, supplier);
     }
 
@@ -29,5 +30,9 @@ public class Drugs {
         return new RegistryBuilder<Drug>()
                 .setName(new ResourceLocation(Hallucinocraft.MOD_ID, "drug"))
                 .setType(Drug.class);
+    }
+
+    public static void register(IEventBus modBus) {
+        DRUGS.register(modBus);
     }
 }

@@ -56,15 +56,11 @@ public class Hallucinocraft {
 
         drugSupplier = Drugs.DRUGS.makeRegistry(Drug.class, Drugs::getRegistryBuilder);
 
-        ModItems.ITEMS.register(modEventBus);
-        ModBlocks.BLOCKS.register(modEventBus);
-        ModSounds.SOUNDS.register(modEventBus);
-        ModBlockEntities.BLOCK_ENTITIES.register(modEventBus);
-        Drugs.DRUGS.register(modEventBus);
-
-        ModItems.init(modEventBus);
-        ModBlocks.init();
-        ModSounds.init();
+        ModItems.register(modEventBus);
+        ModBlocks.register(modEventBus);
+        ModSounds.register(modEventBus);
+        ModBlockEntities.register(modEventBus);
+        Drugs.register(modEventBus);
 
         PacketHandler.init();
 
