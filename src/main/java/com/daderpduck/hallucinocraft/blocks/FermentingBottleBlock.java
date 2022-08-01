@@ -137,7 +137,8 @@ public class FermentingBottleBlock extends BaseEntityBlock {
 
                 if (pState.getValue(LID) == Lid.NONE) {
                     if (canUseAsLid(itemStack)) {
-                        pPlayer.setItemInHand(pHand, fermentingBottleBlockEntity.insertLidItem(itemStack));
+                        ItemStack newStack = fermentingBottleBlockEntity.insertLidItem(itemStack);
+                        if (!pPlayer.getAbilities().instabuild) pPlayer.setItemInHand(pHand, newStack);
                         BlockState newState = pState.setValue(LID, getLidFromItem(itemStack));
                         pLevel.setBlock(pPos, newState, 3);
                         return InteractionResult.sidedSuccess(pLevel.isClientSide);
@@ -146,7 +147,7 @@ public class FermentingBottleBlock extends BaseEntityBlock {
 
                 ItemStack itemStack1 = pushIngredient(pLevel, pPos, itemStack);
                 if (itemStack1 != itemStack) {
-                    pPlayer.setItemInHand(pHand, itemStack1);
+                    if (!pPlayer.getAbilities().instabuild) pPlayer.setItemInHand(pHand, itemStack1);
                     return InteractionResult.sidedSuccess(pLevel.isClientSide);
                 }
             } else if (pHand == InteractionHand.MAIN_HAND) {

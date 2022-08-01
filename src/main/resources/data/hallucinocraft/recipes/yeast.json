@@ -1,0 +1,41 @@
+{
+  "type": "hallucinocraft:fermenting_bottle",
+  "itemIngredients": [
+    {
+      "item": "minecraft:wheat"
+    },
+    {
+      "item": "minecraft:wheat"
+    },
+    {
+      "item": "minecraft:wheat"
+    },
+    {
+      "item": "minecraft:wheat"
+    }
+  ],
+  "fluidInput": {
+    "fluid": "minecraft:water",
+    "amount": 1000
+  },
+  "itemResults": [
+    {
+      "item": "minecraft:sugar"
+    },
+    {
+      "item": "minecraft:sugar"
+    },
+    {
+      "item": "minecraft:sugar"
+    },
+    {
+      "item": "minecraft:sugar"
+    }
+  ],
+  "fluidResult": {
+    "fluid": "minecraft:empty",
+    "amount": 1000
+  },
+  "lid": "cork",
+  "duration": 20
+}

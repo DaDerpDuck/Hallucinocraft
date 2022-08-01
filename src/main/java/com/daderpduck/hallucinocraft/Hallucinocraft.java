@@ -9,6 +9,7 @@ import com.daderpduck.hallucinocraft.drugs.Drug;
 import com.daderpduck.hallucinocraft.drugs.Drugs;
 import com.daderpduck.hallucinocraft.items.*;
 import com.daderpduck.hallucinocraft.network.PacketHandler;
+import com.daderpduck.hallucinocraft.recipe.ModRecipes;
 import com.daderpduck.hallucinocraft.sounds.ModSounds;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
@@ -60,6 +61,7 @@ public class Hallucinocraft {
         ModBlocks.register(modEventBus);
         ModSounds.register(modEventBus);
         ModBlockEntities.register(modEventBus);
+        ModRecipes.register(modEventBus);
         Drugs.register(modEventBus);
 
         PacketHandler.init();

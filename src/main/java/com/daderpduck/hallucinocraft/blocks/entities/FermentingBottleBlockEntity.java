@@ -1,6 +1,8 @@
 package com.daderpduck.hallucinocraft.blocks.entities;
 
 import com.daderpduck.hallucinocraft.blocks.FermentingBottleBlock;
+import com.daderpduck.hallucinocraft.recipe.FermentingBottleContainer;
+import com.daderpduck.hallucinocraft.recipe.FermentingBottleRecipe;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -18,6 +20,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fluids.FluidAttributes;
+import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.templates.FluidTank;
@@ -28,6 +31,7 @@ import net.minecraftforge.items.ItemStackHandler;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.Optional;
 import java.util.stream.IntStream;
 
 @MethodsReturnNonnullByDefault
@@ -35,10 +39,11 @@ import java.util.stream.IntStream;
 public class FermentingBottleBlockEntity extends BlockEntity implements WorldlyContainer {
     private static final int SIZE = 5;
     private static final int[] SLOTS = IntStream.range(0, SIZE).toArray();
+    private int progress = 0;
     private final ItemStackHandler itemHandler = new ItemStackHandler(SIZE) {
         @Override
         protected void onContentsChanged(int slot) {
-            setChanged();
+            inventoryChanged();
         }
 
         @Override
@@ -54,7 +59,7 @@ public class FermentingBottleBlockEntity extends BlockEntity implements WorldlyC
     private final FluidTank fluidTank = new FluidTank(FluidAttributes.BUCKET_VOLUME) {
         @Override
         protected void onContentsChanged() {
-            setChanged();
+            inventoryChanged();
         }
     };
 
@@ -63,6 +68,57 @@ public class FermentingBottleBlockEntity extends BlockEntity implements WorldlyC
 
     public FermentingBottleBlockEntity(BlockPos pWorldPosition, BlockState pBlockState) {
         super(ModBlockEntityTypes.FERMENTING_BOTTLE, pWorldPosition, pBlockState);
+    }
+
+    public static void tick(Level level, BlockPos pos, BlockState state, FermentingBottleBlockEntity blockEntity) {
+        Optional<FermentingBottleRecipe> recipeOptional = getRecipe(blockEntity);
+
+        if (recipeOptional.isPresent()) {
+            FermentingBottleRecipe recipe = recipeOptional.get();
+
+            if (blockEntity.progress++ > recipe.getDuration()) {
+                blockEntity.progress = 0;
+
+                ItemStack[] resultItems = recipe.assembleItems();
+                for (int i = 0; i < resultItems.length; i++) {
+                    blockEntity.setItem(i + 1, resultItems[i]);
+                }
+                blockEntity.setFluid(recipe.assembleFluid());
+                level.sendBlockUpdated(pos, state, state, 3);
+                level.levelEvent(1035, pos, 0); // brewing stand sound
+            }
+
+            setChanged(level, pos, state);
+        } else if (blockEntity.progress != 0) {
+            blockEntity.progress = 0;
+            setChanged(level, pos, state);
+        }
+    }
+
+    private static Optional<FermentingBottleRecipe> getRecipe(FermentingBottleBlockEntity blockEntity) {
+        if (blockEntity.level == null) return Optional.empty();
+
+        boolean hasAnyItem = blockEntity.lazyItemHandler.map(iItemHandler -> {
+            for (int i = 1; i < iItemHandler.getSlots(); i++) {
+                if (!iItemHandler.getStackInSlot(i).isEmpty()) return true;
+            }
+            return false;
+        }).orElse(false);
+        if (!hasAnyItem) return Optional.empty();
+
+        boolean hasFluid = blockEntity.lazyFluidHandler.map(iFluidHandler -> !iFluidHandler.getFluidInTank(0).isEmpty()).orElse(false);
+        if (!hasFluid) return Optional.empty();
+
+        FermentingBottleContainer inventory = new FermentingBottleContainer(blockEntity.itemHandler.getSlots() - 1, 1);
+        inventory.setLid(FermentingBottleBlock.getLidFromItem(blockEntity.getLidItem()));
+        inventory.setFluid(0, blockEntity.getFluid());
+        blockEntity.lazyItemHandler.ifPresent(iItemHandler -> {
+            for (int i = 1; i < iItemHandler.getSlots(); i++) {
+                inventory.setItem(i - 1, iItemHandler.getStackInSlot(i));
+            }
+        });
+
+        return blockEntity.level.getRecipeManager().getRecipeFor(FermentingBottleRecipe.Type.INSTANCE, inventory, blockEntity.level);
     }
 
     @Nonnull
@@ -91,6 +147,13 @@ public class FermentingBottleBlockEntity extends BlockEntity implements WorldlyC
         lazyFluidHandler.invalidate();
     }
 
+    private void inventoryChanged() {
+        if (level == null) return;
+        level.sendBlockUpdated(getBlockPos(), getBlockState(), getBlockState(), 3);
+
+        setChanged();
+    }
+
     @Override
     public void setChanged() {
         super.setChanged();
@@ -109,6 +172,7 @@ public class FermentingBottleBlockEntity extends BlockEntity implements WorldlyC
     public void load(CompoundTag pTag) {
         itemHandler.deserializeNBT(pTag.getCompound("Inventory"));
         fluidTank.readFromNBT(pTag.getCompound("Fluid"));
+        progress = pTag.getInt("Progress");
         super.load(pTag);
     }
 
@@ -117,6 +181,7 @@ public class FermentingBottleBlockEntity extends BlockEntity implements WorldlyC
         super.saveAdditional(pTag);
         pTag.put("Inventory", itemHandler.serializeNBT());
         pTag.put("Fluid", fluidTank.writeToNBT(new CompoundTag()));
+        pTag.putInt("Progress", progress);
     }
 
     @Override
@@ -142,6 +207,14 @@ public class FermentingBottleBlockEntity extends BlockEntity implements WorldlyC
         lazyItemHandler.ifPresent(iItemHandler -> ((ItemStackHandler)iItemHandler).setStackInSlot(0, ItemStack.EMPTY));
     }
 
+    public FluidStack getFluid() {
+        return lazyFluidHandler.map(iFluidHandler -> iFluidHandler.getFluidInTank(0)).orElse(FluidStack.EMPTY);
+    }
+
+    public void setFluid(FluidStack fluidStack) {
+        lazyFluidHandler.ifPresent(iFluidHandler -> ((FluidTank)iFluidHandler).setFluid(fluidStack));
+    }
+
     public ItemStack pushIngredient(ItemStack itemStack) {
         for (int i = 1; i < SIZE; i++) {
             if (getItem(i).isEmpty()) {
@@ -165,9 +238,6 @@ public class FermentingBottleBlockEntity extends BlockEntity implements WorldlyC
     public void drops() {
         assert level != null;
         Containers.dropContents(level, worldPosition, this);
-    }
-
-    public static void tick(Level level, BlockPos pos, BlockState state, FermentingBottleBlockEntity blockEntity) {
     }
 
     // TODO: Fix automation bugs
